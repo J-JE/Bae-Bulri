@@ -5,9 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>BAE BULRI</title>
+<style>
+	#mainPage{height:500px;}
+</style>
 </head>
 <body>
-	<h1>Bae Bulri</h1>
 	<%@ include file = "views/common/menubar.jsp" %>
+	<div id="mainPage">
+	</div>
+	<%@ include file = "views/common/footer.jsp" %>
 </body>
 </html>
