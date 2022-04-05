@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
+    <title>게시판 작성</title>
   
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -16,6 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
     <style>
+        .logo{height: 126px; width: 100%;}
+     .logo>a>img{height:100% !important;  width: 100%;}
         
         .container{
             width: 880px;
@@ -38,24 +40,24 @@
       }
      
       .main{
-        color:  rgb(155, 89, 182);
+        color: rgb(170, 32, 170);
           font-weight: bold;
           font-size: large;
       }
 
     div > label {
-        margin-left: 520px;
+        margin-left: 650px;
     }
         .f1{
             height: 30px;
          
-            background-color: rgb(155, 89, 182);;
+            background-color:rgb(170, 32, 170);
             color: white;
         }
         .f2{
-            margin-left:450px;
-            color: white;
-            background-color: rgb(131, 46, 131);
+            margin-left:650px;
+             color: white;
+            background-color: rgb(110, 18, 110);
         }
        
     </style>
@@ -65,8 +67,8 @@
     <!--  <%@ include file="../common/menubar.jsp" %> -->
   
     <div class="container">
-      
-        <div class="input-form">
+      <div class="input-form-backgroud row">
+        <div class="input-form col-md-12 mx-auto">
           <div class="outer">
                   <a class="main" href="index.jsp">쿡&토크</a>
                    &gt; 
@@ -78,7 +80,7 @@
           <form class="validation-form was-validated" novalidate="">
             <div class="row">
               <div class="col-md-6 content">
-                <label id="">20220404</label>
+                <label id="sysdate">20220404</label>
                 <label id="id">shslove</label>
                 <p>레시피대로</p> 
              </div>
@@ -94,13 +96,15 @@
          
             <div id="f12">
                 <button class="f2" id="butt">삭제하기</button>
-             <button class="f1" id="butt"> 수정하기 </button>
-            </div>
-        
+            <button class="f1" id="butt"> 수정하기 </button>
+     
+       
+        </div>
+        </div>
       </div>
       <!-- fotter 자리 -->
     </div>
   
-
+ <%@ include file = "../common/footer.jsp" %>
 </body>
   </html>
