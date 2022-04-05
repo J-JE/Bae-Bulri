@@ -47,21 +47,22 @@
       margin-right: 1px;
       }
       
-      .btn{
+      #insertRecipeBtn{
       	color: white;
       	background-color:#9372A1;
-      	border-color: #9372A1;
+      	border: solid 2px rgba(255, 255, 255, 0);
+      	border-radius: 5px;
       	float: right;
       }
-      .btn:hover{ color: white;}
+      #insertRecipeBtn:hover{ color: white;}
 
     </style>
 </head>
 <body>
-<%@ include file = "../common/menubar.jsp" %>
-    <body class="container-fluid" style="margin-top: 55px;">
+	<%@ include file = "../common/menubar.jsp" %>
+    <div class="container-fluid" style="margin-top: 55px;">
     <header>
-    	<br><br>
+    	<!-- <br><br> -->
 	    <h2>#카테고리</h2>
 	    <h2><%--=r.getCategory() --%></h2>
 	    <hr>
@@ -71,7 +72,7 @@
 	    		<%for(int j=0; j<4;j++){ %>
 			        <div class="card" style="width: 18rem; margin: 15px;">
 			        	<input type="hidden" value="...">
-			            <img src="resource/images/이미지.png" class="card-img-top" alt="...">
+			            <img src="<%=contextPath %>/resources/images/이미지.png" class="card-img-top" alt="...">
 			            <div class="card-body">
 			              <h6 class="card-title">#어쩌구</h6>
 			              <h5 class="card-text">김치볶음밥</h5>
@@ -91,11 +92,8 @@
         </script>
         
         <br><br>
-		<div align="center">
-			<%-- if(loginUser != null){ --%>
-				<button class="btn" onclick="location.href='<%=contextPath %>/insertRecipeForm.do'">레시피 추가</button>
-			<%-- } --%>
-		</div>
+        
+		<button id="insertRecipeBtn" onclick="location.href='<%=contextPath %>/insertRecipeForm.do'">레시피 추가</button>
 	
 	    <nav aria-label="Page navigation example">
 	        <ul class="pagination">
@@ -107,7 +105,7 @@
 	        </ul>
 	    </nav>
     </header>
-    </body>
-<%@ include file = "../common/footer.jsp" %>   
+    </div>
+	<%@ include file = "../common/footer.jsp" %>   
 </body>
 </html>

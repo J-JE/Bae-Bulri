@@ -8,11 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <style>
         .outer{
             width:80%;
@@ -27,6 +22,7 @@
         #thumbnail{
             width: 400px; height: 350px; margin-right: 20px; float: left;
         }
+        button{border: solid 2px rgba(255, 255, 255, 0); border-radius: 5px;}
         #likey_btn{
             width: 100px; height: 40px;
             position: absolute;
@@ -34,8 +30,6 @@
             margin-left:auto; margin-right:auto;
             margin-top: 360px;
             background-color: rgba(225, 199, 235, 0.4);
-            border: solid 2px rgba(255, 255, 255, 0);
-            border-radius: 5px;
             color: rgb(147, 114, 161);
             font-weight: bold;
         }
@@ -46,13 +40,24 @@
         #recipe_explain{height: auto;}
         #recipe_explain>img{width: 400px; height: 250px; float: left;}
         #recipe_explain>div{width: 300px; height: 250px; margin: 0px 0px 60px 50px; display: inline-block;}
+        
+        #basketbtn{background-color:#9372A1; color:white;}
     </style>
 
 </head>
 <body>
+	<%@ include file = "../common/menubar.jsp" %>
     <div class="outer">
-        <br>
-        <span>홈</span> > <span href="">레시피</span> > <span>김치볶음밥</span>
+        <br> <!-- 경로 -->
+        <span id="moveIndex">홈</span> > <span id="moveList">전체</span> > <span>김치볶음밥</span>
+        <script>
+        	$("#moveIndex").click(function(){
+        		location.href="<%=contextPath%>";
+        	});
+        	$("#moveList").click(function(){
+        		location.href="<%=contextPath%>/views/recipe/recipeListView.jsp";
+        	});
+        </script>
         <hr><br>
 
         <div class="recipe"> <!----레시피---->
@@ -60,8 +65,8 @@
             <h2><b>김치 볶음밥</b></h2><br> <!--레시피 이름-->
     
             <div id="left_content"> <!--썸네일, 좋아요-->
-                <img src="../resource/images/이미지.png" id="thumbnail">
-                <button id="likey_btn">찜하기<img src="../resource/images/like_2.png" id="thumbsup"></button>
+                <img src="<%=contextPath %>/resources/images/이미지.png" id="thumbnail">
+                <button id="likey_btn">찜하기<img src="<%=contextPath %>/resources/images/like_2.png" id="thumbsup"></button>
             </div>
     
             <div id="recipe_info"> <!--레시피 정보-->
@@ -77,7 +82,7 @@
                 <hr><!--구분선-->
                 <div>
                     <h5><b>조리 시간</b></h5>
-                    <img src="../resource/images/stopwatch.png" style="width: 50px; float: left; margin: 4px 4px 0px 0px;">
+                    <img src="<%=contextPath %>/resources/images/stopwatch.png" style="width: 50px; float: left; margin: 4px 4px 0px 0px;">
                     <p style="font-size: 30px; margin: 17px 0px 0px 0px;"><b>10분</b></p>
                 </div>
             </div>
@@ -87,10 +92,10 @@
             <div id="recipe_explain"> <!--조리법-->
                 <h4><b>만드는 방법</b></h4>
                 <br>
-                <img src="../resource/images/이미지.png">
+                <img src="<%=contextPath %>/resources/images/이미지.png">
                 <div><h5>Step 1</h5>어쩌구저쩌구</div>
                 <br>
-                <img src="../resource/images/이미지.png">
+                <img src="<%=contextPath %>/resources/images/이미지.png">
                 <div><h5>Step 2</h5>어쩌구저쩌구</div>
             </div>
         </div>
@@ -132,5 +137,6 @@
         <br>
         <button>목록</button>
     </div>
+    <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>
