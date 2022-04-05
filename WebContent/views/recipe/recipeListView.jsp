@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     import = "java.util.ArrayList, com.uni.recipe.model.dto.Recipe, com.uni.member.model.dto.Member" pageEncoding="UTF-8"%>
 <% 
-	Member loginUser = (Member)session.getAttribute("loginUser");
 	ArrayList<Recipe> list = (ArrayList<Recipe>)request.getAttribute("list");
 %>
 <!DOCTYPE html>
@@ -12,16 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>메인페이지</title>
-    
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
     <style>
       header {
       color: black;
@@ -69,10 +58,12 @@
     </style>
 </head>
 <body>
+<%@ include file = "../common/menubar.jsp" %>
     <body class="container-fluid" style="margin-top: 55px;">
     <header>
+    	<br><br>
 	    <h2>#카테고리</h2>
-	    <h2>><%--=r.getCategory() --%></h2>
+	    <h2><%--=r.getCategory() --%></h2>
 	    <hr>
 	    
     	<%for(int i=0; i<3;i++){ %>
@@ -93,8 +84,8 @@
 	    <script type="text/javascript">
 	        $(function(){
 				$(".card").click(function(){
-					var bId = $(this).children().eq(0).val();
-					location.href="<%=request.getContextPath()%>/detailThumb.do?bId=" + bId;
+					var rId = $(this).children().eq(0).val();
+					location.href="<%=contextPath%>/detailThumb.do?rId=" + rId;
 					});
 				});
         </script>
@@ -102,7 +93,7 @@
         <br><br>
 		<div align="center">
 			<%-- if(loginUser != null){ --%>
-				<button class="btn" onclick="location.href='<%=request.getContextPath() %>/insertRecipeForm.do'">레시피 추가</button>
+				<button class="btn" onclick="location.href='<%=contextPath %>/insertRecipeForm.do'">레시피 추가</button>
 			<%-- } --%>
 		</div>
 	
@@ -117,6 +108,6 @@
 	    </nav>
     </header>
     </body>
-    
+<%@ include file = "../common/footer.jsp" %>   
 </body>
 </html>
