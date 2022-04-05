@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
+    <title>게시판 작성</title>
   
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -16,48 +16,35 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
     <style>
-        
-        .container{
+        .logo{height: 126px; width: 100%;}
+     .logo>a>img{height:100% !important;  width: 100%;}
+     .container{
             width: 880px;
             margin: 0 auto; /*가운데 정렬*/
         }
-      .input-form {
-        /*max-width: 680px; */
-        
-        margin-top: 80px;
-        padding: 32px;
-        width: 1000px;
-        
-        background: #fff;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-        -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-        box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
-      }
-     
+  
+  
       .main{
-        color:  rgb(155, 89, 182);
+        color: rgb(155, 89, 182);
           font-weight: bold;
-          font-size: large;
+          font-size: x-large;
       }
 
-    div > label {
-        margin-left: 520px;
+      table {
+        width: 1000px;
     }
+      
         .f1{
             height: 30px;
-         
-            background-color: rgb(155, 89, 182);;
+            margin-left: 500px;
+            background-color: rgb(155, 89, 182);
             color: white;
         }
         .f2{
-            margin-left:450px;
+           
             color: white;
             background-color: rgb(131, 46, 131);
         }
-       
     </style>
   </head>
   
@@ -65,42 +52,48 @@
     <!--  <%@ include file="../common/menubar.jsp" %> -->
   
     <div class="container">
-      
-        <div class="input-form">
+      <div class="input-form-backgroud row">
+        <div class="input-form col-md-12 mx-auto">
           <div class="outer">
                   <a class="main" href="index.jsp">쿡&토크</a>
                    &gt; 
-                  <a class="main" href="#">글 목록</a>
+                  <a class="main" href="#">글 쓰기</a>
                   
           </div>
           <hr>
-          
+  
           <form class="validation-form was-validated" novalidate="">
             <div class="row">
               <div class="col-md-6 content">
-                <label id="">20220404</label>
-                <label id="id">shslove</label>
-                <p>레시피대로</p> 
-             </div>
+                <label for="name">제목</label>
+                <input type="text" class="form-control" id="name" placeholder="" value="" required="">
+              </div>
               </div>
 
               <br>
             
               <div class="form-group">
-                <p>레시피대로 먹으니까 너무 맛있네요 어쩌고 저쩌고</p> 
+                <label for="name">내용</label>
+                <textarea class="form-control" rows="10" name="bdContent"
+                    placeholder="내용을 입력해주세요" required
+                ></textarea>
             </div>
             <br>
             
          
             <div id="f12">
-                <button class="f2" id="butt">삭제하기</button>
-             <button class="f1" id="butt"> 수정하기 </button>
-            </div>
-        
+            <button class="f1" id="butt"> 글 등록 </button>
+           <button class="f2" id="butt">취소하기</button>
+       
+        </div>
+        </div>
       </div>
       <!-- fotter 자리 -->
-    </div>
+    </form></div>
   
+  	  <%@ include file = "../common/footer.jsp" %>
 
-</body>
+  
+  
+  </body>
   </html>
