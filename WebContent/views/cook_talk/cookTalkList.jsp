@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk, com.uni.member.model.dto.Member" pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk" %>
 <% 
 	ArrayList<Cook_Talk> list = (ArrayList<Cook_Talk>)request.getAttribute("list");
 %>
@@ -144,8 +144,7 @@
                     </div>
                     </li>
             <!-- 게시판 목록  -->
-            <li>
-                
+        
                 <ul id ="ulTable">
                     <li style="background-color: antiquewhite;">
                         <ul>
@@ -155,8 +154,25 @@
                             <li>작성일자</li>
                         </ul>
                     </li>
+                    <tbody>
+				  <%if(list.isEmpty()){ %>
+				<li>
+					<ul colspan="4">조회된 리스트가 없습니다.</ul>
+				</li>
+				<%}else{ %>
+					<% for(Cook_Talk c : list){ %>
+					<ul>
+						<li><%= c.getBoardNo() %></li>
+						<li><%= c.getBoardTitle() %></li>
+						<li><%= c.getUserNo() %></li>
+						<li><%= c.getCreateDate() %></li>
+					</ul>
+					<%} %>
+				<%} %>
+			</tbody>
+                   
                     <!-- 게시물이 출력될 영역 -->
-                    <li>
+                  <li>
                         <ul>
                             <li>1</li>
                             <li class="left">제목1</li>
@@ -165,10 +181,11 @@
                         </ul>
                     </li>
                   
-                       
-                          
+                        </ul>       
                     
-            </li>
+                      
+                   
+  
             <br> <br>
       
                   <button id="butt">글 쓰기</button>
