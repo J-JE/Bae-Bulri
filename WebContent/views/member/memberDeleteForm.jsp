@@ -22,7 +22,7 @@
         }
         #deleteMember td:nth-child(1){text-align:left;}
 	    #deleteMember input{margin:10px;}
-        .btn{  
+        .deletebtn{  
             padding-top: 40px;
             text-align: center;
         }
@@ -62,7 +62,7 @@
         </form>    
 			<br>
             <hr>
-            <div class="btn" align="center">
+            <div class="deletebtn" align="center">
                 <button type="submit" id="deleteBtn">회원탈퇴</button><br>
                 
             </div>

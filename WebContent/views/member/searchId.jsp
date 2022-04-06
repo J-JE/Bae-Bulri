@@ -22,7 +22,7 @@
         }
         #serachId td:nth-child(1){text-align:left;}
 	    #serachId input{margin:10px;}
-        .btn{  
+        .searchbtn{  
             padding-top: 40px;
             text-align: center;
         }
@@ -61,7 +61,7 @@
         </form>    
 			<br>
             <hr>
-            <div class="btn" align="center">
+            <div class="searchbtn" align="center">
                 <button type="submit" id="idBtn">아이디 찾기</button><br>
                 
             </div>

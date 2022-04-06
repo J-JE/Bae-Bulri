@@ -22,7 +22,7 @@
         }
         #serachPwd td:nth-child(1){text-align:left;}
 	    #serachPwd input{margin:10px;}
-        .btn{  
+        .searchbtn{  
             padding-top: 40px;
             text-align: center;
         }
@@ -65,7 +65,7 @@
         </form>    
 			<br>
             <hr>
-            <div class="btn" align="center">
+            <div class="searchbtn" align="center">
                 <button type="submit" id="pwdBtn">비밀번호 찾기</button><br>
                 
             </div>

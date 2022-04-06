@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-        .login{
+        .loginform{
 		
 		width:600px;
 		height:600px;
@@ -15,14 +15,14 @@
 		margin-right:auto;
 		
 	    }
-        #login{
+        #loginform{
             width: 100%;
             margin-left: 160px;
             margin-right: auto;
         }
-        #login td:nth-child(1){text-align:left;}
-	    #login input{margin:10px;}
-        .btn{  
+        #loginform td:nth-child(1){text-align:left;}
+	    #loginform input{margin:10px;}
+        .loginbtn{  
             padding-top: 40px;
             text-align: center;
         }
@@ -58,10 +58,10 @@
 </head>
 <body>
 	<%@ include file = "/views/common/menubar.jsp" %>
-	<div class="login">
+	<div class="loginform">
 		<h2 align="left">로그인</h2>
 		<hr>
-        <form id="login" action="<%=request.getContextPath()%>/login.do" method="post" onsubmit="return loginValidate();">
+        <form id="loginform" action="<%=request.getContextPath()%>/login.do" method="post" onsubmit="return loginValidate();">
             <table>
                 <tr>
                     <th><label for="userId">아이디</label></th>
@@ -80,7 +80,7 @@
         </form>    
 			<br>
             <hr>
-            <div class="btn" align="center">
+            <div class="loginbtn" align="center">
                 <button type="submit" id="loginBtn">로그인</button><br>
                 <button type="submit" id="enrollBtn" onclick="enrollPage();">회원가입</button>
             </div>
