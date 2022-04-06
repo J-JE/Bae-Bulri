@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	Member m = (Member)request.getAttribute("loginUser");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,32 +109,32 @@ th,td{
     <table class="my">
         <tr>
             <th>아이디</th>
-            <td></td>
+            <td><%=m.getUserId() %></td>
         </tr>
 
         <tr>
             <th>비밀번호</th>
-
+			<td><%=m.getUserPwd()%></td>
         </tr>
         <tr>
             <th>이름</th>
-
+			<td><%=m.getUserName() %></td>
         </tr>
         <tr>
             <th>이메일</th>
-
+			<td><%=m.getEmail() %></td>
         </tr>
         <tr>
             <th>주소</th>
-
+		    <td><%=m.getAddress() %></td>
         </tr>
         <tr>
             <th>연락처</th>
-            <td></td>
+            <td><%=m.getPhone() %></td>
         </tr>
         <tr>
             <th>보유포인트</th>
-
+	        <td><%=m.getPoint() %></td>
         </tr>
 
         </table>
