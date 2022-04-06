@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk, com.uni.member.model.dto.Member" pageEncoding="UTF-8"%>
+<% 
+	ArrayList<Cook_Talk> list = (ArrayList<Cook_Talk>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,7 +170,8 @@
                     
             </li>
             <br> <br>
-            <button id="butt">글 쓰기</button>
+      
+                  <button id="butt">글 쓰기</button>
             <br> <br>
          <!-- 게시판 페이징 영역 -->
          <nav aria-label="Page navigation example">
