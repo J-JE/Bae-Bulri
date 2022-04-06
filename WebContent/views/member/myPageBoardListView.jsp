@@ -108,13 +108,13 @@ button{
         <h2 align="center">내가 쓴 글 조회</h2>
         <div class="myPageMenu">
 	        <div class="myPagemenuBar">
-	            <a href="<%=request.getContextPath()%>/views/member/myPageOrderListView.jsp">주문내역조회</a>  
+	                  <a href="<%=request.getContextPath()%>/myOrderList.do">주문내역조회</a>  
 	        </div>
 	        <div class="myPagemenuBar">
-	            <a href="<%= request.getContextPath()%>/views/member/myPageBoardListView.jsp">내가쓴글 조회</a>
+	            <a href="<%= request.getContextPath()%>/myBoardList.do">내가쓴글 조회</a>
 	        </div>
 	        <div class="myPagemenuBar">
-	            <a href="<%= request.getContextPath()%>/views/member/myPageLikeyListView.jsp">나의 찜 목록</a>
+	            <a href="<%= request.getContextPath()%>/myLikeyList.do">나의 찜 목록</a>
 	        </div>
         </div>
             <br>
@@ -125,7 +125,7 @@ button{
             <br>
 
 
-            <table class="table table-hover table-striped text-center">
+            <table class="table table-hover table-striped text-center" id="list">
               <thead>
                 <tr>
                     <th><input type="checkBox"></th>
@@ -152,6 +152,16 @@ button{
                 </tr>
             </tbody>
             </table>
+           <script>
+	           $(function(){//클릭 시 게시글 상세페이지로 이동
+	   			$("#list>tbody>tr").click(function(){
+	   				var nno = $(this).children().eq(0).text();
+	   				location.href="<%=contextPath%>/detailNotice.do?nno="+nno;
+	   			})	
+	   		
+	   			})
+           </script>
+           
             <button>선택 글 삭제</button> 
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
