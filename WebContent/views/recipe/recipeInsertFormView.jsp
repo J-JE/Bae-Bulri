@@ -62,7 +62,7 @@
         </div>
         <hr>
 
-        <form class="validation-form" novalidate>
+        <form class="validation-form" action="<%= contextPath %>/insertRecipe.do" method="post">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="name">레시피 제목</label>
