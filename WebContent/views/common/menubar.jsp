@@ -59,8 +59,8 @@
         </div>
         <div class="login">
             <!-- 로그인 전 -->
-            <button id="login">로그인</button>
-            <button id="login">회원가입</button>
+            <button id="login" onclick="loginPage();">로그인</button>
+            <button id="login" onclick="enrollPage();">회원가입</button>
 
             
             <!-- 로그인 후 -->
@@ -69,6 +69,15 @@
 
         </div>
     </div>
+    <script>
+	    function loginPage(){
+			location.href="<%=request.getContextPath()%>/loginMember.do";
+		}	
+	    function enrollPage(){
+			location.href="<%=request.getContextPath()%>/enrollFormMember.do";
+		}
+		
+	</script>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <ul class="navbar-nav">
