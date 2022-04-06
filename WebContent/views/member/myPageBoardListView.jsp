@@ -132,7 +132,6 @@ button{
                     <th>번호</th>
                     <th>작성날짜</th>
                     <th>제목</th>
-                    <th>삭제</th>
                 </tr>
             </thead>
             <tbody>
@@ -141,14 +140,12 @@ button{
                     <td>1</td>
                     <td>2022-04-04</td>
                     <td>감</td>
-                    <td><button>삭제</button></td>
                 </tr>
                 <tr>
                     <td><input type="checkBox"> </td>
                     <td>2</td>
                     <td>2022-04-04</td>
                     <td>감</td>
-                    <td><button>삭제</button></td>
                 </tr>
             </tbody>
             </table>
