@@ -11,8 +11,12 @@ public class Member {
 	private String phone;
 	private String email;
 	private String address;
+	private int point;
 	private Date enrollDate;
 	private String status;
+	
+	
+	
 	
 	public Member() {
 		// TODO Auto-generated constructor stub
@@ -73,6 +77,15 @@ public class Member {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
 
 	public Date getEnrollDate() {
 		return enrollDate;
@@ -93,12 +106,13 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
-				+ ", phone=" + phone + ", email=" + email + ", address=" + address + ", enrollDate=" + enrollDate
-				+ ", status=" + status + "]";
+				+ ", phone=" + phone + ", email=" + email + ", address=" + address + ", point=" + point
+				+ ", enrollDate=" + enrollDate + ", status=" + status + "]";
 	}
+	
 
 	public Member(int userNo, String userId, String userPwd, String userName, String phone, String email,
-			String address, Date enrollDate, String status) {
+			String address, int point, Date enrollDate, String status) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -107,6 +121,7 @@ public class Member {
 		this.phone = phone;
 		this.email = email;
 		this.address = address;
+		this.point = point;
 		this.enrollDate = enrollDate;
 		this.status = status;
 	}
