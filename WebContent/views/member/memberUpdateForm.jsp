@@ -23,7 +23,7 @@
          #updateForm td:nth-child(1){text-align:left;}
          #updateForm input{margin:10px;}
  
-         .btn{  
+         .updatebtn{  
              
              
              padding-top: 40px;
@@ -96,7 +96,7 @@
                  </table>
              </form>    
              <hr>
-             <div class="btn" align="center">
+             <div class="updatebtn" align="center">
                  <button type="submit" id="updateBtn" disabled>수정하기</button>
              </div>
              
