@@ -1,11 +1,15 @@
 package com.uni.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.uni.cook_talk.model.dto.Cook_Talk;
 
 /**
  * Servlet implementation class myBoardListServlet

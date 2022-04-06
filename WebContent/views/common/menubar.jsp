@@ -59,15 +59,17 @@
         </div>
         <div class="login">
             <!-- 로그인 전 -->
+            <%if(loginUser == null){ %>
             <button id="login" onclick="loginPage();">로그인</button>
             <button id="login" onclick="enrollPage();">회원가입</button>
-
+			<%}else{ %>
             
             <!-- 로그인 후 -->
-            <!-- <button id="login">마이페이지</button> -->
-            <!-- <button id="login">장바구니</button> -->
-
+            <button id="login" onclick="myPage()">마이페이지</button> 
+            <button id="login">장바구니</button> 
+  		 <%} %>
         </div>
+		
     </div>
     <script>
 	    function loginPage(){
@@ -75,6 +77,9 @@
 		}	
 	    function enrollPage(){
 			location.href="<%=request.getContextPath()%>/enrollFormMember.do";
+		}
+	    function myPage(){
+			location.href="<%=request.getContextPath()%>/myPage.do";
 		}
 		
 	</script>
@@ -85,7 +90,7 @@
                     <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         #레시피
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">              
                         <li><a class="dropdown-item" href="<%=contextPath %>/views/recipe/recipeListView.jsp"># 전체</a></li>
                         <li><a class="dropdown-item" href="#"># 계절</a></li>
                         <li><a class="dropdown-item" href="#"># 다이어트</a></li>
