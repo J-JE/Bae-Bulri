@@ -102,7 +102,7 @@
         </div>
         </div>
       </div>
-      <!-- fotter 자리 -->
+    
     </div>
   
  <%@ include file = "../common/footer.jsp" %>
