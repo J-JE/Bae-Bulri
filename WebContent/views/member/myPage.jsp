@@ -87,13 +87,13 @@ th,td{
     <h2 align="center">My Page</h2>
     <div class="myPageMenu">
         <div class="myPagemenuBar">
-	            <a href="<%=request.getContextPath()%>/views/member/myPageOrderListView.jsp">주문내역조회</a>  
+	            <a href="<%=request.getContextPath()%>/myOrderList.do">주문내역조회</a>  
 	        </div>
 	        <div class="myPagemenuBar">
-	            <a href="<%= request.getContextPath()%>/views/member/myPageBoardListView.jsp">내가쓴글 조회</a>
+	            <a href="<%= request.getContextPath()%>/myBoardList.do">내가쓴글 조회</a>
 	        </div>
 	        <div class="myPagemenuBar">
-	            <a href="<%= request.getContextPath()%>/views/member/myPageLikeyListView.jsp">나의 찜 목록</a>
+	            <a href="<%= request.getContextPath()%>/myLikeyList.do">나의 찜 목록</a>
 	        </div>
     </div>
     <br>
