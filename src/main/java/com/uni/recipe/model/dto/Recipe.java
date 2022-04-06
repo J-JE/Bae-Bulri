@@ -12,6 +12,8 @@ public class Recipe {
 	private int count;	//조회수
 	private String status;	//상태값
 	
+	private String thImg;	//썸네일 이미지
+	
 	public Recipe() {	}
 
 	public Recipe(int recipeNo, int category, String recipeTitle, String recipeContent, String recipeTag,
@@ -100,11 +102,19 @@ public class Recipe {
 		this.status = status;
 	}
 
+	public String getThImg() {
+		return thImg;
+	}
+
+	public void setThImg(String thImg) {
+		this.thImg = thImg;
+	}
+
 	@Override
 	public String toString() {
 		return "Recipe [recipeNo=" + recipeNo + ", category=" + category + ", recipeTitle=" + recipeTitle
 				+ ", recipeContent=" + recipeContent + ", recipeTag=" + recipeTag + ", recipePro=" + recipePro
-				+ ", rCategoryNo=" + rCategoryNo + ", count=" + count + ", status=" + status + "]";
+				+ ", rCategoryNo=" + rCategoryNo + ", count=" + count + ", status=" + status + ", thImg=" + thImg + "]";
 	}
-	
+
 }
