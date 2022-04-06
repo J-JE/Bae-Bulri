@@ -61,31 +61,49 @@
 	<div class="loginform">
 		<h2 align="left">로그인</h2>
 		<hr>
-        <form id="loginform" action="<%=request.getContextPath()%>/login.do" method="post" onsubmit="return loginValidate();">
-            <table>
-                <tr>
-                    <th><label for="userId">아이디</label></th>
-                    <td><input id="userId" type="text" name="userId"></td>
-                </tr>
-                <tr>
-                    <th><label for="userPwd">비밀번호</label></th>
-                    <td><input id="userPwd" type="password" name="userPwd"></td>
-                </tr>
-            </table>
-            <div class="searchUser">
-                <a class="link" href="" onclick="">아이디 찾기</a>
-                <span class="bar">/</span>
-                <a class="link" href="" onclick="">비밀번호 찾기</a>
-            </div>
-        </form>    
-			<br>
-            <hr>
-            <div class="loginbtn" align="center">
-                <button type="submit" id="loginBtn">로그인</button><br>
-                <button type="submit" id="enrollBtn" onclick="enrollPage();">회원가입</button>
-            </div>
-            
+        <div>
+			<form id="loginform" action="<%=request.getContextPath()%>/login.do" method="post" onsubmit="return loginValidate();">
+				<table>
+					<tr>
+						<th><label for="userId">아이디</label></th>
+						<td><input id="userId" type="text" name="userId"></td>
+					</tr>
+					<tr>
+						<th><label for="userPwd">비밀번호</label></th>
+						<td><input id="userPwd" type="password" name="userPwd"></td>
+					</tr>
+				</table>
+				<div class="searchUser">
+					<a class="link" href="" onclick="">아이디 찾기</a>
+					<span class="bar">/</span>
+					<a class="link" href="" onclick="">비밀번호 찾기</a>
+				</div>
+        </div>      
+				<br>
+				<div class="loginbtn" align="center">
+				<hr>
+				
+					<button type="submit" id="loginBtn">로그인</button><br>
+					<button type="button" id="enrollBtn" onclick="enrollPage();">회원가입</button>
+				</div>
+			</form> 
 	</div>
+	<script type="text/javascript">
+	function loginValidate(){
+		if($("#userId").val().trim().length === 0){
+			alert("아이디를 입력하세요");
+			$("#userId").focus();
+			return false;
+		}
+		
+		if($("#userPwd").val().trim().length === 0){
+			alert("비밀번호를 입력하세요");
+			$("#userPwd").focus();
+			return false;
+		}
+		return true;
+	}	
+	</script>
 	<%@ include file = "/views/common/footer.jsp" %>
 </body>
 </html>
