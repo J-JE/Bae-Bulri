@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk" %>
+ import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk" pageEncoding="UTF-8" %>
 <% 
 	ArrayList<Cook_Talk> list = (ArrayList<Cook_Talk>)request.getAttribute("list");
 %>
@@ -48,47 +48,6 @@
             line-height:30px;
     }
     
-        #ulTable {margin-top:10px;}
-        
-    
-        #ulTable > li:first-child > ul > li {
-            background-color:#c9c9c9;
-            font-weight:bold;
-            text-align:center;
-    }
-    
-        #ulTable > li > ul {
-            clear:both;
-            padding:0px auto;
-            position:relative;
-            min-width:40px;
-    }
-        #ulTable > li > ul > li { 
-            float:left;
-            font-size:10pt;
-            border-bottom:1px solid rgb(208, 187, 187);
-            vertical-align:baseline;
-    }    
-    
-        #ulTable > li > ul > li:first-child               {width:10%;} /*No 열 크기*/
-        #ulTable > li > ul > li:first-child +li           {width:45%;} /*제목 열 크기*/
-        #ulTable > li > ul > li:first-child +li+li        {width:20%;} /*작성일 열 크기*/
-        #ulTable > li > ul > li:first-child +li+li+li     {width:15%;} /*작성자 열 크기*/
-        #ulTable > li > ul > li:first-child +li+li+li+li{width:10%;} /*조회수 열 크기*/
-    
-        #divPaging {
-              clear:both; 
-            margin:0 auto; 
-            width:220px; 
-            height:50px;
-    }
-    
-        #divPaging > div {
-            float:left;
-            width: 30px;
-            margin:0 auto;
-            text-align:center;
-    }
     
         #liSearchOption {clear:both;}
         #liSearchOption > div {
@@ -104,7 +63,7 @@
             text-align : left;
     }
     #butt{
-        background-color: rgb(170, 32, 170);
+        background-color:  rgb(155, 89, 182);
         color: white;
         margin:0 auto; 
             margin-top: 30px; 
@@ -129,7 +88,7 @@
 
         <ul>
             <!-- 게시판 제목 -->
-            <h2 style="color: rgb(170, 32, 170);">쿡&토크 </h2>
+            <h2 style="color: rgb(155, 89, 182);">쿡&토크 </h2>
                
            <hr>
                 <!-- 검색 폼 영역 -->
@@ -144,51 +103,47 @@
                     </div>
                     </li>
             <!-- 게시판 목록  -->
-        
-                <ul id ="ulTable">
-                    <li style="background-color: antiquewhite;">
-                        <ul>
-                            <li>번호</li>
-                            <li>제목</li>
-                            <li>작성자</li>
-                            <li>작성일자</li>
-                        </ul>
-                    </li>
-                    <tbody>
-				  <%if(list.isEmpty()){ %>
-				<li>
-					<ul colspan="4">조회된 리스트가 없습니다.</ul>
-				</li>
-				<%}else{ %>
-					<% for(Cook_Talk c : list){ %>
-					<ul>
-						<li><%= c.getBoardNo() %></li>
-						<li><%= c.getBoardTitle() %></li>
-						<li><%= c.getUserNo() %></li>
-						<li><%= c.getCreateDate() %></li>
-					</ul>
-					<%} %>
-				<%} %>
-			</tbody>
-                   
-                    <!-- 게시물이 출력될 영역 -->
-                  <li>
-                        <ul>
-                            <li>1</li>
-                            <li class="left">제목1</li>
-                            <li>skawn</li>
-                            <li>2022.04.01</li>
-                        </ul>
-                    </li>
-                  
-                        </ul>       
+           
+                
+            <table class="table table-hover" id="ckList">
+                <thead>
+                  <tr>
+                      <th>게시물 번호</th>
+                      <th>제목</th>
+                      <th>작성자</th>
+                      <th>작성일</th>
+                  </tr>
+              </thead>
+              <tbody>
+     
+              <tr>
+                    <th>1</th>
+                    <th>제목1</th>
+                    <th>shslove</th>
+                    <th>2022-12-04</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>제목1</th>
+                    <th>shslove</th>
+                    <th>2022-12-04</th>
+                </tr>   
+              </tbody>
+              </table>
+                 <script type="text/javascript">
+	           $(function(){//클릭 시 게시물 상세페이지로 이동
+	   			$("#ckList>tbody>tr").click(function(){
+	   				var cno = $(this).children().eq(0).text();
+	   				location.href="<%=request.getContextPath()%>/detailCookTalk.do?cno="+cno;
+	   			})	
+	   		
+	   			})
+           </script>       
                     
-                      
-                   
-  
+          
             <br> <br>
-      
-                  <button id="butt">글 쓰기</button>
+       
+            <button id="butt"  onclick="location.href='<%=request.getContextPath()%>/insertCookTaklForm.do'">글 쓰기</button>
             <br> <br>
          <!-- 게시판 페이징 영역 -->
          <nav aria-label="Page navigation example">
@@ -203,7 +158,7 @@
 
         </ul>
     </div>
-
-  	  <%@ include file = "../common/footer.jsp" %>
+	  <%@ include file = "../common/footer.jsp" %>
+  
 </body>
 </html>

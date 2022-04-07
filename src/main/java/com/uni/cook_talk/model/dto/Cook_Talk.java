@@ -24,6 +24,22 @@ public class Cook_Talk {
 		this.createDate = createDate;
 		this.status = status;
 	}
+	public Cook_Talk(int boardNo, String boardTitle, String boardContent, int userNo, Date createDate) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.userNo = userNo;
+		this.createDate = createDate;
+		
+	}
+	public Cook_Talk(int boardNo, String boardTitle, Date createDate) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.createDate = createDate;
+		
+	}
 
 	public int getBoardNo() {
 		return boardNo;
