@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="com.uni.cook_talk.model.dto.Cook_Talk" %>  
+    <%
+    Cook_Talk c = (Cook_Talk)request.getAttribute("c");
+	
+%> 
 <html lang="ko"><head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -80,16 +85,16 @@
           <form class="validation-form was-validated" novalidate="">
             <div class="row">
               <div class="col-md-6 content">
-                <label id="sysdate">20220404</label>
-                <label id="id">shslove</label>
-                <p>레시피대로</p> 
+                <label id="sysdate"><%= c.getCreateDate() %></label>
+                <label id="id"><%= c.getBoardNo() %></label>
+                <p><%= c.getBoardTitle() %></p> 
              </div>
               </div>
 
               <br>
             
               <div class="form-group">
-                <p>레시피대로 먹으니까 너무 맛있네요 어쩌고 저쩌고</p> 
+                <p><%= c.getBoardContent() %></p> 
             </div>
             <br>
             

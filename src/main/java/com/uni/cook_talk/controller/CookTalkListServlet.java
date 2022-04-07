@@ -16,7 +16,7 @@ import com.uni.cook_talk.model.service.CookTalkService;
 /**
  * Servlet implementation class CookTalkListServlet
  */
-@WebServlet("/CookTalkListServlet")
+@WebServlet("/cookTalkList.do")
 public class CookTalkListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

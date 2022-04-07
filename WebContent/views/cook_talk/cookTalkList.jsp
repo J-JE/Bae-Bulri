@@ -110,24 +110,29 @@
                   <tr>
                       <th>게시물 번호</th>
                       <th>제목</th>
+                      <th>내용</th>
                       <th>작성자</th>
                       <th>작성일</th>
                   </tr>
               </thead>
               <tbody>
-     
-              <tr>
-                    <th>1</th>
-                    <th>제목1</th>
-                    <th>shslove</th>
-                    <th>2022-12-04</th>
-                </tr>
-                <tr>
-                    <th>1</th>
-                    <th>제목1</th>
-                    <th>shslove</th>
-                    <th>2022-12-04</th>
-                </tr>   
+     				<%if(list.isEmpty()){ %>
+				<tr>
+					<td colspan="5">조회된 리스트가 없습니다.</td>
+				</tr>
+				<%}else{ %>
+					<% for(Cook_Talk c : list){ %>
+					<tr>
+						<td><%= c.getBoardNo() %></td>
+						<td><%= c.getBoardTitle() %></td>
+						<td><%= c.getBoardContent() %></td>
+						<td><%= c.getUserNo() %></td>
+						<td><%= c.getCreateDate() %></td>
+						
+					</tr>
+					<%} %>
+				<%} %>
+   
               </tbody>
               </table>
                  <script type="text/javascript">

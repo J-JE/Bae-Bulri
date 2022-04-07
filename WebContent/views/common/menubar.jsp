@@ -91,7 +91,7 @@
                         #레시피
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">              
-                        <li><a class="dropdown-item" href="<%=contextPath %>/views/recipe/recipeListView.jsp"># 전체</a></li>
+                        <li><a class="dropdown-item" href="<%=contextPath %>/recipeList.do"># 전체</a></li>
                         <li><a class="dropdown-item" href="#"># 계절</a></li>
                         <li><a class="dropdown-item" href="#"># 다이어트</a></li>
                         <li><a class="dropdown-item" href="#"># 자취생</a></li>
@@ -103,7 +103,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">쿡&토크</a>
+                    <a class="nav-link" href="<%=contextPath %>/cookTalkList.do">쿡&토크</a>
                 </li>
 
                 <li class="nav-item">
