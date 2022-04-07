@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.uni.common.Attachment;
 import com.uni.common.MyFileRenamePolicy;
+import com.uni.recipe.model.dto.Recipe;
 import com.uni.recipe.model.service.RecipeServiceJw;
 
 /**
@@ -37,12 +38,15 @@ public class RecipeInsertServlet extends HttpServlet {
 		String uploadPath = request.getServletContext().getRealPath("/resources");
 		
 		MultipartRequest multi = new MultipartRequest(request, uploadPath, maxSize, "UTF-8", new MyFileRenamePolicy());
-		
-		String category = multi.getParameter("category");
+
 		String title = multi.getParameter("title");
 		String content = multi.getParameter("content");
+		String tag = multi.getParameter("tag");
 		
-		/* recipe DTO가 없어서 일단 비워둠*/
+		Recipe recipe = new Recipe();
+		recipe.setRecipeTitle(title);
+		recipe.setRecipeContent(content);
+		recipe.setRecipeTag(tag);
 		
 		Attachment at = null;
 		
@@ -55,9 +59,7 @@ public class RecipeInsertServlet extends HttpServlet {
 			at.setOriginName(originName);
 			at.setChangeName(changeName);
 			
-			// 마찬가지로 아직 레시피 DTO가 없어서 일단 주석 처리
-			//int result = new RecipeServiceJw().insertRecipe(at);
-			int result = 0; // 에러방지용 임시값
+			int result = new RecipeServiceJw().insertRecipe(recipe, at);
 			
 			if(result > 0) {
 				request.setAttribute("msg", "레시피가 등록되었습니다.");
@@ -69,7 +71,6 @@ public class RecipeInsertServlet extends HttpServlet {
 				}
 				
 				request.setAttribute("msg", "레시피 등록에 실패하였습니다.");
-				// 원래 이 상태면 에러페이지를 띄우는데 레시피 등록은 관리자만 하는건데 에러페이지를 띄우는게 의미가 있을지?
 			}
 		}
 		
