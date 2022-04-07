@@ -64,21 +64,33 @@
     <header>
     	<!-- <br><br> -->
 	    <h2>#카테고리</h2>
-	    <h2><%--=r.getCategory() --%></h2>
 	    <hr>
 	    
-    	<%for(int i=0; i<3;i++){ %>
+    	<%
+    	int ls = list.size();
+    	int lsi = ls/4;
+    	int lsj = 4;
+    	int k=0;
+    	if(ls%4>0){
+    		lsi += 1;
+    	}
+    	for(int i=0; i<lsi;i++){ %>
 		    <div class="row card-group">
-	    		<%for(int j=0; j<4;j++){ %>
+	    		<%
+	    		if(i == lsi-1){
+	    			lsj=ls%4;
+	    		}
+	    		for(int j=0; j<lsj;j++){ %>
 			        <div class="card" style="width: 18rem; margin: 15px;">
 			        	<input type="hidden" value="...">
-			            <img src="<%=contextPath %>/resources/images/이미지.png" class="card-img-top" alt="...">
-			            <div class="card-body">
-			              <h6 class="card-title">#어쩌구</h6>
-			              <h5 class="card-text">김치볶음밥</h5>
+			            <img src="<%=contextPath%>/resources/images/<%=list.get(k).getThImg()%>" class="card-img-top" alt="...">
+			            <div class="card-body"><%=lsj%>
+			              <h6 class="card-title"><%=list.get(k).getRecipeTag()%></h6>
+			              <h5 class="card-text"><%=list.get(k).getRecipeTitle()%></h5>
 			            </div>
 			        </div>
-	    		<%} %>
+	    		<%} 
+	    		k++;%>
 		    </div>
     	<%} %>
 	
