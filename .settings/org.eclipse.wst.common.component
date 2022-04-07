@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="Bae Bulri">
+        
+    <wb-module deploy-name="BaeBulri">
+                
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+                
         <property name="context-root" value="Bae_Bulri"/>
-        <property name="java-output-path" value="/Bae Bulri/WebContent/WEB-INF/classes"/>
+                
+        <property name="java-output-path" value="/BaeBulri/WebContent/WEB-INF/classes"/>
+            
     </wb-module>
+    
 </project-modules>

@@ -46,11 +46,24 @@ public class MemberDao_gm {
 			pstmt.setString(2, userPwd);
 			
 			rset = pstmt.executeQuery();
-			
+			System.out.println(rset.getRow());
+			System.out.println(sql);
+			System.out.println(userId);
+			System.out.println(userPwd);
 			if(rset.next()) {
-				//loginUser = 
+				loginUser = new Member(rset.getInt("USER_NO"),
+										rset.getString("USER_ID"),
+										rset.getString("USER_PWD"),
+										rset.getString("USER_NAME"),
+										rset.getString("EMAIL"),
+										rset.getString("PHONE"),
+										rset.getString("ADDRESS"),
+										rset.getInt("POINT"),
+										rset.getDate("ENROLL_DATE"),
+										rset.getString("STATUS"));
 										
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,6 +73,35 @@ public class MemberDao_gm {
 		}
 				
 		return loginUser;
+	}
+
+	public int insertMember(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+
+		String sql = prop.getProperty("insertMember");
+		//INSERT INTO MEMBER VALUES(SEQ_UNO.NEXTVAL, ?,?,?,?,?,?,DAFULT,SYSDATE,DEFAULT)
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getUserId());
+			pstmt.setString(2, m.getUserPwd());
+			pstmt.setString(3, m.getUserName());
+			pstmt.setString(4, m.getPhone());
+			pstmt.setString(5, m.getEmail());
+			pstmt.setString(6, m.getAddress());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }

@@ -102,6 +102,10 @@
 			return false;
 		}
 		return true;
+		
+		function enrollPage(){
+			location.href="<%=request.getContextPath()%>/enrollFormMember.do";
+		}
 	}	
 	</script>
 	<%@ include file = "/views/common/footer.jsp" %>
