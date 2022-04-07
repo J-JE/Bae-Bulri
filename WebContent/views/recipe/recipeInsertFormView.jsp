@@ -66,7 +66,7 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="name">레시피 제목</label>
-              <input type="text" class="form-control" id="name" placeholder="" value="" required>
+              <input type="text" class="form-control" id="name" name="title" placeholder="" value="" required>
             </div>
             </div>
 
@@ -82,24 +82,24 @@
 
             <div class="mb-3">
                 <label for="tag">태그</label>
-                <input type="text" class="form-control" id="tag" placeholder="" value="" required>
+                <input type="text" class="form-control" id="tag" name="tag" placeholder="" value="" required>
             </div>
 
           <div class="mb-3">
             <label for="description">레시피 설명</label>
-            <input type="text" class="form-control" id="description" placeholder="설명 입력" value="" required>
+            <input type="text" class="form-control" id="description" name="desc" placeholder="설명 입력" value="" required>
           </div>
           <hr>
 
           <div class="mb-3">
             <label for="product">재료</label>
-            <input type="text" class="form-control" id="product" placeholder="" value="" required>
+            <input type="text" class="form-control" id="product" name="product" placeholder="" value="" required>
           </div>
           <hr>
 
           <div class="mb-3">
             <label for="time">조리시간</label>
-            <input type="text" class="form-control" id="time" placeholder="" value="" required>
+            <input type="text" class="form-control" id="time" name="product" placeholder="" value="" required>
           </div>
           <hr>
 
@@ -158,12 +158,17 @@
   </div>
 
   <script>
-    // form에 대한 이벤트
+  	function 
+  
+    // form에 대한 이벤트 (BOOTSTRAP 폼 사용)
     window.addEventListener('load', () => {
       const forms = document.getElementsByClassName('validation-form');
 
+      // form에 있는 요소들 새로운 배열로 반환
       Array.prototype.filter.call(forms, (form) => {
+    	  // submit 이벤트
         form.addEventListener('submit', function (event) {
+        	// 유효성 검사
           if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
