@@ -42,7 +42,7 @@ public class RecipeDao_jje {
 //		SELECT MIN(FILE_NO) FILE_NO FROM ATTACHMENT WHERE STATUS='Y' GROUP BY REF_BNO)) B ON (A.RECIPE_NO = B.REF_BNO) \
 //		WHERE A.STATUS='Y' ORDER BY A.RECIPE_NO DESC
 		
-		String sql = prop.getProperty("select");
+		String sql = prop.getProperty("selectAllRecipeList");
 		
 		try {
 			pstmt=conn.prepareStatement(sql);
@@ -51,12 +51,13 @@ public class RecipeDao_jje {
 			while(rset.next()) {
 				Recipe r = new Recipe();
 				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				System.out.println(r.getRecipeTitle());
 				r.setRecipeTag(rset.getString("RECIPE_TAG"));
+				r.setThImg(rset.getString("CHANGE_NAME"));
 				
 				list.add(r);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
