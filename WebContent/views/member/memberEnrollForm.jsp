@@ -48,65 +48,66 @@
 	<div class="enroll">
 		<h2 align="left">회원 가입</h2>
 		<hr>
-		
-			<form id="enrollForm" action="<%=request.getContextPath() %>/insertMember.do" method="post" onsubmit="return joinValidate();">
-				<table>
-					<tr>
-						<td width="200px">아이디</td>
-						<td><input type="text" minlength="6" maxlength="20" name="userid" required></td>
-						<td width="200px">
-							<button type="button" id="idcheckBtn" onclick="checkId();">중복확인</button>
-						</td>
-					</tr>
-					<tr>
-					
-					<td>비밀번호</td>
-					<td><input type="password" minlength="6" maxlength="20" name="userPwd" required></td>
-					<td></td>
-					</tr>
-					
-					<tr>
-						<td>비밀번호 확인</td>
-						<td><input type="password" maxlength="15" name="checkPwd" required></td>
-						<td><label id = "pwdResult"></label></td>
-					</tr>	
-					
-					<tr>
-						<td>이름</td>
-						<td><input type="text" maxlength="5" name="userName" required></td>
+			<div>
+				<form id="enrollForm" action="<%=request.getContextPath() %>/insertMember.do" method="post" onsubmit="return joinValidate();">
+					<table>
+						<tr>
+							<td width="200px">아이디</td>
+							<td><input type="text" minlength="6" maxlength="20" name="userId" required></td>
+							<td width="200px">
+								<button type="button" id="idcheckBtn" onclick="checkId();">중복확인</button>
+							</td>
+						</tr>
+						<tr>
+						
+						<td>비밀번호</td>
+						<td><input type="password" minlength="6" maxlength="20" name="userPwd" required></td>
 						<td></td>
-					</tr>
-					
-					<tr>
-						<td>이메일</td>
-						<td><input type="email" name="email"></td>
-						<td></td>
-					</tr>
-					
-					<tr>
-						<td>전화번호</td>
-						<td><input type="tel" maxlength="11" name="phone" placeholder="(-없이)01012345678"></td>
-						<td></td>
-					</tr>
-					
-					<tr>
-						<td>주소</td>
-						<td><input type="text" name="address"></td>
-						<td></td>
-					</tr>
-                
-                    <tr id="recommend">
-                        <td>추천인 id</td>
-                        <td><input type="text" name="RecommendeId"></td>
-                        <td>(선택사항)</td>
-                    </tr>
-                    
-				</table>
-            </form>    
-            <hr>
-            <div class="joinbtn" align="center">
-                <button type="submit" id="joinBtn" disabled>가입하기</button>
-            </div>
+						</tr>
+						
+						<tr>
+							<td>비밀번호 확인</td>
+							<td><input type="password" maxlength="15" name="checkPwd" required></td>
+							<td><label id = "pwdResult"></label></td>
+						</tr>	
+						
+						<tr>
+							<td>이름</td>
+							<td><input type="text" maxlength="5" name="userName" required></td>
+							<td></td>
+						</tr>
+						
+						<tr>
+							<td>전화번호</td>
+							<td><input type="tel" maxlength="11" name="phone" placeholder="(-없이)01012345678"></td>
+							<td></td>
+						</tr>
+						
+						<tr>
+							<td>이메일</td>
+							<td><input type="email" name="email"></td>
+							<td></td>
+						</tr>
+						
+						<tr>
+							<td>주소</td>
+							<td><input type="text" name="address"></td>
+							<td></td>
+						</tr>
+	                
+	                    <%-- <tr id="recommend">
+	                        <td>추천인 id</td>
+	                        <td><input type="text" name="RecommendeId"></td>
+	                        <td>(선택사항)</td>
+	                    </tr>
+	                    --%>
+					</table>
+                </div>
+	            <hr>
+	            <div class="joinbtn" align="center">
+	                <button type="submit" id="joinBtn" >가입하기</button>
+	            </div>
+            </form>
             
 	</div>
 	<%@ include file = "/views/common/footer.jsp" %>

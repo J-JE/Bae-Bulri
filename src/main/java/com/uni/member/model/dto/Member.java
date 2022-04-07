@@ -15,9 +15,6 @@ public class Member {
 	private Date enrollDate;
 	private String status;
 	
-	
-	
-	
 	public Member() {
 		// TODO Auto-generated constructor stub
 	}

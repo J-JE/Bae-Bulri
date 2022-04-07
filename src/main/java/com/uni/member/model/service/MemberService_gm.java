@@ -1,7 +1,11 @@
 package com.uni.member.model.service;
 
+import static com.uni.common.JDBCTemplate.close;
+import static com.uni.common.JDBCTemplate.commit;
+import static com.uni.common.JDBCTemplate.getConnection;
+import static com.uni.common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
-import static com.uni.common.JDBCTemplate.*;
 
 import com.uni.member.model.dao.MemberDao_gm;
 import com.uni.member.model.dto.Member;
@@ -15,6 +19,20 @@ public class MemberService_gm {
 		
 		close(conn);
 		return loginUser;
+	}
+
+	public int insertMember(Member m) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao_gm().insertMember(conn, m);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
 	}
 
 }
