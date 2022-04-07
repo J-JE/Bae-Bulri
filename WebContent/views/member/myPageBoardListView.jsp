@@ -1,5 +1,16 @@
+<%@page import="com.uni.common.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.uni.cook_talk.model.dto.*"%>
+<%
+	ArrayList<Cook_Talk> list = (ArrayList<Cook_Talk>)request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,7 +146,23 @@ button{
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            	<%if(list.isEmpty()){ %>
+            	<tr>
+            		<td colspan="4">작성한 글이 없습니다.</td>
+            	</tr>
+            	<%}else{ %>
+            		  <%for(Cook_Talk ct : list){ %>
+            		  
+            		  <tr>
+            		  	  <td><input type="checkBox"></td>
+            		  	  <td><%= ct.getBoardNo()%></td>
+            		  	  <td><%= ct.getCreateDate()%></td>
+            		  	  <td><%= ct.getBoardTitle()%></td>	 
+            		  </tr>
+            		  
+            		    <%} %>
+            	     <%} %>
+               <%--  <tr>
                     <td><input type="checkBox"> </td>
                     <td>1</td>
                     <td>2022-04-04</td>
@@ -146,7 +173,7 @@ button{
                     <td>2</td>
                     <td>2022-04-04</td>
                     <td>감</td>
-                </tr>
+                </tr> 이런식으로 나오게 함--%>
             </tbody>
             </table>
            <script>
@@ -160,16 +187,46 @@ button{
            </script>
            
             <button>선택 글 삭제</button> 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#"> &lt; </a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#"> &gt; </a></li>
-                </ul>
-            </nav>
-           </div>
+        <!-- 페이징바 만들기 -->
+			<div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button onclick="location.href='<%=contextPath%>/myBoardList.do?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전페이지로(<) -->
+			<%if(currentPage == 1){ %>
+			<button disabled> &lt; </button>
+			<%}else{ %>
+			<button onclick="location.href='<%= contextPath %>/myBoardList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<%} %>
+			
+			<!-- 페이지 목록 -->
+			<%for(int p=startPage; p<=endPage; p++){ %>
+				
+				<%if(p == currentPage){ %>
+				<button disabled> <%= p %> </button>
+				<%}else{ %>
+				<button onclick="location.href='<%=contextPath %>/myBoardList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<%} %>
+				
+			<%} %>
+			
+			<!-- 다음페이지로(>) -->
+			<%if(currentPage == maxPage){ %>
+			<button disabled> &gt; </button>
+			<%}else { %>
+			<button onclick="location.href='<%= contextPath %>/myBoardList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<%} %>
+		
+			<!-- 맨 끝으로 (>>) -->
+			<button onclick="location.href='<%=contextPath%>/myBoardList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+		</div> 
+		<br><br>
+		<%-- <div align="center">
+		<% if(loginUser != null){ %>
+		<button onclick="location.href='enrollFormBoard.do'">작성하기</button>
+		<% } %>
+		</div>--%>
+     </div>
         <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class myPageServlet extends HttpServlet {
 		String userId = loginUser.getUserId();
 		
 		Member member = new MemberService_th().selectMember(userId);
-		
+		System.out.println(member);
 		RequestDispatcher view = null;
 		if(member != null){
 			request.setAttribute("loginUser", member);

@@ -154,5 +154,15 @@ public class Member {
 		this.email = email;
 		this.address = address;
 	}
+	public Member(String userId, String userPwd, String userName, String phone, 
+			String email, String address, int point) {
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+		this.point = point;
+	}
 	
 }

@@ -33,11 +33,11 @@ public class Cook_Talk {
 		this.createDate = createDate;
 		
 	}
-	public Cook_Talk(int boardNo, String boardTitle, Date createDate) {
+	public Cook_Talk(int boardNo, Date createDate, String boardTitle) {
 		super();
 		this.boardNo = boardNo;
-		this.boardTitle = boardTitle;
 		this.createDate = createDate;
+		this.boardTitle = boardTitle;
 		
 	}
 
