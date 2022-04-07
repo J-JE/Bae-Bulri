@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 <%
 	Member m = (Member)request.getAttribute("loginUser");
+
+	String userId = m.getUserId();
+	String userPwd = m.getUserPwd();
+	String userName = m.getUserName();
+	String email = m.getEmail();
+	String address = m.getAddress();
+	String phone = m.getPhone();
+	int point = m.getPoint();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,38 +117,46 @@ th,td{
     <table class="my">
         <tr>
             <th>아이디</th>
-            <td><%=m.getUserId() %></td>
+            <td><%=userId %></td>
         </tr>
 
         <tr>
             <th>비밀번호</th>
-			<td><%=m.getUserPwd()%></td>
+			<td><%=userPwd%></td>
         </tr>
         <tr>
             <th>이름</th>
-			<td><%=m.getUserName() %></td>
+			<td><%=userName %></td>
         </tr>
         <tr>
             <th>이메일</th>
-			<td><%=m.getEmail() %></td>
+			<td><%=email %></td>
         </tr>
         <tr>
             <th>주소</th>
-		    <td><%=m.getAddress() %></td>
+		    <td><%=address %></td>
         </tr>
         <tr>
             <th>연락처</th>
-            <td><%=m.getPhone() %></td>
+            <td><%=phone%></td>
         </tr>
         <tr>
             <th>보유포인트</th>
-	        <td><%=m.getPoint() %></td>
+	        <td><%=point%>원</td>
         </tr>
 
         </table>
-        <button type="button" id="update">회원 수정</button>
-        <button type="button" id="delete">회원 탈퇴</button>
+        <button type="button" id="update" onclick="updatemember">회원 수정</button>
+        <button type="button" id="delete" onclick="deletemember">회원 탈퇴</button>
     </div>
+    <script>
+	    function updatemember(){
+	      location.href = "<%= request.getContextPath()%>/updateForm.do";
+	  	 }
+	   function deletemember(){
+	      location.href = "<%= request.getContextPath()%>/deleteForm.do";
+	   	 }
+    </script>
         <%@ include file = "../common/footer.jsp" %>
 </body>
 </html>
