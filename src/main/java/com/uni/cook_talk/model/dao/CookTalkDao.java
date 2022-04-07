@@ -60,6 +60,37 @@ public class CookTalkDao {
 	      }
 	      return list;
 	   }
+	public Cook_Talk selectCookTalk(Connection conn, int cno) {
+		Cook_Talk cookTalk = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectCOOK_TALK");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			  pstmt.setInt(1, cno);
+			  //selectCOOK_TALK=SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, USER_NO, CREATE_DATE FROM COOK_TALK C JOIN MEMBER USING (USER_NO) WHERE C.STATUS = "Y" AND BOARD_NO=?
+			  rset = pstmt.executeQuery();
+			  
+			  if(rset.next()) {
+				  cookTalk = new Cook_Talk(rset.getInt("BOARD_NO"),
+						  rset.getString("BOARD_TITLE"),
+						  rset.getString("BOARD_CONTENT"),
+						  rset.getInt("USER_NO"),
+						  rset.getDate("CREATE_DATE")
+						  );
+			  }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return cookTalk;
+	}
 
 
 }

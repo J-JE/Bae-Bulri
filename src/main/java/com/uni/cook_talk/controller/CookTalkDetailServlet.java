@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.uni.cook_talk.model.dto.Cook_Talk;
+import com.uni.cook_talk.model.service.CookTalkService;
+
 /**
  * Servlet implementation class CookTalkDetailServlet
  */
@@ -26,6 +29,12 @@ public class CookTalkDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		int cno = Integer.parseInt(request.getParameter("cno"));
+		
+		Cook_Talk cookTalk = new CookTalkService().selectCookTalk(cno);	
+		request.getRequestDispatcher("views/cook_talk/cookTalkDetail.jsp").forward(request, response);
+		request.setAttribute("c", cookTalk);
 		
 	}
 

@@ -16,4 +16,11 @@ public class CookTalkService {
 		return list;
 	}
 
+	public Cook_Talk selectCookTalk(int cno) {
+		Connection conn = getConnection();
+		Cook_Talk cookTalk  = new CookTalkDao().selectCookTalk(conn, cno);
+		
+		return null;
+	}
+
 }
