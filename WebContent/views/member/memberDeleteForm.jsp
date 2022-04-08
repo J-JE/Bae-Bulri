@@ -92,7 +92,6 @@
 	<script>
 		function main(){
 			location.href ="<%= request.getContextPath()%>";
-			test;
 		}
 		function deletemember(){
 			
