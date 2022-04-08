@@ -7,20 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.cook_talk.model.dto.Cook_Talk;
-import com.uni.cook_talk.model.service.CookTalkService;
-
 /**
- * Servlet implementation class CookTalkDetailServlet
+ * Servlet implementation class CookTalkEnrollFormServlet
  */
-@WebServlet("/detailCookTalk.do")
-public class CookTalkDetailServlet extends HttpServlet {
+@WebServlet("/insertCookTaklForm.do")
+public class CookTalkEnrollFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CookTalkDetailServlet() {
+    public CookTalkEnrollFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,15 +26,7 @@ public class CookTalkDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int cno = Integer.parseInt(request.getParameter("cno"));
-		
-		Cook_Talk cookTalk = new CookTalkService().selectCookTalk(cno);	
-		System.out.println(cookTalk);
-		request.setAttribute("cookTalk", cookTalk);
-		request.getRequestDispatcher("views/cook_talk/cookTalkDetail.jsp").forward(request, response);
-		
-		
+		request.getRequestDispatcher("views/cook_talk/cookTalkInsert.jsp").forward(request, response);
 	}
 
 	/**

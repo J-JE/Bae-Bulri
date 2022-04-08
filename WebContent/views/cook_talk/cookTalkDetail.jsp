@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ page import="com.uni.cook_talk.model.dto.Cook_Talk" %>  
-    <%
-    Cook_Talk c = (Cook_Talk)request.getAttribute("c");
-	
-%> 
+ import = "com.uni.cook_talk.model.dto.*" pageEncoding="UTF-8" %>  
+   <%
+   Cook_Talk c = (Cook_Talk)request.getAttribute("cookTalk");
+	%> 
 <html lang="ko"><head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,8 +51,13 @@
     div > label {
         margin-left: 650px;
     }
+    #f12{
+    	 height:100px;
+    	 weight:100px;
+    }
         .f1{
-            height: 30px;
+             height:50px;
+    	 	weight:50px;
          
             background-color:rgb(170, 32, 170);
             color: white;
@@ -64,12 +67,17 @@
              color: white;
             background-color: rgb(110, 18, 110);
         }
-       
+       #f3{
+          height: 30px;
+            margin-left: 650px;
+            background-color: rgb(70, 24, 88);
+            color: white;
+        }
     </style>
   </head>
   
   <body>
-    <!--  <%@ include file="../common/menubar.jsp" %> -->
+    <%@ include file="../common/menubar.jsp" %> 
   
     <div class="container">
       <div class="input-form-backgroud row">
@@ -82,12 +90,13 @@
           </div>
           <hr>
           
-          <form class="validation-form was-validated" novalidate="">
+        
             <div class="row">
               <div class="col-md-6 content">
+              	  <p><%= c.getBoardTitle() %></p> 
                 <label id="sysdate"><%= c.getCreateDate() %></label>
-                <label id="id"><%= c.getBoardNo() %></label>
-                <p><%= c.getBoardTitle() %></p> 
+                <label id="id"><%= c.getUserId() %></label>
+                
              </div>
               </div>
 
@@ -97,17 +106,20 @@
                 <p><%= c.getBoardContent() %></p> 
             </div>
             <br>
-            
-         
+           
+         	
             <div id="f12">
-                <button class="f2" id="butt">삭제하기</button>
-            <button class="f1" id="butt"> 수정하기 </button>
-     
-       
+            <% if(loginUser != null && loginUser.getUserId().equals(c.getUserId())){ %><%--아이디가 일치하면 버튼이 보임 --%>
+            <a class="f2" onclick=delete() href="deleteBoard.do?cno=<%=c.getBoardNo()%>">삭제하기</a>
+              
+            <a class="f1" onclick=update() href="upDateFormBoard.do?cno=<%=c.getBoardNo()%>"> 수정하기 </a>
+     		<% } %>
+       	<%--button으로 주면 이벤트 안 돼서 일단 a로 줌 --%>
         </div>
+          <a id="f3" href="cookTalkList.do">목록으로</a>
         </div>
       </div>
-    
+    	
     </div>
   
  <%@ include file = "../common/footer.jsp" %>

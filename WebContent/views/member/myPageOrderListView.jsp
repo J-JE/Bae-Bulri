@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.uni.order.model.dto.*,com.uni.common.PageInfo"%>
+<%
+	ArrayList<Order_Detail> list = (ArrayList<Order_Detail>)request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+%> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,7 +140,25 @@ a {
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            	<%if(list.isEmpty()){ %>
+            	<tr>
+            		<td colspan="6">주문내역이 없습니다.</td>
+            	</tr>
+            	<%}else{ %>
+            		<%for(Order_Detail od : list){ %>
+            		
+            		<tr>
+            			<td><%=od.getOrderNo()%></td>
+            			<td><%=od.getOrderDate()%></td>
+            			<td><%=od.getProductName()%></td>
+            			<td><%=od.getAmount()%></td>
+            			<td><%=od.getPrice()%>원</td>
+            			<td><%=od.getStatus()%></td>
+            		</tr>
+            		
+            		<%} %>
+            	<%} %>	
+               <%--  <tr>    이런식으로 뽑는다.
                     <td>1</td>
                     <td>2022-04-04</td>
                     <td>감</td>
@@ -177,12 +205,46 @@ a {
                     <td>1</td>
                     <td>10000원</td>
                     <td>배송중</td>
-                </tr>
+                </tr>--%>
 
                 
             </tbody>
             </table>
-            <nav aria-label="Page navigation example">
+              <!-- 페이징바 만들기 -->
+			<div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button onclick="location.href='<%=contextPath%>/myOrderList.do?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전페이지로(<) -->
+			<%if(currentPage == 1){ %>
+			<button disabled> &lt; </button>
+			<%}else{ %>
+			<button onclick="location.href='<%= contextPath %>/myOrderList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<%} %>
+			
+			<!-- 페이지 목록 -->
+			<%for(int p=startPage; p<=endPage; p++){ %>
+				
+				<%if(p == currentPage){ %>
+				<button disabled> <%= p %> </button>
+				<%}else{ %>
+				<button onclick="location.href='<%=contextPath %>/myOrderList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<%} %>
+				
+			<%} %>
+			
+			<!-- 다음페이지로(>) -->
+			<%if(currentPage == maxPage){ %>
+			<button disabled> &gt; </button>
+			<%}else { %>
+			<button onclick="location.href='<%= contextPath %>/myOrderList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<%} %>
+		
+			<!-- 맨 끝으로 (>>) -->
+			<button onclick="location.href='<%=contextPath%>/myOrderList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+
+			</div> 
+          <%--   <nav aria-label="Page navigation example">
                 <ul class="pagination">
                   <li class="page-item"><a class="page-link" href="#"> &lt; </a></li>
                   <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -190,7 +252,7 @@ a {
                   <li class="page-item"><a class="page-link" href="#">3</a></li>
                   <li class="page-item"><a class="page-link" href="#"> &gt; </a></li>
                 </ul>
-            </nav>
+            </nav> --%>
 	  </div>
 	  <%@ include file = "../common/footer.jsp" %>
 </body>

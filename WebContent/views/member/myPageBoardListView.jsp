@@ -219,7 +219,7 @@ button{
 		
 			<!-- 맨 끝으로 (>>) -->
 			<button onclick="location.href='<%=contextPath%>/myBoardList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
-		</div> 
+			</div> 
 		<br><br>
 		<%-- <div align="center">
 		<% if(loginUser != null){ %>

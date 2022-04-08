@@ -111,7 +111,7 @@ th,td{
     <br>
     <br>
     <br>
-    <h5 align="center">님의 마이페이지</h5>
+    <h5 align="center"><%=userName %> 님의 마이페이지</h5>
     <hr width="50%" ,align="center">
 
     <table class="my">
