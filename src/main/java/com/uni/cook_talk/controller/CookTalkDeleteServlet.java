@@ -7,20 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.cook_talk.model.dto.Cook_Talk;
 import com.uni.cook_talk.model.service.CookTalkService;
 
 /**
- * Servlet implementation class CookTalkDetailServlet
+ * Servlet implementation class CookTalkDeleteServlet
  */
-@WebServlet("/detailCookTalk.do")
-public class CookTalkDetailServlet extends HttpServlet {
+@WebServlet("/deleteBoard.do")
+public class CookTalkDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CookTalkDetailServlet() {
+    public CookTalkDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,14 +31,16 @@ public class CookTalkDetailServlet extends HttpServlet {
 		
 		int cno = Integer.parseInt(request.getParameter("cno"));
 		
-		Cook_Talk cookTalk = new CookTalkService().selectCookTalk(cno);	
-		System.out.println(cookTalk);
-		request.setAttribute("cookTalk", cookTalk);
-		request.getRequestDispatcher("views/cook_talk/cookTalkDetail.jsp").forward(request, response);
+		int result = new CookTalkService().deleteCookTalk(cno);	
 		
-		
+		if(result > 0) {
+			request.getSession().setAttribute("msg", "삭제가 성공하였습니다");
+			response.sendRedirect("cookTalkList.do");
+		}else {
+			request.setAttribute("msg","삭제가 실패하였습니다");
+		}
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

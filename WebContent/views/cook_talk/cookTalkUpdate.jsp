@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+ import = "com.uni.cook_talk.model.dto.*" pageEncoding="UTF-8" %>  
+   <%
+   Cook_Talk c = (Cook_Talk)request.getAttribute("cookTalk");
+	
+%> 
 <html lang="ko"><head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,16 +61,17 @@
           <div class="outer">
                   <a class="main" href="index.jsp">쿡&토크</a>
                    &gt; 
-                  <a class="main" href="#">글 쓰기</a>
+                  <a class="main" href="#">글 수정</a>
                   
           </div>
           <hr>
   
-          <form class="validation-form was-validated" action="<%=request.getContextPath()%>/insertCookTalk.do"  >
+          <form class="validation-form was-validated" action="<%=request.getContextPath()%>/upDateCookTalk.do" method="post"  >
+            <input type="hidden" name="cno" value="<%= c.getBoardNo() %>">
             <div class="row">
               <div class="col-md-6 content">
                 <label for="name">제목</label>
-                <input type="text" class="form-control"  placeholder=""name=ckTitle value="" required="">
+                <input type="text" class="form-control" name=ckTitle value="<%= c.getBoardTitle() %>">
               </div>
               </div>
 
@@ -74,15 +79,15 @@
             
               <div class="form-group">
                 <label for="name">내용</label>
-                <textarea class="form-control" rows="10" name="ckContent"
-                    placeholder="내용을 입력해주세요" required
-                ></textarea>
+                <textarea class="form-control" rows="10" name="ckContent"> 
+                <%= c.getBoardContent() %>
+                </textarea>
             </div>
             <br>
             
          
             <div id="f12">
-            <button class="f1" id="butt"> 글 등록 </button>
+            <button class="f1" id="butt"> 수정하기 </button>
            <button class="f2" id="butt">취소하기</button>
        
         </div>
