@@ -146,8 +146,8 @@ th,td{
         </tr>
 
         </table>
-        <button type="button" id="update" onclick="updatemember">회원 수정</button>
-        <button type="button" id="delete" onclick="deletemember">회원 탈퇴</button>
+        <button type="button" id="update" onclick="updatemember()">회원 수정</button>
+        <button type="button" id="delete" onclick="deletemember()">회원 탈퇴</button>
     </div>
     <script>
 	    function updatemember(){

@@ -128,9 +128,9 @@ public class Member {
 		this.userPwd = userPwd;
 	}
 	
-	public Member(String userId, String userName, String phone, 
-			String email, String address) {
-		this.userId = userId;
+	public Member(String userPwd, String userName, String phone, String email, String address) {
+		super();
+		this.userPwd = userPwd;
 		this.userName = userName;
 		this.phone = phone;
 		this.email = email;
@@ -164,5 +164,9 @@ public class Member {
 		this.address = address;
 		this.point = point;
 	}
+
+	
+
+	
 	
 }
