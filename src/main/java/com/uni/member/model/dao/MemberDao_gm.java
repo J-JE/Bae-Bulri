@@ -104,4 +104,35 @@ public class MemberDao_gm {
 		return result;
 	}
 
+	public int updateMember(Connection conn, Member m) {
+		int result =0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateMember");
+		//UPDATE MEMBER SET USER_PWD=?, USER_NAME=?, PHONE=?,EMAIL=?,ADDRESS=? WHERE USER_ID=?
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m.getUserPwd());
+			pstmt.setString(2, m.getUserName());
+			pstmt.setString(3, m.getPhone());
+			pstmt.setString(4, m.getEmail());
+			pstmt.setString(5, m.getAddress());
+			pstmt.setString(6, m.getUserId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
+
+	
+
+
+
 }

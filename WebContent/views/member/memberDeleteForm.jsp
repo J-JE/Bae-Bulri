@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% Member m = (Member)session.getAttribute("loginUser"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,16 +16,32 @@
 		margin-right:auto;
 		
 	    }
+        .idpwd{
+            margin-left: 110px;
+        }
         #deleteMember{
             width: 100%;
-            margin-left: 160px;
+            margin-left: 0;
             margin-right: auto;
         }
         #deleteMember td:nth-child(1){text-align:left;}
 	    #deleteMember input{margin:10px;}
         .deletebtn{  
+
+            display: flex;
+            justify-content: center;
             padding-top: 40px;
+            gap: 10px;
             text-align: center;
+        }
+        #return{
+            border: 1px solid rgb(188, 231, 235);
+            border-radius: 5px;
+            width: 240px;
+            height: 56px;
+            background-color: rgb(188, 231, 235);
+            color: red;
+            font-size: 15px;
         }
         #deleteBtn{
             border: 1px solid rgb(188, 231, 235);
@@ -35,6 +52,7 @@
             color: red;
             font-size: 15px;
         }
+
         input{
             width: 250px;
             height: 30px;
@@ -47,27 +65,38 @@
 		<h2 align="left">회원 탈퇴</h2>
 		<hr>
         <form id="deleteMember" action="<%=request.getContextPath()%>/deleteMember.do" method="post" onsubmit="return loginValidate();">
-            <table>
-                
-                <tr>
-                    <th><label for="userId">아이디</label></th>
-                    <td><input id="userId" type="text" name="userId" placeholder="아이디를 입력해 주세요"></td>
-                </tr>
-                <tr>
-                    <th><label for="userPwd">비밀번호 입력</label></th>
-                    <td><input id="userPwd" type="password" name="userPwd" placeholder="비밀번호를 입력해 주세요"></td>
-                </tr>
-            </table>
+            <div class="idpwd">
+	            <table>
+	                
+	                <tr>
+	                    <th><label for="userId">아이디</label></th>
+	                    <td><input id="userId" type="text" name="userId" value="<%=m.getUserId()%>" readonly></td>
+	                </tr>
+	                <tr>
+	                    <th><label for="userPwd">비밀번호 입력</label></th>
+	                    <td><input id="userPwd" type="password" name="userPwd" placeholder="비밀번호를 입력해 주세요"></td>
+	                </tr>
+	            </table>
+	            
+	        </div>
+				<br>
+            	<hr>
             
-        </form>    
-			<br>
-            <hr>
+            
             <div class="deletebtn" align="center">
-                <button type="submit" id="deleteBtn">회원탈퇴</button><br>
-                
+                <button type="button" id="return" onclick="main()">돌아가기</button><br>
+                <button type="submit" id="deleteBtn" onclick="deletemember();">회원탈퇴</button><br>
             </div>
-            
+        </form>        
 	</div>
+	<script>
+		function main(){
+			location.href ="<%= request.getContextPath()%>";
+		}
+		function deletemember(){
+			
+		}
+	</script>
 	<%@ include file = "/views/common/footer.jsp" %>
 </body>
 </html>
