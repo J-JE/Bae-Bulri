@@ -113,7 +113,7 @@ public class myBoardListServlet extends HttpServlet {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String userId = loginUser.getUserId();
 		ArrayList<Cook_Talk> list = new MemberService_th().boardSelect(pi,userId);
-		System.out.println(list);
+		System.out.println(list); //값이 잘 넘어오나 확인
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		
