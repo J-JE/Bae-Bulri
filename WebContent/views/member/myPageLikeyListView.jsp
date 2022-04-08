@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.uni.recipe.model.dto.*,com.uni.common.PageInfo"%>
+    
+<%
+	ArrayList<Recipe> list = (ArrayList<Recipe>)request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -153,7 +164,23 @@ a {
         <div class="topList" align="center">
             <br>
             <div id="thumbList">
-                    <div class="thumb" align="center"> 
+            	<%for(Recipe r : list){ %>
+            	<div class="thumb" align="center">
+            		<input type="hidden" value="<%=r.getRecipeNo() %>">
+            		<img src="<%=contextPath %>/resources/images/recipe/<%= r.getThImg() %>" width="150px" height="150px"><br>
+            		<p><%=r.getRecipeTitle()%></p>
+           		
+            		<button class="button" onclick="location.href='<%=request.getContextPath()%>/deleteLikey.do?rno=<%=r.getRecipeNo()%>'">삭제</button>
+            	</div>
+            	<%} %>
+       	<%-- <script>
+       		function deleteLikey(){
+       			$("#postForm").attr("action", "<%=contextPath%>/deleteLikey.do");
+       		}
+       	
+       	</script>--%>
+        
+                    <%-- <div class="thumb" align="center">   이런식으로 나오게 함
                     <input type="hidden" value="1"> 
                     <img src="/i.jpg" width="150px" height="150px"> <br>
                     <p>제목입니다.</p>
@@ -201,15 +228,47 @@ a {
                                 <img src="/i.jpg" width="150px" height="150px"> <br>
                                 <p>제목입니다.</p>
                                 <button class="button">삭제</button>
-                         </div>
+                         </div>--%>
                         </div>      
             
             </div>
-
+			 <!-- 페이징바 만들기 -->
+			<div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button onclick="location.href='<%=contextPath%>/myLikeyList.do?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전페이지로(<) -->
+			<%if(currentPage == 1){ %>
+			<button disabled> &lt; </button>
+			<%}else{ %>
+			<button onclick="location.href='<%= contextPath %>/myLikeyList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<%} %>
+			
+			<!-- 페이지 목록 -->
+			<%for(int p=startPage; p<=endPage; p++){ %>
+				
+				<%if(p == currentPage){ %>
+				<button disabled> <%= p %> </button>
+				<%}else{ %>
+				<button onclick="location.href='<%=contextPath %>/myLikeyList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<%} %>
+				
+			<%} %>
+			
+			<!-- 다음페이지로(>) -->
+			<%if(currentPage == maxPage){ %>
+			<button disabled> &gt; </button>
+			<%}else { %>
+			<button onclick="location.href='<%= contextPath %>/myLikeyList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<%} %>
+		
+			<!-- 맨 끝으로 (>>) -->
+			<button onclick="location.href='<%=contextPath%>/myLikeyList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+			</div> 
     
             <br>
             <br>
-            <nav aria-label="Page navigation example">
+           <%--  <nav aria-label="Page navigation example">
                 <ul class="pagination">
                   <li class="page-item"><a class="page-link" href="#"> &lt; </a></li>
                   <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -217,7 +276,7 @@ a {
                   <li class="page-item"><a class="page-link" href="#">3</a></li>
                   <li class="page-item"><a class="page-link" href="#"> &gt; </a></li>
                 </ul>
-            </nav>
+            </nav>--%>
         </div>
     
 

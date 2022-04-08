@@ -2,7 +2,6 @@ package com.uni.member.model.dao;
 
 import static com.uni.common.JDBCTemplate.close;
 
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,7 +15,10 @@ import java.util.Properties;
 
 import com.uni.common.PageInfo;
 import com.uni.cook_talk.model.dto.Cook_Talk;
+import com.uni.likey.model.dto.Likey;
 import com.uni.member.model.dto.Member;
+import com.uni.order.model.dto.Order_Detail;
+import com.uni.recipe.model.dto.Recipe;
 
 public class MemberDao_th {
 	private Properties prop = new Properties();
@@ -126,6 +128,99 @@ public class MemberDao_th {
 			close(pstmt);
 		}
 		return list;
+	}
+	public ArrayList<Order_Detail> orderSelect(Connection conn, PageInfo pi, String userId) {
+		ArrayList<Order_Detail> list = new ArrayList<Order_Detail>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		//selectMyOrder=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM (SELECT A.ORDER_NO, C.ORDER_DATE, B.PRODUCT_NAME, A.AMOUNT, A.PRICE, C.ORDER_STATUS FROM ORDER_DETAIL A JOIN STORE B ON A.PRODUCT_NO = B.PRODUCT_NO JOIN ORDER_PRO C ON A.ORDER_NO = C.ORDER_NO JOIN MEMBER D ON C.USER_NO = D.USER_NO WHERE D.USER_ID = ? ORDER BY ORDER_NO DESC) A) WHERE RNUM BETWEEN ? AND ?
+		String sql = prop.getProperty("selectMyOrder");
+		int startRow = (pi.getCurrentPage() -1) * pi.getBoardLimit() + 1;
+		int endRow = startRow + pi.getBoardLimit() -1;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+					
+					list.add(new Order_Detail(rset.getInt("ORDER_NO"),
+										rset.getDate("ORDER_DATE"),
+									   rset.getString("PRODUCT_NAME"),
+									   rset.getInt("AMOUNT"),
+									   rset.getInt("PRICE"),
+									   rset.getString("ORDER_STATUS")
+						));
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+	public ArrayList<Recipe> likeySelect(Connection conn, PageInfo pi, String userId) {
+		ArrayList<Recipe> list = new ArrayList<Recipe>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		//selectMyLikey=SELECT * FROM(SELECT ROWNUM RNUM,A.* FROM(SELECT A.RECIPE_NO, RECIPE_TITLE FROM RECIPE A JOIN LIKEY B ON A.RECIPE_NO = B.RECIPE_NO JOIN MEMBER C ON B.USER_NO = C.USER_NO WHERE C.USER_ID = ? AND A.STATUS = 'Y') A) WHERE RNUM BETWEEN ? AND ?
+		String sql = prop.getProperty("selectMyLikey");
+		int startRow = (pi.getCurrentPage() -1) * pi.getBoardLimit() + 1;
+		int endRow = startRow + pi.getBoardLimit() -1;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Recipe r = new Recipe(); //생성자가 없으니 setter로 생성
+				r.setRecipeNo(rset.getInt("RECIPE_NO"));
+				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				
+				list.add(r);
+				/*list.add(new Recipe(rset.getString("RECIPE_TITLE")		
+					));*/
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+	public int deleteLikey(Connection conn, int rno, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		//deleteMyLikey=DELETE FROM LIKEY WHERE LIKEY_NO = ? AND USER_NO = ?
+		String sql = prop.getProperty("deleteMyLikey");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rno);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }
