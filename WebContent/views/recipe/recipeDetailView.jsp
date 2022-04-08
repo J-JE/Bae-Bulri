@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.uni.recipe.model.dto.Recipe, java.util.ArrayList, com.uni.common.Attachment"%>
+<%
+	Recipe recipe = (Recipe)request.getAttribute("recipe");
+	ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");
+	
+	Attachment titleImg = fileList.get(0);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,16 +38,18 @@
             background-color: rgba(225, 199, 235, 0.4);
             color: rgb(147, 114, 161);
             font-weight: bold;
+            border: solid 2px rgba(255, 255, 255, 0);
+			border-radius: 5px;
         }
-        #thumbsup{width: 20px; margin-bottom: 7px; margin-left: 4px;}
-        #recipe_info{margin-left: 450px;}
+        #thumbsup{width: 20px; margin-bottom: 3px; margin-right: 5px;}
+        #recipe_info{margin-left: 450px; height: 400px;}
 
         /*만드는 방법*/
         #recipe_explain{height: auto;}
         #recipe_explain>img{width: 400px; height: 250px; float: left;}
         #recipe_explain>div{width: 300px; height: 250px; margin: 0px 0px 60px 50px; display: inline-block;}
         
-        #basketbtn{background-color:#9372A1; color:white;}
+        #basketbtn{background-color:#9372A1; color:white; border: solid 2px rgba(255, 255, 255, 0); border-radius: 5px;}
     </style>
 
 </head>
@@ -55,7 +63,7 @@
         		location.href="<%=contextPath%>";
         	});
         	$("#moveList").click(function(){
-        		location.href="<%=contextPath%>/views/recipe/recipeListView.jsp";
+        		location.href="javascript:history.back()";
         	});
         </script>
         <hr><br>
@@ -64,25 +72,60 @@
     
             <h2><b>김치 볶음밥</b></h2><br> <!--레시피 이름-->
     
-            <div id="left_content"> <!--썸네일, 좋아요-->
-                <img src="<%=contextPath %>/resources/images/이미지.png" id="thumbnail">
-                <button id="likey_btn">찜하기<img src="<%=contextPath %>/resources/images/like_2.png" id="thumbsup"></button>
+    		<!--썸네일, 좋아요-->
+            <div id="left_content"> 
+                <img src="<%=contextPath %>/resources/images/<%= titleImg.getChangeName() %>" id="thumbnail">
+                <% if(loginUser != null){ %>
+                <button id="likey_btn"><img src="<%=contextPath %>/resources/images/recipe/like_2.png" id="thumbsup">찜하기</button>
+            	<% }else{ %>
+                <button id="likey_btn" disabled><img src="<%=contextPath %>/resources/images/recipe/like_2.png" id="thumbsup">찜하기</button>
+            	<% } %>
             </div>
+            <script>
+				$(function(){
+					$("#likey_btn").click(function(){
+						var rId = <%=recipe.getRecipeNo() %>
+						location.href="<%=contextPath%>/likeyInsert.do?rId=" + rId;
+					});
+				});
+				
+				$(function(){
+					$("#likey_btn").click(function(){
+						var rId = <%=recipe.getRecipeNo()%>;
+						
+						$.ajax({
+							url:"likeyInsert.do",
+							type:"post",
+							data:{
+									rId:rId
+							},
+							success:function(status){
+							},
+							error:function(){
+								console.log("ajax 통신실패 -댓글등록")
+							}
+							
+						})
+						
+					})
+					
+				})
+        </script>
     
             <div id="recipe_info"> <!--레시피 정보-->
-                <h5 id="recipe_tag" style="font-weight: bolder;">#김치 #볶음밥 #계란 </h5><br>
-                <p id="recipe_content">김치볶음밥은 맛있고 간편하다.<br>맛있고 간편한 김치볶음밥</p>
+                <h5 id="recipe_tag" style="font-weight: bolder;"><%= recipe.getRecipeTag()%></h5><br>
+                <p id="recipe_content"><%=recipe.getRecipeContent()%></p>
                 <hr><!--구분선-->
                 <h5><b>재료</b></h5>
                 <li><b>필수 재료</b></li>
-                <p style="margin-left: 23px;">김치, 밥</p>
+                <p style="margin-left: 23px;"><%=recipe.getRecipePro()%></p>
                 
                 <li><b>선택 재료</b></li>
-                <p style="margin-left: 23px;">계란, 참기름</p>
+                <p style="margin-left: 23px;"><%=recipe.getRecipePro()%></p>
                 <hr><!--구분선-->
                 <div>
                     <h5><b>조리 시간</b></h5>
-                    <img src="<%=contextPath %>/resources/images/stopwatch.png" style="width: 50px; float: left; margin: 4px 4px 0px 0px;">
+                    <img src="<%=contextPath %>/resources/images/recipe/stopwatch.png" style="width: 50px; float: left; margin: 4px 4px 0px 0px;">
                     <p style="font-size: 30px; margin: 17px 0px 0px 0px;"><b>10분</b></p>
                 </div>
             </div>
@@ -92,11 +135,11 @@
             <div id="recipe_explain"> <!--조리법-->
                 <h4><b>만드는 방법</b></h4>
                 <br>
-                <img src="<%=contextPath %>/resources/images/이미지.png">
-                <div><h5>Step 1</h5>어쩌구저쩌구</div>
-                <br>
-                <img src="<%=contextPath %>/resources/images/이미지.png">
-                <div><h5>Step 2</h5>어쩌구저쩌구</div>
+                <% for(int i=1; i<fileList.size(); i++){ %>
+	                <img src="<%=contextPath %>/resources/images/<%=fileList.get(i).getChangeName()%>">
+	                <div><h5>Step <%=i %></h5>어쩌구저쩌구</div>
+	                <br>
+                <% } %>
             </div>
         </div>
 

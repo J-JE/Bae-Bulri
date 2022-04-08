@@ -13,9 +13,10 @@ public class Recipe {
 	private String status;	//상태값
 	
 	private String thImg;	//썸네일 이미지
+	private String rCategoryName;	//레시피 카테고리 이름
 	
 	public Recipe() {	}
-
+	
 	public Recipe(int recipeNo, int category, String recipeTitle, String recipeContent, String recipeTag,
 			String recipePro, int rCategoryNo, int count, String status) {
 		super();
@@ -29,7 +30,7 @@ public class Recipe {
 		this.count = count;
 		this.status = status;
 	}
-
+	
 	public int getRecipeNo() {
 		return recipeNo;
 	}
@@ -108,6 +109,14 @@ public class Recipe {
 
 	public void setThImg(String thImg) {
 		this.thImg = thImg;
+	}
+
+	public String getrCategoryName() {
+		return rCategoryName;
+	}
+
+	public void setrCategoryName(String rCategoryName) {
+		this.rCategoryName = rCategoryName;
 	}
 
 	@Override

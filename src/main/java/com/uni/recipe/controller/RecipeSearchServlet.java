@@ -14,16 +14,16 @@ import com.uni.recipe.model.dto.Recipe;
 import com.uni.recipe.model.service.RecipeService_jje;
 
 /**
- * Servlet implementation class RecipeListServlet
+ * Servlet implementation class RecipeSearchServlet
  */
-@WebServlet("/recipeList.do")
-public class RecipeListServlet extends HttpServlet {
+@WebServlet("/recipeSearch.do")
+public class RecipeSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RecipeListServlet() {
+    public RecipeSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -62,7 +62,8 @@ public class RecipeListServlet extends HttpServlet {
 		request.setAttribute("pi", pi);
 		
 		//////////////////////////////////////////////////////레시피
-		ArrayList<Recipe> list = new RecipeService_jje().selectRecipeList(pi); //레시피 목록 호출
+		String keyword = request.getParameter("keyword");
+		ArrayList<Recipe> list = new RecipeService_jje().searchRecipeList(keyword, pi); //레시피 목록 호출
 		
 		request.setAttribute("list", list);
 		System.out.println(list);
