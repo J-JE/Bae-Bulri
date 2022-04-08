@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.uni.cook_talk.model.dto.Cook_Talk;
 import com.uni.cook_talk.model.service.CookTalkService;
+import com.uni.member.model.dto.Member;
 
 /**
- * Servlet implementation class CookTalkDetailServlet
+ * Servlet implementation class CookTalkInsertServlet
  */
-@WebServlet("/detailCookTalk.do")
-public class CookTalkDetailServlet extends HttpServlet {
+@WebServlet("/insertCookTalk.do")
+public class CookTalkInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CookTalkDetailServlet() {
+    public CookTalkInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,16 +30,25 @@ public class CookTalkDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String ckTitle = request.getParameter("ckTitle");
+		String ckContent = request.getParameter("ckContent");
 		
-		int cno = Integer.parseInt(request.getParameter("cno"));
+		 int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
+	
+		Cook_Talk c = new Cook_Talk(ckTitle,ckContent,userNo);
 		
-		Cook_Talk cookTalk = new CookTalkService().selectCookTalk(cno);	
-		System.out.println(cookTalk);
-		request.setAttribute("cookTalk", cookTalk);
-		request.getRequestDispatcher("views/cook_talk/cookTalkDetail.jsp").forward(request, response);
+		int result = new CookTalkService().insertCookTalk(c);
 		
+		 if(result>0) {
+			 request.getSession().setAttribute("msg", "게시물이 등록되었습니다");
+			 response.sendRedirect("cookTalkList.do");
+			}else {
+				request.setAttribute("msg","조회 실패");
+				
+			}
 		
-	}
+		}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

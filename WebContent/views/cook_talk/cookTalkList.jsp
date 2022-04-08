@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
  import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk" pageEncoding="UTF-8" %>
+ <%@page import="com.uni.common.PageInfo"%>
 <% 
 	ArrayList<Cook_Talk> list = (ArrayList<Cook_Talk>)request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,14 +79,8 @@
           
             margin-left: 600px; 
     }
-    .pagination {
-      margin-bottom: 60px;
-      width:200px;
-      left:0; right:0;
-      margin-left:auto;
-      margin-right:auto;
-      color: black;
-      } /* 가로 중앙 정렬 */
+   
+    
     </style>
 </head>
 <body>
@@ -110,7 +112,6 @@
                   <tr>
                       <th>게시물 번호</th>
                       <th>제목</th>
-                      <th>내용</th>
                       <th>작성자</th>
                       <th>작성일</th>
                   </tr>
@@ -118,15 +119,14 @@
               <tbody>
      				<%if(list.isEmpty()){ %>
 				<tr>
-					<td colspan="5">조회된 리스트가 없습니다.</td>
+					<td colspan="4">조회된 리스트가 없습니다.</td>
 				</tr>
 				<%}else{ %>
 					<% for(Cook_Talk c : list){ %>
 					<tr>
 						<td><%= c.getBoardNo() %></td>
 						<td><%= c.getBoardTitle() %></td>
-						<td><%= c.getBoardContent() %></td>
-						<td><%= c.getUserNo() %></td>
+						<td><%= c.getUserId() %></td>
 						<td><%= c.getCreateDate() %></td>
 						
 					</tr>
@@ -150,16 +150,40 @@
        
             <button id="butt"  onclick="location.href='<%=request.getContextPath()%>/insertCookTaklForm.do'">글 쓰기</button>
             <br> <br>
-         <!-- 게시판 페이징 영역 -->
-         <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#"> < </a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#"> > </a></li>
-            </ul>
-        </nav>
+       
+     <!-- 페이징바 만들기 -->
+		<div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전페이지로(<) -->
+			<%if(currentPage == 1){ %>
+			<button disabled> &lt; </button>
+			<%}else{ %>
+			<button onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<%} %>
+			
+			<!-- 페이지 목록 -->
+			<%for(int p=startPage; p<=endPage; p++){ %>
+				
+				<%if(p == currentPage){ %>
+				<button disabled> <%= p %> </button>
+				<%}else{ %>
+				<button onclick="location.href='<%=request.getContextPath() %>/cookTalkList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<%} %>
+				
+			<%} %>
+			
+			<!-- 다음페이지로(>) -->
+			<%if(currentPage == maxPage){ %>
+			<button disabled> &gt; </button>
+			<%}else { %>
+			<button onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<%} %>
+		
+			<!-- 맨 끝으로 (>>) -->
+			<button onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+		</div> 
 
         </ul>
     </div>

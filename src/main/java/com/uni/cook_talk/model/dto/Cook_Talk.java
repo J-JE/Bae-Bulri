@@ -11,34 +11,51 @@ public class Cook_Talk {
 	private Date createDate;//작성일 
 	private String status;//상태값
 	
+	private String userId;
 	public Cook_Talk() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cook_Talk(int boardNo, String boardTitle, String boardContent, int userNo, Date createDate, String status) {
+	
+	public Cook_Talk(int boardNo, String boardTitle, String boardContent, String userId, Date createDate) {
 		super();
 		this.boardNo = boardNo;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
-		this.userNo = userNo;
-		this.createDate = createDate;
-		this.status = status;
-	}
-	public Cook_Talk(int boardNo, String boardTitle, String boardContent, int userNo, Date createDate) {
-		super();
-		this.boardNo = boardNo;
-		this.boardTitle = boardTitle;
-		this.boardContent = boardContent;
-		this.userNo = userNo;
+		this.userId = userId;
 		this.createDate = createDate;
 		
 	}
+	
+	
+	
 	public Cook_Talk(int boardNo, Date createDate, String boardTitle) {
 		super();
 		this.boardNo = boardNo;
 		this.createDate = createDate;
 		this.boardTitle = boardTitle;
 		
+	}
+	public Cook_Talk(String boardTitle, String boardContent, int userNo) {
+		super();
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.userNo = userNo;
+		
+	}
+
+
+	public Cook_Talk(String userId) {
+		super();
+		this.userId = userId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public int getBoardNo() {
@@ -92,9 +109,11 @@ public class Cook_Talk {
 	@Override
 	public String toString() {
 		return "Cook_Talk [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
-				+ ", userNo=" + userNo + ", createDate=" + createDate + ", status=" + status + "]";
+				+ ", userNo=" + userNo + ", createDate=" + createDate + ", status=" + status + ", userId=" + userId
+				+ "]";
 	}
-	
+
+
 	
 
 }
