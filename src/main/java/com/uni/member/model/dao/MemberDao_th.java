@@ -170,7 +170,7 @@ public class MemberDao_th {
 		ArrayList<Recipe> list = new ArrayList<Recipe>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		//selectMyLikey=SELECT * FROM(SELECT ROWNUM RNUM,A.* FROM(SELECT A.RECIPE_NO, RECIPE_TITLE FROM RECIPE A JOIN LIKEY B ON A.RECIPE_NO = B.RECIPE_NO JOIN MEMBER C ON B.USER_NO = C.USER_NO WHERE C.USER_ID = ? AND A.STATUS = 'Y') A) WHERE RNUM BETWEEN ? AND ?
+		//selectMyLikey=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM ( SELECT B.RECIPE_NO, RECIPE_TITLE, CHANGE_NAME FROM RECIPE B LEFT JOIN RECIPE_CATEGORY C ON ( B.CATEGORY = C.R_CATEGORY_NO ) JOIN LIKEY  C ON B.RECIPE_NO = C.RECIPE_NO JOIN MEMBER D ON C.USER_NO = D.USER_NO  LEFT JOIN (SELECT * FROM ATTACHMENT WHERE FILE_NO IN ( SELECT MIN(FILE_NO) FILE_NO FROM ATTACHMENT WHERE STATUS = 'Y' GROUP BY REF_BNO) )F ON ( B.RECIPE_NO = F.REF_BNO )AND B.STATUS = 'Y' WHERE D.USER_ID = ? ORDER BY B.RECIPE_NO DESC ) A) WHERE RNUM BETWEEN ? AND ?
 		String sql = prop.getProperty("selectMyLikey");
 		int startRow = (pi.getCurrentPage() -1) * pi.getBoardLimit() + 1;
 		int endRow = startRow + pi.getBoardLimit() -1;
@@ -186,6 +186,7 @@ public class MemberDao_th {
 				Recipe r = new Recipe(); //생성자가 없으니 setter로 생성
 				r.setRecipeNo(rset.getInt("RECIPE_NO"));
 				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				r.setThImg(rset.getString("CHANGE_NAME"));
 				
 				list.add(r);
 				/*list.add(new Recipe(rset.getString("RECIPE_TITLE")		
