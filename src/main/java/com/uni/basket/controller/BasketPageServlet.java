@@ -1,7 +1,7 @@
 package com.uni.basket.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,16 +14,16 @@ import com.uni.basket.model.service.BasketService;
 import com.uni.member.model.dto.Member;
 
 /**
- * Servlet implementation class BasketInsertServlet
+ * Servlet implementation class BasketPageServlet
  */
-@WebServlet("/basketInsert.do")
-public class BasketInsertServlet extends HttpServlet {
+@WebServlet("/basket.do")
+public class BasketPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BasketInsertServlet() {
+    public BasketPageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,24 +32,17 @@ public class BasketInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int writer = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
-		String pro = request.getParameter("pro");
+		int uId = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 		
-		System.out.println("userNo : "+writer);
-		System.out.println("pro : "+pro);
+		ArrayList<Basket> list = new BasketService().selectBasketlist(uId);
 		
-		Basket basket = new Basket(writer, pro);
-		
-		int result = new BasketService().insertBasket(basket);
-		
-		PrintWriter out = response.getWriter();
-		if(result > 0) {
-			out.print("success");
+		if(list != null) {
+			request.setAttribute("BasketList", list);
+			request.getRequestDispatcher("views/basket/basketView.jsp").forward(request, response);
 		}else {
-			out.print("failed");
+			request.setAttribute("msg", "장바구니 조회 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		out.flush();
-		out.close();
 	}
 
 	/**

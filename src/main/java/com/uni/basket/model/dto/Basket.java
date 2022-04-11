@@ -6,9 +6,19 @@ public class Basket {
 	private int userNo;
 	private String productName;
 	private int basketAmount;
+	private int proPrice;
 	
 	public Basket() {	}
 	
+	public Basket(int basketNo, int userNo, String productName, int basketAmount, int proPrice) {
+		super();
+		this.basketNo = basketNo;
+		this.userNo = userNo;
+		this.productName = productName;
+		this.basketAmount = basketAmount;
+		this.proPrice = proPrice;
+	}
+
 	public Basket(int basketNo, int userNo, String productName, int basketAmount) {
 		super();
 		this.basketNo = basketNo;
@@ -62,10 +72,18 @@ public class Basket {
 		this.basketAmount = basketAmount;
 	}
 
+	public int getProPrice() {
+		return proPrice;
+	}
+
+	public void setProPrice(int proPrice) {
+		this.proPrice = proPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "Basket [basketNo=" + basketNo + ", userNo=" + userNo + ", productNo=" + productName + ", basketAmount="
-				+ basketAmount + "]";
+		return "Basket [basketNo=" + basketNo + ", userNo=" + userNo + ", productName=" + productName
+				+ ", basketAmount=" + basketAmount + ", proPrice=" + proPrice + "]";
 	}
 
 }
