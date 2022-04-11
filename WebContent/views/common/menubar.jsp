@@ -27,7 +27,7 @@
         /* 로그인 */
         .login{position: absolute; bottom: 15px; right: 0px; width: 400px; height: 30px;}
         .login{display: flex; gap:10px; justify-content:flex-end; }
-        button{width: 100px; height: 30px; align-content:center; border:0px; background-color: transparent;}
+        #login{width: 100px; height: 30px; align-content:center; border:0px; background-color: transparent;}
         #logout{background-color: black; color: white;}
 
         /* 네비 바 */
