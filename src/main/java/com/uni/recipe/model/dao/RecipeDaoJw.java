@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.uni.common.Attachment;
@@ -57,20 +58,26 @@ public class RecipeDaoJw {
 		return result;
 	}
 
-	public int insertAttachment(Connection conn, Attachment at) {
+
+	public int insertAttachment(Connection conn, ArrayList<Attachment> list) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
 		String sql = prop.getProperty("insertAttachment");
+		//insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, ?, SEQ_RNO.CURRVAL, ?, ?, ?, SYSDATE, DEFAULT)
 		
 		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, at.getCategory());
-			pstmt.setString(2, at.getOriginName());
-			pstmt.setString(3, at.getChangeName());
-			pstmt.setString(4, at.getFilePath());
+			for(int i = 0; i < list.size(); i++) {
+				Attachment at = list.get(i);
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, at.getCategory());
+				pstmt.setString(2, at.getOriginName());
+				pstmt.setString(3, at.getChangeName());
+				pstmt.setString(4, at.getFilePath());
+				
+				result = pstmt.executeUpdate();		
+			}
 			
-			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,6 +86,11 @@ public class RecipeDaoJw {
 		}
 		
 		return result;
+	}
+
+	public int insertRecipeAttachement(Connection conn, ArrayList<Attachment> list) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

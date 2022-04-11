@@ -78,7 +78,7 @@
             <div class="mb-3">
                 사진 등록<br>
                 <div class="form_section_content">
-                    <input type="file" id ="fileItem" name='upFile' style="height: 30px;">
+                    <input type="file" id ="fileItem" name="upFile1" style="height: 30px;">
                     <div id="uploadResult">
             		</div>
             	</div>
@@ -144,9 +144,9 @@
                     </tr>
                   </table>
                   <div id="fileArea"> <!-- 파일 등록할 수 있게 -->
-                    <input type="file" name="file2" id="file2" onchange="loadImg(this, 2);">
-                    <input type="file" name="file3" id="file3" onchange="loadImg(this, 3);">
-                    <input type="file" name="file4" id="file4" onchange="loadImg(this, 4);">
+                    <input type="file" name="upFile2" id="file2" onchange="loadImg(this, 2);">
+                    <input type="file" name="upFile3" id="file3" onchange="loadImg(this, 3);">
+                    <input type="file" name="upFile4" id="file4" onchange="loadImg(this, 4);">
                 </div>
               </div>
             </div>

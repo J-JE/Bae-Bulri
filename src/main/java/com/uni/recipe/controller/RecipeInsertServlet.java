@@ -2,6 +2,8 @@ package com.uni.recipe.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,12 +35,11 @@ public class RecipeInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int maxSize = 10 * 1024 * 1024; // 아직 전송 파일 용량 부분 얘기 안되어있어서 임시값임
-		
-		String uploadPath = request.getServletContext().getRealPath("/resources");
+		int maxSize = 10 * 1024 * 1024; // 파일 최대 사이즈
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/recipe");
 		
 		MultipartRequest multi = new MultipartRequest(request, uploadPath, maxSize, "UTF-8", new MyFileRenamePolicy());
-
+		
 		int category = Integer.parseInt(multi.getParameter("category"));
 		String title = multi.getParameter("title");
 		String tag = multi.getParameter("tag");
@@ -58,17 +59,26 @@ public class RecipeInsertServlet extends HttpServlet {
 		
 		Attachment at = null;
 		
-		if(multi.getOriginalFileName("upFile") != null) {
-			String originName = multi.getOriginalFileName("upFile");
-			String changeName = multi.getFilesystemName("upFile");
+		ArrayList<Attachment> list = new ArrayList<Attachment>();
+		
+		for(int i = 1; i <= 4; i++) {
+			String file = "upFile" + i;
 			
-			at = new Attachment();
-			at.setCategory(category);
-			at.setFilePath(uploadPath);
-			at.setOriginName(originName);
-			at.setChangeName(changeName);
-			
-			int result = new RecipeServiceJw().insertRecipe(recipe, at);
+			if(multi.getOriginalFileName(file) != null) {
+				String originName = multi.getOriginalFileName(file);
+				String changeName = multi.getFilesystemName(file);
+				
+				at = new Attachment();
+				at.setCategory(category);
+				at.setFilePath(uploadPath);
+				at.setOriginName(originName);
+				at.setChangeName(changeName);
+				
+				list.add(at);
+			}
+		}
+	
+			int result = new RecipeServiceJw().insertRecipe(recipe, list);
 			
 			if(result > 0) {
 				request.setAttribute("msg", "레시피가 등록되었습니다.");
@@ -83,7 +93,6 @@ public class RecipeInsertServlet extends HttpServlet {
 			}
 		}
 		
-		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
