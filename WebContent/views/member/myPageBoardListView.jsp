@@ -152,8 +152,9 @@ button{
             	</tr>
             	<%}else{ %>
             		  <%for(Cook_Talk ct : list){ %>
-            		  
+            		 
             		  <tr>
+            		   <input type="hidden" value="<%=ct.getBoardNo() %>">
             		  	  <td><input type="checkBox"></td>
             		  	  <td><%= ct.getBoardNo()%></td>
             		  	  <td><%= ct.getCreateDate()%></td>
@@ -179,8 +180,8 @@ button{
            <script>
 	           $(function(){//클릭 시 게시글 상세페이지로 이동
 	   			$("#list>tbody>tr").click(function(){
-	   				var nno = $(this).children().eq(0).text();
-	   				location.href="<%=contextPath%>/detailNotice.do?nno="+nno;
+	   				var cno = $(this).children().eq(0).val();
+	   				location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
 	   			})	
 	   		
 	   			})
