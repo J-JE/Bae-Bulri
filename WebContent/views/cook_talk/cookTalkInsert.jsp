@@ -55,7 +55,7 @@
       <div class="input-form-backgroud row">
         <div class="input-form col-md-12 mx-auto">
           <div class="outer">
-                  <a class="main" href="index.jsp">쿡&토크</a>
+                  <a class="main" href="cookTalkList.do">쿡&토크</a>
                    &gt; 
                   <a class="main" href="#">글 쓰기</a>
                   

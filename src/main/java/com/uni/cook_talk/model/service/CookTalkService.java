@@ -97,6 +97,15 @@ public class CookTalkService {
 	      return list;	
 	      }
 
+	public ArrayList<Cook_Talk> searchCookTalk(String cks, PageInfo pi) {
+		Connection conn = getConnection();
+		
+		ArrayList<Cook_Talk> list = new CookTalkDao().searchCookTalk(conn,cks,pi);
+		System.out.println("==========================검색========================"+list);
+		close(conn);
+		return list;
+	}
+
 	
 
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
- import = "java.util.ArrayList, com.uni.cook_talk.model.dto.Cook_Talk" pageEncoding="UTF-8" %>
+ import = "java.util.ArrayList, com.uni.cook_talk.model.dto.*" pageEncoding="UTF-8" %>
  <%@page import="com.uni.common.PageInfo"%>
 <% 
 	ArrayList<Cook_Talk> list = (ArrayList<Cook_Talk>)request.getAttribute("list");
@@ -80,12 +80,15 @@
     background-color: rgb(133, 69, 133);
         color: white;
    }
-    
+    #txtKeyWord{
+    	width:250px; 
+    }
     </style>
 </head>
 <body>
-    <!--  <%@ include file="../common/menubar.jsp" %> -->
-    
+      <%@ include file="../common/menubar.jsp" %>
+    	
+    	<br>
     <div id="main">
 
         <ul>
@@ -96,14 +99,21 @@
                 <!-- 검색 폼 영역 -->
                 <li id='liSearchOption'>
                     <div>
-                        <select id='selSearchOption'  >
-                             <option ${(param.f == "title")? "selected" : ""} value = "title">제목</option>
-                            <option ${(param.f == "userId")? "selected" : ""} value = "userId">아이디</option>
-                        </select>
-                        <input id='txtKeyWord' />
-                        <input type='button' value='검색'/>
+                        
+		 			
+                        <input id='txtKeyWord' placeholder="아이디, 제목을 입력하세요"  />
+                        <input type='button' id="searchBtn" value='검색'/>
                     </div>
                     </li>
+               <script>
+		$(function(){
+			$("#searchBtn").click(function(){
+				var cks = $("#txtKeyWord").val();
+				console.log(cks);
+				location.href="<%=contextPath%>/cookTalkSearch.do?cks=" + cks;
+				});
+			});
+		</script>
             <!-- 게시판 목록  -->
            
                 
@@ -147,8 +157,9 @@
                     
           
             <br> <br>
-       
+     		<% if(loginUser != null ){ %><%--등록된 회원만 버튼이 보임 --%>
             <button id="butt"  onclick="location.href='<%=request.getContextPath()%>/insertCookTaklForm.do'">글 쓰기</button>
+            		<% } %>
             <br> <br>
        
      <!-- 페이징바 만들기 -->
@@ -167,9 +178,9 @@
 			<%for(int p=startPage; p<=endPage; p++){ %>
 				
 				<%if(p == currentPage){ %>
-				<button disabled> <%= p %> </button>
+				<button id="butt1" disabled> <%= p %> </button>
 				<%}else{ %>
-				<button onclick="location.href='<%=request.getContextPath() %>/cookTalkList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<button id="butt1" onclick="location.href='<%=request.getContextPath() %>/cookTalkList.do?currentPage=<%= p %>'"> <%= p %> </button>
 				<%} %>
 				
 			<%} %>

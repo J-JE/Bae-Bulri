@@ -74,6 +74,32 @@
             background-color: rgb(70, 24, 88);
             color: white;
         }
+        .replyArea{    margin-left: 50px;
+         				width:1000px;
+         				
+		
+					margin-top:20px;
+    	 	
+        }
+        #addReply{ background-color:rgb(170, 32, 170);
+          			color: white;
+          			width:100px;
+  				height: 40px;
+  				     font-size: large;
+        }
+        .replyArea tr th{
+        	color: rgb(170, 32, 170);
+          font-size: large;
+     
+        }
+  	#replyList{
+  		width:900px;
+  		
+  	}
+      #tableReply{
+      width:900px;
+  	
+      }
     </style>
   </head>
   
@@ -84,7 +110,7 @@
       <div class="input-form-backgroud row">
         <div class="input-form col-md-12 mx-auto">
           <div class="outer">
-                  <a class="main" href="index.jsp">쿡&토크</a>
+                  <a class="main" href="cookTalkList.do">쿡&토크</a>
                    &gt; 
                   <a class="main" href="#">글 목록</a>
                   
@@ -120,24 +146,24 @@
           <a id="f3" href="cookTalkList.do">목록으로</a>
           
         </div>
-        <br>
+       
+         
         <div class="replyArea">
-          <table border="1" align="center">
+          <table border="1" align="center" id="tableReply">
      	<tr>
 				<th>댓글작성</th>
 				<% if(loginUser != null){ %>
 				<td><textarea rows="3" cols="60" id="replyContent" style="resize:none;"></textarea></td>
 				<td><button id="addReply">댓글등록</button></td>
 				<% }else{ %>
-				<td><textarea readonly rows="3" cols="60" id="replyContent" style="resize:none;">로그인한 사용자만 가능한 서비스입니다. 로그인 후 이용해주세요</textarea></td>
+				<td><textarea readonly rows="3" cols="60" id="replyContent" style="resize:none;">로그인 후 이용해주세요</textarea></td>
 				<td><button disabled>댓글등록</button></td>
 				<% } %>
 			</tr>
     
-      
       </table>
       	<div id="replyListArea">
-			<table id="replyList" border="1" align="center">
+			<table id="replyList" border="1" align="center" >
 				
 				<!-- <tr>
 					<td width="100px">admin</td>
