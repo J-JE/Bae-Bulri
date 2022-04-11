@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.uni.common.PageInfo;
 import com.uni.cook_talk.model.dto.Cook_Talk;
 import com.uni.cook_talk.model.dto.Cook_Talk_Reply;
+import com.uni.recipe.model.dto.Recipe;
 
 public class CookTalkDao {
 	private Properties prop = new Properties();
@@ -237,6 +238,61 @@ public class CookTalkDao {
 		}
 		return list;
 	}
+	public ArrayList<Cook_Talk> searchCookTalk(Connection conn, String cks, PageInfo pi) {
+		ArrayList<Cook_Talk>list = new ArrayList<Cook_Talk>();
+		 PreparedStatement pstmt = null;
+	     ResultSet rset = null;
+	    /* searchCOOK_TALK=SELECT * FROM ( SELECT ROWNUM RNUM,\
+	          		A.*\
+	        FROM\
+	            (\
+	                SELECT\
+	                    BOARD_NO,\
+	                    BOARD_CONTENT,\
+	                    BOARD_TITLE.\
+	                    CREATE_DATE FROM\
+	                    COOK_TALK C\
+	                 LEFT JOIN MEMBER M ON C.USER_NO = M.USER_NO\
+	                WHERE\
+	                    M.USER_ID = ?\
+	                    OR C.BOARD_TITLE LIKE ?\
+	                ORDER BY\
+	                    C.BOARD_NO DESC\
+	            ) A\
+	    )\
+	WHERE RNUM BETWEEN ? AND ?*/
+	     String sql = prop.getProperty("searchCOOK_TALK");
+	     int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() + 1;
+	     int endRow = startRow + pi.getBoardLimit() - 1;
+	     
+	         try {
+        	 	pstmt = conn.prepareStatement(sql);
+        	 	cks='%'+cks+'%';
+	     		pstmt.setString(1, cks);
+				pstmt.setString(2, cks);
+				pstmt.setInt(3, startRow);
+				pstmt.setInt(4, endRow);
+			        
+				rset = pstmt.executeQuery();
+				while(rset.next()) {
+					Cook_Talk c= new Cook_Talk();
+					c.setBoardNo(rset.getInt("BOARD_NO"));
+					c.setBoardContent(rset.getString("BOARD_CONTENT"));
+					c.setBoardTitle(rset.getString("BOARD_TITLE"));
+					c.setCreateDate(rset.getDate("CREATE_DATE"));
+					list.add(c);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				close(rset);
+				close(pstmt);
+			}
+			
+			return list;
+		
+	
 
 
 }
+	}
