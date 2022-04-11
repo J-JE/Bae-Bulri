@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.uni.common.PageInfo;
 import com.uni.cook_talk.model.dao.CookTalkDao;
 import com.uni.cook_talk.model.dto.Cook_Talk;
+import com.uni.cook_talk.model.dto.Cook_Talk_Reply;
 
 public class CookTalkService {
 
@@ -71,6 +72,30 @@ public class CookTalkService {
 		close(conn);
 		return result;
 	}
+
+	public int insertReply(Cook_Talk_Reply r) {
+	Connection conn = getConnection();
+		
+		int result = new CookTalkDao().insertReply(conn, r);
+		 System.out.println("서비스추가"+result);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<Cook_Talk_Reply> selectReList(int cid) {
+		Connection conn = getConnection();
+	      
+	      ArrayList<Cook_Talk_Reply> list = new CookTalkDao().selectRList(conn,cid);
+	      
+	      System.out.println("서비스조회"+list);
+	      close(conn);
+	      return list;	
+	      }
 
 	
 

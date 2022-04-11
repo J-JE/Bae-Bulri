@@ -10,12 +10,12 @@ public class Cook_Talk_Reply {
 	private int userNo;	//회원번호
 	private Date createDate;//작성일 
 	private String status;//상태값
-	
+	private String userId;//회원아이디
 	public Cook_Talk_Reply() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cook_Talk_Reply(int ctReplyNo, int boardNo, String ctRContent, int userNo, Date createDate, String status) {
+	public Cook_Talk_Reply(int ctReplyNo, int boardNo, String ctRContent, int userNo, Date createDate, String status, String userId) {
 		super();
 		this.ctReplyNo = ctReplyNo;
 		this.boardNo = boardNo;
@@ -23,6 +23,28 @@ public class Cook_Talk_Reply {
 		this.userNo = userNo;
 		this.createDate = createDate;
 		this.status = status;
+		this.userId = userId;
+	}
+	
+	
+	
+
+
+	public Cook_Talk_Reply(int ctReplyNo, String ctRContent,String userId, Date createDate) {
+		super();
+		this.ctReplyNo = ctReplyNo;
+		this.ctRContent = ctRContent;
+		this.userId = userId;
+		this.createDate = createDate;
+		
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public int getCtReplyNo() {
@@ -76,8 +98,11 @@ public class Cook_Talk_Reply {
 	@Override
 	public String toString() {
 		return "Cook_Talk_Reply [ctReplyNo=" + ctReplyNo + ", boardNo=" + boardNo + ", ctRContent=" + ctRContent
-				+ ", userNo=" + userNo + ", createDate=" + createDate + ", status=" + status + "]";
+				+ ", userNo=" + userNo + ", createDate=" + createDate + ", status=" + status + ", userId=" + userId
+				+ "]";
 	}
+
+	
 	
 	
 }
