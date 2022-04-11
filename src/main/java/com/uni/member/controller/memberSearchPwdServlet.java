@@ -8,21 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.uni.member.model.dto.Member;
 import com.uni.member.model.service.MemberService_gm;
 
 /**
- * Servlet implementation class memberDeleteServlet
+ * Servlet implementation class memberSerchPwdServlet
  */
-@WebServlet("/deleteMember.do")
-public class memberDeleteServlet extends HttpServlet {
+@WebServlet("/serachPwd.do")
+public class memberSearchPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public memberDeleteServlet() {
+    public memberSearchPwdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,17 +32,23 @@ public class memberDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userid = request.getParameter("userId");
-		int result = new MemberService_gm().deleteMember(userid);
-		if(result > 0) {
-			HttpSession session = request.getSession();
-			session.removeAttribute("loginUser"); 
-			session.setAttribute("msg", "회원탈퇴가 완료되었습니다. 복구관련 사항은 관리자에게 문의하세요");
-			response.sendRedirect(request.getContextPath()); 
+		String username = request.getParameter("userName");
+		String phone = request.getParameter("Phone");
+		
+		Member member = new MemberService_gm().findpwd(userid,username,phone);
+		
+		
+		RequestDispatcher view = null;
+		
+		if(member != null) {
+			request.setAttribute("msg",member.getUserPwd());
+			view = request.getRequestDispatcher("views/member/findpwd.jsp");
+			
 		}else {
-			request.setAttribute("msg", "회원탈퇴에 실패하였습니다.");
-			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			view.forward(request, response);
+			request.setAttribute("msg", "조회실패하였습니다");
+			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 		}
+		view.forward(request, response);
 	}
 
 	/**

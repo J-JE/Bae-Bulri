@@ -1,28 +1,27 @@
 package com.uni.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.uni.member.model.service.MemberService_gm;
 
 /**
- * Servlet implementation class memberDeleteServlet
+ * Servlet implementation class IdCheckServlet
  */
-@WebServlet("/deleteMember.do")
-public class memberDeleteServlet extends HttpServlet {
+@WebServlet("/idCheck.do")
+public class IdCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public memberDeleteServlet() {
+    public IdCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +30,18 @@ public class memberDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userid = request.getParameter("userId");
-		int result = new MemberService_gm().deleteMember(userid);
+		String userId = request.getParameter("userId");
+		int result = new MemberService_gm().idCheck(userId);
+		
+		PrintWriter out = response.getWriter();
 		if(result > 0) {
-			HttpSession session = request.getSession();
-			session.removeAttribute("loginUser"); 
-			session.setAttribute("msg", "회원탈퇴가 완료되었습니다. 복구관련 사항은 관리자에게 문의하세요");
-			response.sendRedirect(request.getContextPath()); 
+			out.print("fail");
 		}else {
-			request.setAttribute("msg", "회원탈퇴에 실패하였습니다.");
-			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			view.forward(request, response);
+			out.print("success");
 		}
+		
+		out.flush();
+		out.close();
 	}
 
 	/**

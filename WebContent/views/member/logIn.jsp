@@ -74,9 +74,9 @@
 					</tr>
 				</table>
 				<div class="searchUser">
-					<a class="link" href="" onclick="">아이디 찾기</a>
+					<a class="link" href="<%=contextPath %>/searchIdForm.do">아이디 찾기</a>
 					<span class="bar">/</span>
-					<a class="link" href="" onclick="">비밀번호 찾기</a>
+					<a class="link" href="<%=contextPath %>/searchPwdForm.do">비밀번호 찾기</a>
 				</div>
         </div>      
 				<br>
@@ -102,11 +102,12 @@
 			return false;
 		}
 		return true;
-		
-		function enrollPage(){
+	}
+	function enrollPage(){
 			location.href="<%=request.getContextPath()%>/enrollFormMember.do";
-		}
-	}	
+	}
+	
+		
 	</script>
 	<%@ include file = "/views/common/footer.jsp" %>
 </body>

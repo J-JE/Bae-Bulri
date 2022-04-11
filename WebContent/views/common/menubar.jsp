@@ -25,7 +25,10 @@
         .logo{position: relative; width:300px; left:0; right:0; margin-left:auto; margin-right:auto; }
         .logo>a>img{height:50%; width: 100%;}
         /* 로그인 */
-        .login{position: absolute; bottom: 15px; right: 0px; width: 150px; height: 50px; background-color: gray;}
+        .login{position: absolute; bottom: 15px; right: 0px; width: 400px; height: 30px;}
+        .login{display: flex; gap:10px; justify-content:flex-end; }
+        button{width: 100px; height: 30px; align-content:center; border:0px; background-color: transparent;}
+        #logout{background-color: black; color: white;}
 
         /* 네비 바 */
         .navbar{width:90%; left:0; right:0; margin-left:auto; margin-right:auto; background-color: #BCE7EB;}
@@ -66,7 +69,8 @@
             
             <!-- 로그인 후 -->
             <button id="login" onclick="myPage()">마이페이지</button> 
-            <button id="login">장바구니</button> 
+            <button id="login" onclick="basketpage()">장바구니</button> 
+            <button id="logout" onclick="logout()">로그아웃</button>
   		 <%} %>
         </div>
 		
@@ -81,6 +85,12 @@
 	    function myPage(){
 			location.href="<%=request.getContextPath()%>/myPage.do";
 		}
+	    function basketpage(){
+	    	location.href="<%=request.getContextPath()%>/basket.do";
+	    }
+	    function logout(){
+	    	location.href="<%=request.getContextPath()%>/logout.do";
+	    }
 		
 	</script>
     <nav class="navbar navbar-expand-lg">
@@ -99,7 +109,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">배불리 몰</a>
+                   <a class="nav-link" href="<%=contextPath %>/storeList.do">배불리 몰</a>
                 </li>
 
                 <li class="nav-item">
@@ -107,7 +117,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">설문조사</a>
+                    <a class="nav-link" href="<%=contextPath %>/surveyList.do">설문조사</a>
                 </li>
             </ul>
         </div>
