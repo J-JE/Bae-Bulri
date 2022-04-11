@@ -167,7 +167,7 @@ a {
             	<%for(Recipe r : list){ %>
             	<div class="thumb" align="center">
             		<input type="hidden" value="<%=r.getRecipeNo() %>">
-            		<img src="<%=contextPath %>/resources/images/recipe/<%= r.getThImg() %>" width="150px" height="150px"><br>
+            		<img src="<%=contextPath %>/resources/images/recipeFiles/<%= r.getThImg() %>" width="150px" height="150px"><br>
             		<p><%=r.getRecipeTitle()%></p>
            		
             		<button class="button" onclick="location.href='<%=request.getContextPath()%>/deleteLikey.do?rno=<%=r.getRecipeNo()%>'">삭제</button>

@@ -61,6 +61,7 @@
     <div class="outer">
         <br> <!-- 경로 -->
         <span id="moveIndex">홈</span> > <span id="moveList">#<%=recipe.getrCategoryName()%></span> > <span><%= recipe.getRecipeTitle()%></span>
+         <button style="margin-left: 1250px; color: purple;" onclick="location.href='<%=contextPath%>/updateFormRecipe.do?rId=<%=recipe.getRecipeNo()%>'">레시피 수정</button>
         <script>
         	$(function(){
         		<!--홈으로-->
@@ -105,12 +106,12 @@
         <hr><br>
 
         <div class="recipe"> <!----레시피---->
-    
             <h2><b><%= recipe.getRecipeTitle()%></b></h2><br> <!--레시피 이름-->
+             
     
     		<!--썸네일, 좋아요-->
             <div id="left_content"> 
-                <img src="<%=contextPath %>/resources/images/<%= titleImg.getChangeName()%>" id="thumbnail">
+                <img src="<%=contextPath %>/resources/images/recipeFiles/<%= titleImg.getChangeName()%>" id="thumbnail">
                 <button id="likey_btn" disabled><img src="<%=contextPath %>/resources/images/recipe/like_1.png" id="thumbsup">찜하기</button>
             </div>
             <script>
@@ -185,7 +186,7 @@
                 <h4><b>만드는 방법</b></h4>
                 <br>
                 <% for(int i=1; i<fileList.size(); i++){ %>
-	                <img src="<%=contextPath %>/resources/images/<%=fileList.get(i).getChangeName()%>">
+	                <img src="<%=contextPath %>/resources/images/recipeFiles/<%=fileList.get(i).getChangeName()%>">
 	                <div><h5>Step <%=i %></h5><%=cont[i-1] %></div>
 	                <br>
                 <% } %>
@@ -243,8 +244,10 @@
 						if(status=="success"){ // 장바구니 담기 성공하면
 							var result = confirm("상품이 성공적으로 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"); //확인 창 띄우기
 							if(result){ //확인버튼 누르면 장바구니로 이동
-								
+								location.href ="<%=contextPath %>/basket.do";
 							}
+						}else{
+							alert("장바구니 등록에 실패했습니다.")
 						}
 					},
 					error:function(){
