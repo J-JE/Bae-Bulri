@@ -182,10 +182,10 @@ ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectRecipe");
-//		SELECT RECIPE_TITLE, RECIPE_CONTENT, RECIPE_TAG, RECIPE_PRO, R_CATEGORY_NAME \
-//		FROM RECIPE A JOIN RECIPE_CATEGORY USING (R_CATEGORY_NO)\
-//		WHERE A.STATUS = 'Y' AND RECIPE_NO = ?
-		
+/*		R_CATEGORY_NAME, RECIPE_TITLE, RECIPE_TAG, RECIPE_DES, RECIPE_PRO, RECIPE_TIME, RECIPE_CONTENT \
+		FROM RECIPE A JOIN RECIPE_CATEGORY USING (R_CATEGORY_NO)\
+		WHERE A.STATUS = 'Y' AND RECIPE_NO = ?
+*/		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, rId);
@@ -193,12 +193,14 @@ ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				recipe = new Recipe();
-				recipe.setRecipeTitle(rset.getString("RECIPE_TITLE"));
-				recipe.setRecipeContent(rset.getString("RECIPE_CONTENT"));
-				recipe.setRecipeTag(rset.getString("RECIPE_TAG"));
-				recipe.setRecipePro(rset.getString("RECIPE_PRO"));
-				recipe.setrCategoryName(rset.getString("R_CATEGORY_NAME"));
+				recipe = new Recipe(rId, 
+									rset.getString("R_CATEGORY_NAME"), 
+									rset.getString("RECIPE_TITLE"), 
+									rset.getString("RECIPE_TAG"), 
+									rset.getString("RECIPE_DES"), 
+									rset.getString("RECIPE_PRO"), 
+									rset.getInt("RECIPE_TIME"), 
+									rset.getString("RECIPE_CONTENT"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

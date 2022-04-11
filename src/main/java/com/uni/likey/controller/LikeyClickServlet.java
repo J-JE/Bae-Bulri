@@ -14,16 +14,16 @@ import com.uni.likey.model.service.LikeyService_jje;
 import com.uni.member.model.dto.Member;
 
 /**
- * Servlet implementation class LikeyInsertServlet
+ * Servlet implementation class LikeyClickServlet
  */
-@WebServlet("/likeyInsert.do")
-public class LikeyInsertServlet extends HttpServlet {
+@WebServlet("/likeyClick.do")
+public class LikeyClickServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LikeyInsertServlet() {
+    public LikeyClickServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,14 +40,15 @@ public class LikeyInsertServlet extends HttpServlet {
 		likey.setRecipeNo(rId);
 		System.out.println("rId"+rId);
 		
-		int result = new LikeyService_jje().insertLikey(likey);
+		int result = new LikeyService_jje().checkLikey(likey); //찜하기 되어있는 레시피인지 확인
 		
 		PrintWriter out = response.getWriter();
-		if(result > 0) { //찜 성공했으면
-			out.print("success");
-		}else { //찜 실패앴으면
-			out.print("failed");
+		if(result > 0) { //찜 되어있다면
+			out.print("Already Likey");
+		}else { //찜 되어있지 않다면
+			out.print("Not Yet Likey");
 		}
+		
 		out.flush();
 		out.close();
 	}

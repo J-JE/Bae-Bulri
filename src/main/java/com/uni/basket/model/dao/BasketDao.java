@@ -1,0 +1,56 @@
+package com.uni.basket.model.dao;
+
+import static com.uni.common.JDBCTemplate.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import com.uni.basket.model.dto.Basket;
+
+public class BasketDao {
+	
+	private Properties prop = new Properties();
+	
+	public BasketDao() {
+		String fileName = BasketDao.class.getResource("/sql/basket/basket-query.properties").getPath();
+		System.out.println("fileName   " + fileName);
+		try {
+			prop.load(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public int insertBasket(Connection conn, Basket basket) {
+		int result =0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertBasketList");
+//		INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT)\
+//		SELECT SEQ_BNO.NEXTVAL, ?, PRODUCT_NO, 1\
+//				FROM STORE WHERE PRODUCT_NAME IN ?
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, basket.getUserNo());
+			System.out.println("("+basket.getProductName()+")");
+			pstmt.setString(2, "("+basket.getProductName()+")");
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+}
