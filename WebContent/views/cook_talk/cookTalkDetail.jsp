@@ -4,6 +4,7 @@
    Cook_Talk c = (Cook_Talk)request.getAttribute("cookTalk");
 	%> 
 <html lang="ko"><head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,11 +118,106 @@
        	<%--button으로 주면 이벤트 안 돼서 일단 a로 줌 --%>
         </div>
           <a id="f3" href="cookTalkList.do">목록으로</a>
+          
         </div>
-      </div>
-    	
-    </div>
-  
+        <br>
+        <div class="replyArea">
+          <table border="1" align="center">
+     	<tr>
+				<th>댓글작성</th>
+				<% if(loginUser != null){ %>
+				<td><textarea rows="3" cols="60" id="replyContent" style="resize:none;"></textarea></td>
+				<td><button id="addReply">댓글등록</button></td>
+				<% }else{ %>
+				<td><textarea readonly rows="3" cols="60" id="replyContent" style="resize:none;">로그인한 사용자만 가능한 서비스입니다. 로그인 후 이용해주세요</textarea></td>
+				<td><button disabled>댓글등록</button></td>
+				<% } %>
+			</tr>
+    
+      
+      </table>
+      	<div id="replyListArea">
+			<table id="replyList" border="1" align="center">
+				
+				<!-- <tr>
+					<td width="100px">admin</td>
+					<td width="330px">댓글작성내용</td>
+					<td width="150px">2020년 1월 23일</td>
+				</tr>
+				<tr>
+					<td width="100px">user01</td>
+					<td width="330px">댓글작성내용</td>
+					<td width="150px">2020년 1월 22일</td>4
+					
+				</tr>
+				<tr>
+					<td width="100px">test01</td>
+					<td width="330px">댓글작성내용</td>
+					<td width="150px">2020년 1월 20일</td>
+				</tr> -->
+			</table>
+		</div>
+	</div>
+      
+  	<script>
+	$(function(){
+		selectReplyList();
+		$("#addReply").click(function(){
+			var content = $("#replyContent").val();
+			var cid = <%=c.getBoardNo()%>;
+			
+			
+			$.ajax({
+				url:"reinsert.do",
+				type:"post",
+				data:{
+						content:content,
+						cid:cid
+				},
+				success:function(status){
+					if(status =="success"){
+						selectReplyList();
+						$("#replyContent").val("");
+					}
+				},
+				error:function(){
+					console.log("ajax 통신실패 -댓글등록")
+				}
+				
+			})
+			
+		})
+		
+	})
+	
+	function selectReplyList(){
+			$("#replyList").empty();
+			$.ajax({
+				url:"rlist.do",
+				data:{cid:<%=c.getBoardNo()%>},
+				type:"get",
+				success:function(list){
+					console.log(list)
+					
+					$.each(list, function(index, obj){
+						
+						var writerTd = $("<td>").text(obj.userId).attr("width", "100px");
+						var contentTd = $("<td>").text(obj.ctRContent).attr("width", "330px");
+						var dateTd = $("<td>").text(obj.createDate).attr("width", "150px");
+						
+						var tr = $("<tr>").append(writerTd, contentTd, dateTd);
+						
+						$("#replyList").append(tr);
+						
+					});
+				},
+				error:function(){
+					console.log("ajax 통신실패 -댓글조회")
+				}
+				
+			})
+		}
+	</script>
  <%@ include file = "../common/footer.jsp" %>
 </body>
   </html>

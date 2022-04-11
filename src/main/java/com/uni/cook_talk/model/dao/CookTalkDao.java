@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import com.uni.common.PageInfo;
 import com.uni.cook_talk.model.dto.Cook_Talk;
+import com.uni.cook_talk.model.dto.Cook_Talk_Reply;
 
 public class CookTalkDao {
 	private Properties prop = new Properties();
@@ -182,6 +183,59 @@ public class CookTalkDao {
 			close(stmt);
 		}
 		return listCount;
+	}
+	public int insertReply(Connection conn, Cook_Talk_Reply r) {
+		//insertCOOK_TALK_REPLY=INSERT INTO COOK_TALK_REPLY VALUES(SEQ_CTRNO.NEXTVAL, ?, ?, ?, SYSDATE, DEFAULT)
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertCOOK_TALK_REPLY");
+		try {
+			
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, r.getBoardNo());
+				pstmt.setString(2, r.getCtRContent());
+				pstmt.setInt(3, r.getUserNo());
+				
+				result = pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	finally {
+			close(pstmt);
+		}	
+		return result;
+	
+	}
+	public ArrayList<Cook_Talk_Reply> selectRList(Connection conn, int cid) {
+		ArrayList<Cook_Talk_Reply>list = new ArrayList<>() ;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectCOOK_TALK_REPLY");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			rset = pstmt.executeQuery();
+			//selectCOOK_TALK_REPLY=SELECT CT_REPLY_NO, CT_R_CONTENT,USER_ID,CREATE_DATE FROM COOK_TALK_REPLY R JOIN MEMBER USING (USER_NO) WHERE BOARD_NO = ? AND R.STATUS = 'Y' ORDER BY CT_REPLY_NO DESC
+			while(rset.next()) {
+				Cook_Talk_Reply r = new Cook_Talk_Reply(rset.getInt("CT_REPLY_NO"),
+									rset.getString("CT_R_CONTENT"),
+									rset.getString("USER_ID"),
+									rset.getDate("CREATE_DATE")
+						);
+				
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 
 

@@ -11,7 +11,7 @@ public class Cook_Talk {
 	private Date createDate;//작성일 
 	private String status;//상태값
 	
-	private String userId;
+	private String userId;//회원아이디
 	public Cook_Talk() {
 		// TODO Auto-generated constructor stub
 	}

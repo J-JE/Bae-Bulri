@@ -29,12 +29,9 @@
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <style type="text/css">
-        body{
-            line-height:2em;        
-            font-family:"맑은 고딕";
-    }
+     
         ul, li{ 
             list-style:none;
             text-align:center;
@@ -79,7 +76,10 @@
           
             margin-left: 600px; 
     }
-   
+   #butt1{
+    background-color: rgb(133, 69, 133);
+        color: white;
+   }
     
     </style>
 </head>
@@ -97,8 +97,8 @@
                 <li id='liSearchOption'>
                     <div>
                         <select id='selSearchOption'  >
-                            <option value='A'>제목</option>
-                            <option value='T'>아이디</option>
+                             <option ${(param.f == "title")? "selected" : ""} value = "title">제목</option>
+                            <option ${(param.f == "userId")? "selected" : ""} value = "userId">아이디</option>
                         </select>
                         <input id='txtKeyWord' />
                         <input type='button' value='검색'/>
@@ -154,13 +154,13 @@
      <!-- 페이징바 만들기 -->
 		<div class="pagingArea" align="center">
 			<!-- 맨 처음으로 (<<) -->
-			<button onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=1'"> &lt;&lt; </button>
+			<button id="butt1" onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=1'"> &lt;&lt; </button>
 		
 			<!-- 이전페이지로(<) -->
 			<%if(currentPage == 1){ %>
-			<button disabled> &lt; </button>
+			<button id="butt1" disabled> &lt; </button>
 			<%}else{ %>
-			<button onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<button id="butt1" onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
 			<%} %>
 			
 			<!-- 페이지 목록 -->
@@ -176,13 +176,13 @@
 			
 			<!-- 다음페이지로(>) -->
 			<%if(currentPage == maxPage){ %>
-			<button disabled> &gt; </button>
+			<button id="butt1"disabled> &gt; </button>
 			<%}else { %>
-			<button onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<button id="butt1"onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
 			<%} %>
 		
 			<!-- 맨 끝으로 (>>) -->
-			<button onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+			<button id="butt1"onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
 		</div> 
 
         </ul>
