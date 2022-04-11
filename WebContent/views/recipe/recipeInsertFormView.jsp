@@ -62,11 +62,16 @@
         </div>
         <hr>
 
-        <form class="validation-form" action="<%= contextPath %>/insertRecipe.do" method="post">
+        <form class="validation-form" action="<%= contextPath %>/insertRecipe.do" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="name">레시피 제목</label>
-              <input type="text" class="form-control" id="name" name="title" placeholder="" value="" required>
+              <label for="title">레시피 제목</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="" value="" required>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="category">레시피 카테고리</label>
+              <input type="text" class="form-control" id="category" name="category" placeholder="" value="" required>
             </div>
             </div>
 
@@ -86,8 +91,8 @@
             </div>
 
           <div class="mb-3">
-            <label for="description">레시피 설명</label>
-            <input type="text" class="form-control" id="description" name="desc" placeholder="설명 입력" value="" required>
+            <label for="desc">레시피 설명</label>
+            <input type="text" class="form-control" id="desc" name="desc" placeholder="설명 입력" value="" required>
           </div>
           <hr>
 
@@ -99,7 +104,7 @@
 
           <div class="mb-3">
             <label for="time">조리시간</label>
-            <input type="text" class="form-control" id="time" name="product" placeholder="" value="" required>
+            <input type="text" class="form-control" id="time" name="time" placeholder="" value="" required>
           </div>
           <hr>
 
@@ -138,7 +143,7 @@
                         <td colspan="2"><textarea name="content" rows="7"  style="resize:none;"></textarea> </td>
                     </tr>
                   </table>
-                  <div id="fileArea"> <!-- 파일을 등록할 수있게 -->
+                  <div id="fileArea"> <!-- 파일 등록할 수 있게 -->
                     <input type="file" name="file2" id="file2" onchange="loadImg(this, 2);">
                     <input type="file" name="file3" id="file3" onchange="loadImg(this, 3);">
                     <input type="file" name="file4" id="file4" onchange="loadImg(this, 4);">
@@ -150,7 +155,7 @@
             
           <div class="mb-4"></div>
           <button class="btn btn-primary btn-lg btn-block" type="submit">작성 완료</button>
-          <button class="btn btn-primary btn-lg btn-block" type="button">작성 취소</button>
+          <button class="btn btn-primary btn-lg btn-block" type="reset">작성 취소</button>
         </form>
       </div>
       <%@ include file="../common/footer.jsp" %>
