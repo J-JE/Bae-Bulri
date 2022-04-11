@@ -165,6 +165,13 @@ public class Member {
 		this.point = point;
 	}
 
+	public Member(String userId, String userName, String phone) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.phone = phone;
+	}
+
 	
 
 	

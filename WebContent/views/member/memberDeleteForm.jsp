@@ -64,7 +64,7 @@
 	<div class="deleteMember">
 		<h2 align="left">회원 탈퇴</h2>
 		<hr>
-        <form id="deleteMember" action="<%=request.getContextPath()%>/deleteMember.do" method="post" onsubmit="return loginValidate();">
+        <form id="deleteMember" action="<%=request.getContextPath()%>/deleteMember.do" method="post" onsubmit="return deletem();">
             <div class="idpwd">
 	            <table>
 	                
@@ -85,7 +85,7 @@
             
             <div class="deletebtn" align="center">
                 <button type="button" id="return" onclick="main()">돌아가기</button><br>
-                <button type="submit" id="deleteBtn" onclick="deletemember();">회원탈퇴</button><br>
+                <button type="submit" id="deleteBtn">회원탈퇴</button><br>
             </div>
         </form>        
 	</div>
@@ -93,8 +93,12 @@
 		function main(){
 			location.href ="<%= request.getContextPath()%>";
 		}
-		function deletemember(){
-			
+		function deletem(){
+			if (confirm('정말 탈퇴 하시겠습니까?')){return true}
+			else {
+			   alert('취소되었습니다')
+			return false
+			}
 		}
 	</script>
 	<%@ include file = "/views/common/footer.jsp" %>
