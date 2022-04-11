@@ -39,22 +39,31 @@ public class RecipeInsertServlet extends HttpServlet {
 		
 		MultipartRequest multi = new MultipartRequest(request, uploadPath, maxSize, "UTF-8", new MyFileRenamePolicy());
 
+		int category = Integer.parseInt(multi.getParameter("category"));
 		String title = multi.getParameter("title");
-		String content = multi.getParameter("content");
 		String tag = multi.getParameter("tag");
-		
+		String desc = multi.getParameter("desc");
+		String product = multi.getParameter("product");
+		int time = Integer.parseInt(multi.getParameter("time"));
+		String content = multi.getParameter("content");
+				
 		Recipe recipe = new Recipe();
+		recipe.setrCategoryNo(category);
 		recipe.setRecipeTitle(title);
-		recipe.setRecipeContent(content);
 		recipe.setRecipeTag(tag);
+		recipe.setRecipeDes(desc);
+		recipe.setRecipePro(product);
+		recipe.setRecipeTime(time);
+		recipe.setRecipeContent(content);
 		
 		Attachment at = null;
 		
-		if(multi.getOriginalFileName("upfile") != null) {
-			String originName = multi.getOriginalFileName("upfile");
-			String changeName = multi.getFilesystemName("upfile");
+		if(multi.getOriginalFileName("upFile") != null) {
+			String originName = multi.getOriginalFileName("upFile");
+			String changeName = multi.getFilesystemName("upFile");
 			
 			at = new Attachment();
+			at.setCategory(category);
 			at.setFilePath(uploadPath);
 			at.setOriginName(originName);
 			at.setChangeName(changeName);
