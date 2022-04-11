@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, com.uni.common.*"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.uni.common.*, com.uni.recipe.model.dto.*"%>
     
 <%
- 	ArrayList<Attachment> atList = (ArrayList<Attachment>)request.getAttribute("atList");
- %>
+ 	ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");
+	Recipe r = (Recipe)request.getAttribute("r");
+%>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -69,17 +70,18 @@
           <hr>
   
           <form class="validation-form was-validated" action="<%=contextPath%>/updateRecipe.do" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="rId" value="<%= r.getRecipeNo() %>">
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="name">레시피 제목</label>
-                <input type="text" class="form-control" id="name" name="title" placeholder="" value="" required>
+                <input type="text" class="form-control" id="name" name="title" placeholder="" value="<%= r.getRecipeTitle() %>" required>
               </div>
               </div>
   
               <div class="mb-3">
                   사진 등록<br>
                   <div class="form_section_content">
-                      <input type="file" id="fileItem" name="upFile" style="height: 30px;">               
+                      <input type="file" id="fileItem" name="upFile1" style="height: 30px;">               
                       <div id="uploadResult">
               </div>
               </div>
@@ -88,24 +90,24 @@
   
               <div class="mb-3">
                   <label for="tag">태그</label>
-                  <input type="text" class="form-control" id="tag" name="tag" placeholder="" value="" required="">
+                  <input type="text" class="form-control" id="tag" name="tag" placeholder="" value="<%=r.getRecipeTag() %>" required="">
               </div>
   
             <div class="mb-3">
               <label for="description">레시피 설명</label>
-              <input type="text" class="form-control" id="description" name="desc" placeholder="" value="설명 입력" required="">
+              <input type="text" class="form-control" id="description" name="desc" placeholder="" value="<%=r.getRecipeDes() %>" required="">
             </div>
             <hr>
   
             <div class="mb-3">
               <label for="product">재료</label>
-              <input type="text" class="form-control" id="product" name="product" placeholder="" value="" required="">
+              <input type="text" class="form-control" id="product" name="product" placeholder="" value="<%=r.getRecipePro() %>" required="">
             </div>
             <hr>
   
             <div class="mb-3">
               <label for="time">조리시간</label>
-              <input type="text" class="form-control" id="time" name="time" placeholder="" value="" required="">
+              <input type="text" class="form-control" id="time" name="time" placeholder="" value="<%=r.getRecipeTime() %>" required="">
             </div>
             <hr>
   	
@@ -117,18 +119,18 @@
                 <table align="center">
               
               
-					<%--  <% if(!atList.isEmpty()) {%> 값을 다시 넣어보고 확인을 해야함 값 넣으면 될 듯 ?
-							<%for(int i = 0; i < atList.size(); i++) { %>
+					 <% if(!fileList.isEmpty()) {%> 
+							<%for(int i = 0; i < fileList.size(); i++) { %>
 							<tr>
 
 								<td colspan="3">
-									<%= atList.get(i).getOriginName()%>
-									<input type='hidden' name='originFile' value='<%=atList.get(i).getChangeName()%>'>
-									<input type='hidden' name='originFileNo' value='<%=atList.get(i).getFileNo()%>'>
+									<%= fileList.get(i).getOriginName()%>
+									<input type='hidden' name='originFile' value='<%=fileList.get(i).getChangeName()%>'>
+									<input type='hidden' name='originFileNo' value='<%=fileList.get(i).getFileNo()%>'>
 								</td>
 							</tr>
 							<%} %>	
-					<%} %> --%>
+					<%} %> 
 					
 				
 				
@@ -169,15 +171,16 @@
             
          
               <hr>
-              </div>
+
             <div class="mb-4"></div>
             <button class="btn btn-primary btn-lg btn-block" type="submit">수정 완료</button>
             <button class="btn btn-primary btm-lg btn-block" type="button">수정 취소</button>
           
-        
+        </form>
+        </div>
       </div>
 
-    </div></form>
+    </div>
 
     <script>
       window.addEventListener('load', () => {

@@ -42,10 +42,10 @@ public class RecipeUpdateServlet extends HttpServlet {
 			
 			
 			//1_2. 전달된 파일을 저장할 서버의 폴더 경로를 지정
-			String resources = request.getSession().getServletContext().getRealPath("/resources");
+			String resources = request.getSession().getServletContext().getRealPath("/resources/images");
 			
 			//저장 할 Path를 지정
-			String savePath = resources + "\\recipe\\";
+			String savePath = resources + "\\recipeFiles\\";
 			
 			System.out.println("savePath : "+ savePath);
 			
@@ -53,16 +53,30 @@ public class RecipeUpdateServlet extends HttpServlet {
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath , maxSize , "UTF-8", new MyFileRenamePolicy());
 			
 			int rId = Integer.parseInt(multiRequest.getParameter("rId"));
+			String[] pros = multiRequest.getParameterValues("product");
+			String[] contents = multiRequest.getParameterValues("content");
+			String pro = "";
+			String content = "";
+			if(pros != null) {
+				pro = String.join(",", pros);
+			}
+			if(contents != null) {
+				content = String.join("!", contents);
+			}
 			
 			Recipe r = new Recipe();
 			r.setRecipeNo(rId);
 			r.setRecipeTitle(multiRequest.getParameter("title"));
 			r.setRecipeTag(multiRequest.getParameter("tag"));
 			r.setRecipeDes(multiRequest.getParameter("desc"));
-			r.setRecipePro(multiRequest.getParameter("product"));
+			//r.setRecipePro(multiRequest.getParameter("product"));
+			r.setRecipePro(pro);
 			r.setRecipeTime(Integer.parseInt(multiRequest.getParameter("time")));
-			r.setRecipeContent(multiRequest.getParameter("content").replace("\n", "<br>"));
-			ArrayList<Attachment> atList = new ArrayList<>();
+			//r.setRecipeContent(multiRequest.getParameter("content").replace("\n", "<br>"));
+			r.setRecipeContent(content);
+			
+			
+			ArrayList<Attachment> fileList = new ArrayList<>();
 			
 			for(int i = 1; i <= 4; i++) {
 				String file = "upFile"+i;
@@ -78,7 +92,7 @@ public class RecipeUpdateServlet extends HttpServlet {
 					at.setOriginName(originName);
 					at.setChangeName(changeName);
 					
-					atList.add(at); //파일이 있으면 리스트에 담아준다.
+					fileList.add(at); //파일이 있으면 리스트에 담아준다.
 				
 
 					//기존에 첨부된 파일이 있는 경우에 
@@ -98,13 +112,14 @@ public class RecipeUpdateServlet extends HttpServlet {
 			}
 		}
 			
-			int result = new RecipeServiceTh().updateRecipe(r,atList);
+			int result = new RecipeServiceTh().updateRecipe(r,fileList);
+			System.out.println("servlet =====" + fileList);
 			
 			if(result > 0) {
 				response.sendRedirect("recipeDetail.do?rId="+rId);
 			}else {
 				request.setAttribute("msg", "레시피 수정에 실패하였습니다.");
-				//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response); 에러페이지로 이동
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response); 
 			}
 		}
 	}
