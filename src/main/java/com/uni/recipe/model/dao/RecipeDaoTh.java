@@ -58,23 +58,22 @@ public class RecipeDaoTh {
 		return result;
 	}
 
-	public int updateAttachment(Connection conn, ArrayList<Attachment> fileList) {
+	public int updateAttachment(Connection conn, Attachment at) {
 		//updateAttachment=UPDATE ATTACHMENT SET ORIGIN_NAME = ?, CHANGE_NAME = ?, FILE_PATH = ? WHERE FILE_NO = ?
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
 		String sql = prop.getProperty("updateAttachment");
 		try {
-			for(int i = 0; i < fileList.size(); i++) {
-				Attachment at = fileList.get(i);
+			//for(int i = 0; i < at.size(); i++) {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, at.getOriginName());
 				pstmt.setString(2, at.getChangeName());
 				pstmt.setString(3, at.getFilePath());
 				pstmt.setInt(4, at.getFileNo());
-				result += pstmt.executeUpdate();// 값을 담아준다.
+				result = pstmt.executeUpdate();// 값을 담아준다.
 			
-			}
+		//	}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -86,23 +85,23 @@ public class RecipeDaoTh {
 		return result;
 	}
 
-	public int insertUpdateAttachment(Connection conn, ArrayList<Attachment> fileList) {
+	public int insertUpdateAttachment(Connection conn, Attachment at) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		//insertUpdateAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, 1, ?, ?, ?, ?, SYSDATE, DEFAULT)
 		String sql = prop.getProperty("insertUpdateAttachment");
 		try {
 			
-			for(int i = 0; i < fileList.size(); i++) {
-				Attachment at = fileList.get(i);
+			//for(int i = 0; i < at.size(); i++) {
+				//Attachment at = at.get(i);
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, at.getRefBoardNo());
 				pstmt.setString(2, at.getOriginName());
 				pstmt.setString(3, at.getChangeName());
 				pstmt.setString(4, at.getFilePath());
 				
-				result += pstmt.executeUpdate();
-			}
+				result = pstmt.executeUpdate();
+			//}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -159,12 +158,13 @@ public class RecipeDaoTh {
 		
 		return r;
 	}
-	public ArrayList<Attachment> selectUpdateAttachment(Connection conn, int rId) {
-			ArrayList<Attachment> fileList = new ArrayList<Attachment>();
+	public Attachment selectUpdateAttachment(Connection conn, int rId) {
+			//ArrayList<Attachment> fileList = new ArrayList<Attachment>();
+			Attachment at = null;
 			PreparedStatement pstmt = null;
 			ResultSet rset = null;
 			
-			//selectUpdateAttachment=SELECT FILE_NO, ORIGIN_NAME, CHANGE_NAME FROM ATTACHMENT WHERE REF_BNO=? AND STATUS='Y'
+			//selectUpdateAttachment=SELECT FILE_NO, ORIGIN_NAME, CHANGE_NAME FROM ATTACHMENT WHERE REF_BNO=? AND STATUS='Y' 
 			String sql = prop.getProperty("selectUpdateAttachment");
 			
 			try {
@@ -172,14 +172,16 @@ public class RecipeDaoTh {
 				pstmt.setInt(1, rId);
 				
 				rset = pstmt.executeQuery();
-				
-				while(rset.next()) {
-					Attachment at = new Attachment();
+				System.out.println("rId : " + rId);
+				if(rset.next()) {
+					at = new Attachment();
 					at.setFileNo(rset.getInt("FILE_NO"));
 					at.setOriginName(rset.getString("ORIGIN_NAME"));
 					at.setChangeName(rset.getString("CHANGE_NAME"));
 					
-					fileList.add(at);
+					//fileList.add(at);
+					System.out.println("dao-------" +at );
+			
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -188,7 +190,10 @@ public class RecipeDaoTh {
 				close(rset);
 				close(pstmt);
 			}
-			return fileList;
+			return at;
 	}
+
+	
+
 
 }

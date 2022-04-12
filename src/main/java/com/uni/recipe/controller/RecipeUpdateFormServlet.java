@@ -33,14 +33,19 @@ public class RecipeUpdateFormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int rId = Integer.parseInt(request.getParameter("rId"));
-		
+
 		Recipe r = new RecipeServiceTh().selectUpdateRecipe(rId);
-		ArrayList<Attachment> fileList = new RecipeServiceTh().selectUpdateAttachment(rId);
+		//ArrayList<Attachment> fileList = new RecipeServiceTh().selectUpdateAttachment(rId);
+		Attachment at = new RecipeServiceTh().selectUpdateAttachment(rId);
 		System.out.println(r);
 		if(r != null) {
 			request.setAttribute("r", r);
-			request.setAttribute("fileList", fileList);
+			//request.setAttribute("fileList", fileList);
+			request.setAttribute("at", at);
+			
+			//System.out.println("-----------"+fileList);
 			request.getRequestDispatcher("views/recipe/recipeUpdateFormView.jsp").forward(request, response);
+		
 		}else {
 			request.setAttribute("msg", "목록 실패");
 			//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response); 에러페이지로 이동

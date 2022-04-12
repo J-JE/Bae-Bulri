@@ -11,24 +11,26 @@ import com.uni.recipe.model.dto.Recipe;
 
 public class RecipeServiceTh {
 
-	public int updateRecipe(Recipe r, ArrayList<Attachment> fileList) {
+	public int updateRecipe(Recipe r, Attachment at) {
 		Connection conn = getConnection();
 		//게시글
 		int result1 = new RecipeDaoTh().updateRecipe(conn,r);
 		
 		//첨부파일
 		int result2 = 1;
-		if(!fileList.isEmpty()) {
-			for(int i = 0; i <fileList.size(); i++) {
-				if(fileList.get(i).getFileNo() != 0) {
-					result2 = new RecipeDaoTh().updateAttachment(conn,fileList);
-					System.out.println("service1" +fileList );
+
+		if(at != null) {
+			//for(int i = 0; i <at.size(); i++) {
+				if(at.getFileNo() != 0) {
+					result2 = new RecipeDaoTh().updateAttachment(conn,at);
+	
+					System.out.println("service1" +at );
 				}else {
 				
-					result2 = new RecipeDaoTh().insertUpdateAttachment(conn,fileList);
-					System.out.println("service2" +fileList );
+					result2 = new RecipeDaoTh().insertUpdateAttachment(conn,at);
+					System.out.println("service2" +at );
 				}
-			}
+			//}
 		}
 		System.out.println(result1);
 		System.out.println(result2);
@@ -51,14 +53,21 @@ public class RecipeServiceTh {
 		return r;
 	}
 
-	public ArrayList<Attachment> selectUpdateAttachment(int rId) {
-		Connection conn = getConnection();
+	public Attachment selectUpdateAttachment(int rId) {
+		/*Connection conn = getConnection();
 		
 		ArrayList<Attachment> fileList = new RecipeDaoTh().selectUpdateAttachment(conn, rId);
 		
 		close(conn);
-		return fileList;
+		return fileList;*/
+		
+		Connection conn = getConnection();
+		Attachment at = new RecipeDaoTh().selectUpdateAttachment(conn, rId);
+		close(conn);
+		return at;
 	}
+
+	
 
 
 
