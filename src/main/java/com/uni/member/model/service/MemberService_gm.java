@@ -6,6 +6,7 @@ import static com.uni.common.JDBCTemplate.getConnection;
 import static com.uni.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.uni.member.model.dao.MemberDao_gm;
 import com.uni.member.model.dao.MemberDao_th;
@@ -92,6 +93,15 @@ public class MemberService_gm {
 		
 		close(conn);
 		return result;
+	}
+
+	public ArrayList<Member> selectList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> list = new MemberDao_gm().selectList(conn);
+		
+		close(conn);
+		return list;
 	}
 
 	

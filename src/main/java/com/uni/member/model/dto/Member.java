@@ -172,6 +172,16 @@ public class Member {
 		this.phone = phone;
 	}
 
+	public Member(String userId, String userName, String phone, String email, String address, Date enrollDate) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+		this.enrollDate = enrollDate;
+	}
+
 	
 
 	

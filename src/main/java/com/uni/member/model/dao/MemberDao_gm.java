@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.uni.common.JDBCTemplate.*;
@@ -236,6 +237,37 @@ public class MemberDao_gm {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<Member> selectList(Connection conn) {
+		ArrayList<Member> list = new ArrayList<Member>();
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		//selectList=SELECT USER_ID, USER_NAME, EMAIL, PHONE, ADDRESS, ENROLL_DATE FROM MEMBER WHERE STATUS='Y' ORDER BY USER_NAME;
+		String sql = prop.getProperty("selectList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Member(rset.getString("USER_ID"),
+									rset.getString("USER_NAME"),
+									rset.getString("EMAIL"),
+									rset.getString("PHONE"),
+									rset.getString("ADDRESS"),
+									rset.getDate("ENROLL_DATE")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 
 	
