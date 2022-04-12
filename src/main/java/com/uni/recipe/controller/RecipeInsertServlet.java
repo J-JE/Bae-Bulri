@@ -39,9 +39,9 @@ public class RecipeInsertServlet extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10 * 1024 * 1024;
 			
-			String uploadPath = request.getSession().getServletContext().getRealPath("/resources/");
-						
-			String savePath = uploadPath + "\\recipe\\";
+			String resources = request.getSession().getServletContext().getRealPath("/resources/images");
+			
+			String savePath = resources + "\\recipeFiles\\";
 			
 			MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 			
@@ -70,7 +70,7 @@ public class RecipeInsertServlet extends HttpServlet {
 				
 				at = new Attachment();
 				at.setCategory(category);
-				at.setFilePath(uploadPath);
+				at.setFilePath(savePath);
 				at.setOriginName(originName);
 				at.setChangeName(changeName);
 			}
