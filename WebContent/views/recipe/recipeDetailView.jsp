@@ -189,7 +189,7 @@
                 <%-- for(int i=1; i<fileList.size(); i++){ --%>
                 <% for(int i=0; i<cont.length; i++){ %>
 	                <!-- img src="<%--=contextPath --%>/resources/images/recipeFiles/<%--=fileList.get(i).getChangeName()--%>" -->
-	                <div><h5>Step <%=i +1%></h5><%=cont[i] %></div>
+	                <div><h5>Step <%=i +1%></h5><%=cont[i]%></div>
 	                <br>
                 <% } %>
             </div>
