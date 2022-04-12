@@ -40,6 +40,20 @@ public class Recipe {
 		this.rCategoryName = rCategoryName;
 	}
 
+	public Recipe(int recipeNo, String rCategoryName, String recipeTitle, String recipeTag, String recipeDes, String recipePro,
+			int recipeTime, String recipeContent, String thImg) {
+		super();
+		this.recipeNo = recipeNo;
+		this.rCategoryName = rCategoryName;
+		this.recipeTitle = recipeTitle;
+		this.recipeTag = recipeTag;
+		this.recipeDes = recipeDes;
+		this.recipePro = recipePro;
+		this.recipeTime = recipeTime;
+		this.recipeContent = recipeContent;
+		this.thImg = thImg;
+	}
+
 	public Recipe(int recipeNo, String rCategoryName, String recipeTitle, String recipeTag, String recipeDes, String recipePro, int recipeTime,
 			String recipeContent) {
 		super();

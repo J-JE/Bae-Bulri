@@ -1,7 +1,7 @@
-package com.uni.recipe.controller;
+package com.uni.basket.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.common.Attachment;
-import com.uni.recipe.model.dto.Recipe;
-import com.uni.recipe.model.service.RecipeService_jje;
+import com.uni.basket.model.service.BasketService;
 
 /**
- * Servlet implementation class RecipeDetailServlet
+ * Servlet implementation class BasketUpdateServlet
  */
-@WebServlet("/recipeDetail.do")
-public class RecipeDetailServlet extends HttpServlet {
+@WebServlet("/basketUpdate.do")
+public class BasketUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RecipeDetailServlet() {
+    public BasketUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +30,21 @@ public class RecipeDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int rId = Integer.parseInt(request.getParameter("rId"));
-		Recipe recipe = new RecipeService_jje().selectRecipe(rId);
-//		ArrayList<Attachment> fileList = new RecipeService_jje().selectAttachment(rId);
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		int proNo = Integer.parseInt(request.getParameter("proNo"));
+		System.out.println("수량 : "+amount);
+		System.out.println("장바구니 번호 : "+proNo);
 		
-		if(recipe != null) {
-			request.setAttribute("recipe", recipe);
-//			request.setAttribute("fileList", fileList);
-			request.getRequestDispatcher("views/recipe/recipeDetailView.jsp").forward(request, response);
-		}else {
-			request.setAttribute("msg", "레시피 조회 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		int result =BasketService().updateBasket();
+		
+		PrintWriter out = response.getWriter();
+		if(result > 0) { //찜 성공했으면
+			out.print("success");
+		}else { //찜 실패앴으면
+			out.print("failed");
 		}
+		out.flush();
+		out.close();
 	}
 
 	/**
