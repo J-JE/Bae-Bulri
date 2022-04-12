@@ -36,4 +36,10 @@ public class BasketService {
 		return list;
 	}
 
+	public int updateBasket(Basket basket) {
+		Connection conn = getConnection();
+		int result = new BasketDao().updateBasket(conn, basket);
+		return 0;
+	}
+
 }
