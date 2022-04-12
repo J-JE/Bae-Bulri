@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내가쓴글조회</title>
+    <title>내가 쓴 글 조회</title>
    
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -104,7 +104,7 @@ a {
       
       }
 
-button{
+#delete{
     background-color: purple;
     color: white;
     border-radius: 8px;
@@ -158,7 +158,7 @@ button{
             		  	  <td><input type="checkBox"></td>
             		  	  <td><%= ct.getBoardNo()%></td>
             		  	  <td><%= ct.getCreateDate()%></td>
-            		  	  <td><%= ct.getBoardTitle()%></td>	 
+            		  	  <td id="title"><%= ct.getBoardTitle()%></td>	 
             		  </tr>
             		  
             		    <%} %>
@@ -179,15 +179,15 @@ button{
             </table>
            <script>
 	           $(function(){//클릭 시 게시글 상세페이지로 이동
-	   			$("#list>tbody>tr").click(function(){
-	   				var cno = $(this).children().eq(0).val();
+	   			$("#title").click(function(){//제목을 클릭 시 상세페이지로 이동
+	   				var cno = $("#list>tbody>tr").children().eq(0).val();
 	   				location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
 	   			})	
 	   		
 	   			})
            </script>
            
-            <button>선택 글 삭제</button> 
+            <button id="delete">선택 글 삭제</button> 
         <!-- 페이징바 만들기 -->
 			<div class="pagingArea" align="center">
 			<!-- 맨 처음으로 (<<) -->

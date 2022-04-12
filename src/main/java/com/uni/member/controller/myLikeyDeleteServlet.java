@@ -38,6 +38,7 @@ public class myLikeyDeleteServlet extends HttpServlet {
 		System.out.println("rno" + rno);
 		System.out.println("userNo" + userNo);
 		if(result > 0) {
+			request.getSession().setAttribute("msg", "레시피가 삭제 되었습니다.");
 			response.sendRedirect("myLikeyList.do");
 		}
 	}

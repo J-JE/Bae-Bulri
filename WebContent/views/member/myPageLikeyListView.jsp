@@ -4,7 +4,7 @@
 <%
 	ArrayList<Recipe> list = (ArrayList<Recipe>)request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
+
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>나의 찜 목록</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -167,12 +167,21 @@ a {
             	<%for(Recipe r : list){ %>
             	<div class="thumb" align="center">
             		<input type="hidden" value="<%=r.getRecipeNo() %>">
-            		<img src="<%=contextPath %>/resources/images/recipeFiles/<%= r.getThImg() %>" width="150px" height="150px"><br>
+            		<img id="img" class="" src="<%=contextPath %>/resources/images/recipeFiles/<%= r.getThImg() %>" width="150px" height="150px"><br>
             		<p><%=r.getRecipeTitle()%></p>
            		
             		<button class="button" onclick="location.href='<%=request.getContextPath()%>/deleteLikey.do?rno=<%=r.getRecipeNo()%>'">삭제</button>
             	</div>
             	<%} %>
+            	<script>
+            	
+            		$(function(){//마이페이지 찜 목록에서 클릭 시 레시피 번호를 가지고 상세 페이지로 이동
+            			$("#thumbList").on("click","#img",function(){
+            				var rId = $(".thumb").children().eq(0).val();
+            				location.href="<%=contextPath%>/recipeDetail.do?rId="+rId;
+            			})
+            		})
+            	</script>
        	<%-- <script>
        		function deleteLikey(){
        			$("#postForm").attr("action", "<%=contextPath%>/deleteLikey.do");
@@ -284,7 +293,12 @@ a {
        
         <%@ include file = "../common/footer.jsp" %>
 
-
+		<script type="text/javascript">
+	
+		<%--$(function() {
+			alert('삭제가 완료 되었습니다.')
+		}) --%>
+		</script>
 
 </body>
 </html>

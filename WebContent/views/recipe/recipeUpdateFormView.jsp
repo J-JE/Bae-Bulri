@@ -4,6 +4,9 @@
 <%
  	ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");
 	Recipe r = (Recipe)request.getAttribute("r");
+	Attachment at = (Attachment)request.getAttribute("at");
+	
+
 %>
 <html lang="ko">
 <head>
@@ -81,7 +84,7 @@
               <div class="mb-3">
                   사진 등록<br>
                   <div class="form_section_content">
-                      <input type="file" id="fileItem" name="upFile1" style="height: 30px;">               
+                      <input type="file" id="fileItem" name="upFile" style="height: 30px;">               
                       <div id="uploadResult">
               </div>
               </div>
@@ -116,45 +119,46 @@
                 <label for="content"><h3>조리법 업로드</h3></label>
                 	<div>
          
-                <table align="center">
+                  <table align="center">
               
               
-					 <% if(!fileList.isEmpty()) {%> 
-							<%for(int i = 0; i < fileList.size(); i++) { %>
+					<%--  <% if(!fileList.isEmpty()) {%> --%>
+						<%-- 	<%for(int i = 0; i < fileList.size(); i++) { %> 리스트로 하면 파일 넘버가 하나만 넘어와서 도저히 모르겠음. 그래서 사진 한장으로 함--%>
 							<tr>
-
+								<%if(at != null){ %>
 								<td colspan="3">
-									<%= fileList.get(i).getOriginName()%>
-									<input type='hidden' name='originFile' value='<%=fileList.get(i).getChangeName()%>'>
-									<input type='hidden' name='originFileNo' value='<%=fileList.get(i).getFileNo()%>'>
+									<%--<%= fileList.get(i).getOriginName()--%>
+									<input type='hidden' name='originFile' value='<%=at.getChangeName()%>'>
+									 <input type='hidden' name='originFileNo' value='<%=at.getFileNo()%>'>
+
 								</td>
 							</tr>
 							<%} %>	
-					<%} %> 
+				<%-- 	<%} %> --%>
 					
 				
 				
-                    <tr>
+                   <%--  <tr>
                         <th >과정이미지</th>
                         <td>
                             <img id="subImg1" width="250px" height="150px"> 
-                        </td>
+                        </td>--%>
                         <th>과정1</th>
                         <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
                     </tr>
                     <tr>
-                        <th >과정2이미지</th>
+                        <%-- <th >과정2이미지</th>
                         <td >
                             <img id="subImg2" width="250px" height="150px"> 
-                        </td>
+                        </td> --%>
                         <th>과정2</th>
                         <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
                     </tr>
                     <tr>
-                        <th >과정3이미지</th>
+                       <%-- <th >과정3이미지</th>
                         <td >
                             <img id="subImg3" width="250px" height="150px"> 
-                        </td>
+                        </td> --%>
                         <th>과정3</th>
                         <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
                     </tr>

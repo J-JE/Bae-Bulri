@@ -47,11 +47,11 @@ public class RecipeUpdateServlet extends HttpServlet {
 			//저장 할 Path를 지정
 			String savePath = resources + "\\recipeFiles\\";
 			
-			System.out.println("savePath : "+ savePath);
+			
 			
 			
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath , maxSize , "UTF-8", new MyFileRenamePolicy());
-			
+
 			int rId = Integer.parseInt(multiRequest.getParameter("rId"));
 			String[] pros = multiRequest.getParameterValues("product");
 			String[] contents = multiRequest.getParameterValues("content");
@@ -76,15 +76,18 @@ public class RecipeUpdateServlet extends HttpServlet {
 			r.setRecipeContent(content);
 			
 			
-			ArrayList<Attachment> fileList = new ArrayList<>();
-			
-			for(int i = 1; i <= 4; i++) {
-				String file = "upFile"+i;
-				if(multiRequest.getOriginalFileName(file) != null) {
-					String originName = multiRequest.getOriginalFileName(file);//오리지날 이름
-					String changeName = multiRequest.getFilesystemName(file);//새로 첨부하는 이름
+			//ArrayList<Attachment> fileList = new ArrayList<>();
+			Attachment at = null;
+
+			/*for(int i = 1; i <= 4; i++) {
+				String file = "upFile"+i;*/
 				
-					Attachment at = new Attachment();
+				if(multiRequest.getOriginalFileName("upFile") != null) {
+					String originName = multiRequest.getOriginalFileName("upFile");//오리지날 이름
+					String changeName = multiRequest.getFilesystemName("upFile");//새로 첨부하는 이름
+					System.out.println("ori" + originName);
+					System.out.println("che" + changeName);
+					
 					//변경된 내용을 객체에 담아줘야함
 					at = new Attachment();
 					
@@ -92,28 +95,31 @@ public class RecipeUpdateServlet extends HttpServlet {
 					at.setOriginName(originName);
 					at.setChangeName(changeName);
 					
-					fileList.add(at); //파일이 있으면 리스트에 담아준다.
+					//fileList.add(at); //파일이 있으면 리스트에 담아준다.
 				
 
 					//기존에 첨부된 파일이 있는 경우에 
 					if(multiRequest.getParameter("originFile") != null) {
-						
+						//System.out.println("file111111111 : " + file);
 						//업로드 된것을 지우겠다.
 						File deleteFile = new File(savePath + multiRequest.getParameter("originFile"));//체인지 된 파일이 넘어온다.
 						
 						deleteFile.delete();
-						
+
 						//파일 번호도 같이 넘겨주니까 해당하는 파일을 set해줌
 						at.setFileNo(Integer.parseInt(multiRequest.getParameter("originFileNo")));
+				
+						System.out.println("at------------ : " + at.getFileNo());
 					}else {
 						//첨부된 파일이 없는경우 번호는 알아야함 없었으면 새로 insert를 해줘야함
 						at.setRefBoardNo(rId);
 					}
+					
 			}
-		}
+	
 			
-			int result = new RecipeServiceTh().updateRecipe(r,fileList);
-			System.out.println("servlet =====" + fileList);
+			int result = new RecipeServiceTh().updateRecipe(r,at);
+			//System.out.println("servlet =====" + fileList);
 			
 			if(result > 0) {
 				response.sendRedirect("recipeDetail.do?rId="+rId);

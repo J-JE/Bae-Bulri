@@ -85,7 +85,7 @@
 	    		<div class="col" style="margin-top: 15px; margin-bottom: 15px;">
 			        <div class="card h-100">
 			        	<input type="hidden" value="<%=r.getRecipeNo()%>">
-			            <img src="<%=contextPath%>/resources/images/<%=r.getThImg()%>" class="card-img-top">
+			            <img src="<%=contextPath%>/resources/images/recipeFiles/<%=r.getThImg()%>" class="card-img-top">
 			            <div class="card-body">
 			              <h6 class="card-title"><%=r.getRecipeTag()%></h6>
 			              <h5 class="card-text"><%=r.getRecipeTitle()%></h5>
