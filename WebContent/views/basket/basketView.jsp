@@ -75,25 +75,29 @@
 	                	String proName=basketList.get(i).getProductName(); //상품 명
 	                	int basketNo=basketList.get(i).getBasketNo(); //장바구니 번호
 	                	int price = (basketList.get(i).getBasketAmount())*(basketList.get(i).getProPrice()); //상품 가격(수량*가격)
+	                	sumPrice+=price;
 	                %>
-	                    <tr>
-	                        <td>
-	                            <input type="checkbox" id="<%=proName%>" name="ingredient" value="<%=basketNo%>" checked>
-	                        </td>
-	                        <td class="pro_info">
-	                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
-	                            <label for ="<%=proName%>"><%=proName%></label>
-	                        </td>
-	                        <td>
-	                            <label>수량 </label>
-	                        	<input type="number" name="amount" min="0" max="50" value="1" style="width: 40px;">
-                            	<input type="button" name="updateAmount" value="수정" style="width: 50px;">    
-							</td>
-	                        <td>
-                            	<%=price%> 원
-                            	<%sumPrice = sumPrice+price;%>
-	                        </td>
-	                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="<%=proName%>" name="ingredient" value="<%=basketNo%>" checked>
+                        </td>
+                        <td class="pro_info">
+                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
+                            <label for ="<%=proName%>"><%=proName%></label>
+                        </td>
+                        <td>
+                            <label>수량 </label>
+                        	<input type="number" name="amount" min="0" max="50" value="1" style="width: 40px;">
+                           	<input type="button" name="updateAmount" value="수정" style="width: 50px;">    
+						</td>
+                        <td class="price">
+                           	<%=price%> 원
+                        </td>
+                    </tr>
+                    <script>
+	                    
+                    
+                    </script>
 	                <%} %>
                 </div>
             </table>
@@ -108,24 +112,63 @@
                         //모든 체크박스 해제 하기
                         $("input:checkbox[name='ingredient']").prop("checked", false);
                     }
+                
+                	if($(this).is(":checked")){ //전체 선택
+                    	console.log("전체 체크 됨")
+                    	var price = 0;
+						<%for(int i=0; i<basketList.size();i++){%> //장바구니 개수만큼 반복하면서 가격 합하기
+						 	price = price+Number($(this).parent().parent().nextAll().find('.price').eq(<%=i%>).text().replace(/[^0-9]/g,''));
+						<%}%>
+                    	console.log("전체 가격"+price);
+                    	$("#checkedPrice").text(price);
+                    	$("#sumPrice").text(price+3000);
+                    }else{ //전체 해제되면 가격 = 0
+                    	console.log("전체 체크 해제 됨")
+                    	$("#checkedPrice").text(0); //선택 상품 가격
+                    	$("#sumPrice").text(3000); //총 주문금액
+                    }
                 });
                 
-                $('input[name=updateAmount]').click(function(){
+                $("input:checkbox[name=ingredient]").click(function(){ //개별 선택
+                	var changePrice = Number($(this).parent().parent().find('td:eq(3)').text().replace(/[^0-9]/g,'')); //체크된 상품의 가격 가져오기
+                    console.log(changePrice);
+                	
+                	var sumPrice = Number($("#checkedPrice").text().replace(/[^0-9]/g,'')); //총 합계
+                    
+                	if($(this).is(":checked")){//선택 된 상품 가격 더하기
+                    	console.log("체크 됨")
+                    	$("#checkedPrice").text(sumPrice+changePrice)
+                    	
+                    	$("#sumPrice").text(sumPrice+changePrice+3000);
+                    }else{//선택 된 상품 가격 빼기
+                    	console.log("체크 해제 됨")
+                    	$("#checkedPrice").text(sumPrice-changePrice)
+                    	$("#sumPrice").text(sumPrice-changePrice+3000);
+                    }
+                	
+                	if($("#checkedPrice").text() == 0){
+                		console.log("비었음")
+                	}
+                });
+                
+                $('input[name=updateAmount]').click(function(){ //선택 상품 수량 수정
                     var amount = $(this).prev().val();
                     console.log("수량"+amount);
-                    var proNo = $(this).parent().parent().find('input').val();
-                    console.log(proNo);
+                    var basketNo = $(this).parent().parent().find('input').val();
+                    console.log(basketNo);
                     $.ajax({
                     	url:"basketUpdate.do",
                     	tyle:"post",
                     	data:{
                     		amount:amount,
-                    		proNo:proNo
+                    		basketNo:basketNo
                     	},
                     	success:function(status){
                     		if(stasut="success"){
 	                    		alert("수량 수정 성공");
-                    		}else{alert("수량 수정 실패");}	
+                    		}else{
+                    			alert("수량 수정 실패");
+                   			}	
                     	},
                     	error:function(){
                     		console.log("ajax 통신실패 - 장바구니 수정 실패");
@@ -137,11 +180,13 @@
 
         <hr> <!--구분선-->
         <div id="select_price">
-            <div>선택된 상품 금액<br><%=sumPrice%> 원</div>
-            <div><img src="<%=contextPath %>/resources/images/basket/plus.png" style="width: 50px; height: 50px;"></div>
-            <div>배송비<br>3,000 원</div>
-            <div>총 주문금액 <%=sumPrice+3000%> 원</div>
+            <div><span>선택된 상품 금액</span><br><span id="checkedPrice"><%=sumPrice%></span><span> 원</span></div>
+            <div><img src="<%=contextPath%>/resources/images/basket/plus.png" style="width: 50px; height: 50px;"></div>
+            <div><span>배송비</span><br><span id="deliveryPrice">3000</span><span> 원</span></div>
+            <div style="font-size: 20px; margin-top:10px;"><span>총 주문금액 : </span><span id="sumPrice"><%=sumPrice+3000%></span><span> 원</span></div>
         </div>
+        <script>
+        </script>
         <hr> <!--구분선-->
         <button id="checkedDelete">선택 상품 삭제</button><br>
         <button id="orderBtn">주문하기</button>

@@ -85,4 +85,9 @@ public class BasketDao {
 		}
 		return list;
 	}
+
+	public int updateBasket(Connection conn, Basket basket) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

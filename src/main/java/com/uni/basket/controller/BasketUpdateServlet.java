@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.uni.basket.model.dto.Basket;
 import com.uni.basket.model.service.BasketService;
 
 /**
@@ -31,12 +32,16 @@ public class BasketUpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int amount = Integer.parseInt(request.getParameter("amount"));
-		int proNo = Integer.parseInt(request.getParameter("proNo"));
+		int basketNo = Integer.parseInt(request.getParameter("basketNo"));
 		System.out.println("수량 : "+amount);
-		System.out.println("장바구니 번호 : "+proNo);
+		System.out.println("장바구니 번호 : "+basketNo);
 		
-		int result =BasketService().updateBasket();
+		Basket basket = new Basket();
+		basket.setBasketNo(basketNo);
+		basket.setBasketAmount(amount);
 		
+		int result =new BasketService().updateBasket(basket);
+
 		PrintWriter out = response.getWriter();
 		if(result > 0) { //찜 성공했으면
 			out.print("success");
