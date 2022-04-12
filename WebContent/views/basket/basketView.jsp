@@ -67,14 +67,22 @@
                     <th>상품금액</th>
                 </tr>
                 <div>
-	                <%for(int i=0; i<basketList.size();i++){ %>
+	                <%
+                	int sumPrice = 0;
+                	
+                	for(int i=0; i<basketList.size();i++){ 
+	                		
+	                	String proName=basketList.get(i).getProductName(); //상품 명
+	                	int basketNo=basketList.get(i).getBasketNo(); //장바구니 번호
+	                	int price = (basketList.get(i).getBasketAmount())*(basketList.get(i).getProPrice()); //상품 가격(수량*가격)
+	                %>
 	                    <tr>
 	                        <td>
-	                            <input type="checkbox" id="ingredient<%=i+1%>" name="ingredient" value="재료<%=i+1%>" checked>
+	                            <input type="checkbox" id="<%=proName%>" name="ingredient" value="<%=basketNo%>" checked>
 	                        </td>
 	                        <td class="pro_info">
 	                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
-	                            <label for ="ingredient1"><%=basketList.get(i).getProductName()%></label>
+	                            <label for ="<%=proName%>"><%=proName%></label>
 	                        </td>
 	                        <td>
 	                            <label>수량 </label>
@@ -82,7 +90,8 @@
                             	<input type="button" name="updateAmount" value="수정" style="width: 50px;">    
 							</td>
 	                        <td>
-	                            <%=(basketList.get(i).getBasketAmount())*(basketList.get(i).getProPrice())%> 원
+                            	<%=price%> 원
+                            	<%sumPrice = sumPrice+price;%>
 	                        </td>
 	                    </tr>
 	                <%} %>
@@ -103,17 +112,35 @@
                 
                 $('input[name=updateAmount]').click(function(){
                     var amount = $(this).prev().val();
-                    console.log(amount);
+                    console.log("수량"+amount);
+                    var proNo = $(this).parent().parent().find('input').val();
+                    console.log(proNo);
+                    $.ajax({
+                    	url:"basketUpdate.do",
+                    	tyle:"post",
+                    	data:{
+                    		amount:amount,
+                    		proNo:proNo
+                    	},
+                    	success:function(status){
+                    		if(stasut="success"){
+	                    		alert("수량 수정 성공");
+                    		}else{alert("수량 수정 실패");}	
+                    	},
+                    	error:function(){
+                    		console.log("ajax 통신실패 - 장바구니 수정 실패");
+                    	}
+                    });
                 });
             });
         </script>
 
         <hr> <!--구분선-->
         <div id="select_price">
-            <div>선택된 상품 금액<br>10,480 원</div>
+            <div>선택된 상품 금액<br><%=sumPrice%> 원</div>
             <div><img src="<%=contextPath %>/resources/images/basket/plus.png" style="width: 50px; height: 50px;"></div>
             <div>배송비<br>3,000 원</div>
-            <div>총 주문금액 13,480 원</div>
+            <div>총 주문금액 <%=sumPrice+3000%> 원</div>
         </div>
         <hr> <!--구분선-->
         <button id="checkedDelete">선택 상품 삭제</button><br>

@@ -181,11 +181,20 @@ ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectRecipe");
-/*		R_CATEGORY_NAME, RECIPE_TITLE, RECIPE_TAG, RECIPE_DES, RECIPE_PRO, RECIPE_TIME, RECIPE_CONTENT \
+/*		String sql = prop.getProperty("selectRecipe");
+		R_CATEGORY_NAME, RECIPE_TITLE, RECIPE_TAG, RECIPE_DES, RECIPE_PRO, RECIPE_TIME, RECIPE_CONTENT \
 		FROM RECIPE A JOIN RECIPE_CATEGORY USING (R_CATEGORY_NO)\
 		WHERE A.STATUS = 'Y' AND RECIPE_NO = ?
-*/		
+*/
+		String sql = prop.getProperty("selectRecipe");
+		/*
+		selectRecipe2=SELECT R_CATEGORY_NAME, RECIPE_TITLE, RECIPE_TAG, RECIPE_DES, RECIPE_PRO, RECIPE_TIME, RECIPE_CONTENT, CHANGE_NAME
+		FROM RECIPE B LEFT JOIN RECIPE_CATEGORY C ON(B.CATEGORY = C.R_CATEGORY_NO) LEFT JOIN ( \
+		SELECT * FROM ATTACHMENT WHERE FILE_NO IN( \
+		SELECT MIN(FILE_NO) FILE_NO FROM ATTACHMENT WHERE STATUS='Y' GROUP BY REF_BNO) \
+		)D ON (B.RECIPE_NO = D.REF_BNO) WHERE B.STATUS='Y' AND B.RECIPE_NO = ? ORDER BY RECIPE_NO DESC
+		*/
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, rId);
@@ -200,7 +209,8 @@ ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
 									rset.getString("RECIPE_DES"), 
 									rset.getString("RECIPE_PRO"), 
 									rset.getInt("RECIPE_TIME"), 
-									rset.getString("RECIPE_CONTENT"));
+									rset.getString("RECIPE_CONTENT"),
+									rset.getString("CHANGE_NAME"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

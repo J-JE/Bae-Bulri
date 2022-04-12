@@ -2,9 +2,10 @@
     pageEncoding="UTF-8" import="com.uni.recipe.model.dto.Recipe, java.util.ArrayList, com.uni.common.Attachment"%>
 <%
 	Recipe recipe = (Recipe)request.getAttribute("recipe");
-	ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");
+	/*ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");*/
 	
-	Attachment titleImg = fileList.get(0);
+	/*Attachment titleImg = fileList.get(0);*/
+	String titleImg = recipe.getThImg();
 	
 	String[] pro = recipe.getRecipePro().split(",");
 	String[] cont = recipe.getRecipeContent().split("!");
@@ -111,7 +112,7 @@
     
     		<!--썸네일, 좋아요-->
             <div id="left_content"> 
-                <img src="<%=contextPath %>/resources/images/recipeFiles/<%= titleImg.getChangeName()%>" id="thumbnail">
+                <img src="<%=contextPath %>/resources/images/recipeFiles/<%= titleImg%>" id="thumbnail">
                 <button id="likey_btn" disabled><img src="<%=contextPath %>/resources/images/recipe/like_1.png" id="thumbsup">찜하기</button>
             </div>
             <script>
@@ -157,7 +158,7 @@
 								}
 							},
 							error:function(){
-								console.log("ajax 통신실패 -찜 성공");
+								console.log("ajax 통신실패 -찜 실패");
 							}
 						});
 					}
@@ -185,8 +186,9 @@
             <div id="recipe_explain"> <!--조리법-->
                 <h4><b>만드는 방법</b></h4>
                 <br>
-                <% for(int i=1; i<fileList.size(); i++){ %>
-	                <img src="<%=contextPath %>/resources/images/recipeFiles/<%=fileList.get(i).getChangeName()%>">
+                <%-- for(int i=1; i<fileList.size(); i++){ --%>
+                <% for(int i=1; i<cont.length; i++){ %>
+	                <!-- img src="<%--=contextPath --%>/resources/images/recipeFiles/<%--=fileList.get(i).getChangeName()--%>" -->
 	                <div><h5>Step <%=i %></h5><%=cont[i-1] %></div>
 	                <br>
                 <% } %>
