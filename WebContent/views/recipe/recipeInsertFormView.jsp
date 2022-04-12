@@ -1,3 +1,5 @@
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -78,7 +80,7 @@
             <div class="mb-3">
                 사진 등록<br>
                 <div class="form_section_content">
-                    <input type="file" id ="fileItem" name="upFile1" style="height: 30px;">
+                    <input type="file" id ="fileItem" name="upFile" style="height: 30px;">
                     <div id="uploadResult">
             		</div>
             	</div>
@@ -119,35 +121,9 @@
                         <th style="font-size: 25px;">만드는 방법</th>
                     </tr>
                     <tr>
-                        <th >과정이미지</th>
-                        <td>
-                            <img id="subImg1" width="250px" height="150px"> 
-                        </td>
-                        <th>과정1</th>
-                        <td colspan="2"><textarea name="content" rows="7"  style="resize:none;"></textarea> </td>
-                    </tr>
-                    <tr>
-                        <th >과정2이미지</th>
-                        <td >
-                            <img id="subImg2" width="250px" height="150px"> 
-                        </td>
-                        <th>과정2</th>
-                        <td colspan="2"><textarea name="content" rows="7"  style="resize:none;"></textarea> </td>
-                    </tr>
-                    <tr>
-                        <th >과정3이미지</th>
-                        <td >
-                            <img id="subImg3" width="250px" height="150px"> 
-                        </td>
-                        <th>과정3</th>
                         <td colspan="2"><textarea name="content" rows="7"  style="resize:none;"></textarea> </td>
                     </tr>
                   </table>
-                  <div id="fileArea"> <!-- 파일 등록할 수 있게 -->
-                    <input type="file" name="upFile2" id="file2" onchange="loadImg(this, 2);">
-                    <input type="file" name="upFile3" id="file3" onchange="loadImg(this, 3);">
-                    <input type="file" name="upFile4" id="file4" onchange="loadImg(this, 4);">
-                </div>
               </div>
             </div>
             </div>
@@ -158,9 +134,9 @@
           <button class="btn btn-primary btn-lg btn-block" type="reset">작성 취소</button>
         </form>
       </div>
-      <%@ include file="../common/footer.jsp" %>
     </div>
   </div>
+<%@ include file="../common/footer.jsp" %>
 
   <script>
   	function 
@@ -183,24 +159,6 @@
         }, false);
       });
     }, false);
-
-    // 이미지 등록 -> 과정n이미지 클릭시 업로드
-    $(function(){
-		$("#fileArea").hide();
-		
-		$("#subImg1").click(function(){
-			$("#file2").click();
-		});
-		
-		$("#subImg2").click(function(){
-			$("#file3").click();
-		});
-		
-		$("#subImg3").click(function(){
-			$("#file4").click();
-		});
-	
-	});
   </script>
 </body>
 </html>
