@@ -49,7 +49,7 @@
   </head>
   
   <body>
-    <!--  <%@ include file="../common/menubar.jsp" %> -->
+     <%@ include file="../common/menubar.jsp" %> 
   
     <div class="container">
       <div class="input-form-backgroud row">

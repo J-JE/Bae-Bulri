@@ -242,25 +242,9 @@ public class CookTalkDao {
 		ArrayList<Cook_Talk>list = new ArrayList<Cook_Talk>();
 		 PreparedStatement pstmt = null;
 	     ResultSet rset = null;
-	    /* searchCOOK_TALK=SELECT * FROM ( SELECT ROWNUM RNUM,\
-	          		A.*\
-	        FROM\
-	            (\
-	                SELECT\
-	                    BOARD_NO,\
-	                    BOARD_CONTENT,\
-	                    BOARD_TITLE.\
-	                    CREATE_DATE FROM\
-	                    COOK_TALK C\
-	                 LEFT JOIN MEMBER M ON C.USER_NO = M.USER_NO\
-	                WHERE\
-	                    M.USER_ID = ?\
-	                    OR C.BOARD_TITLE LIKE ?\
-	                ORDER BY\
-	                    C.BOARD_NO DESC\
-	            ) A\
-	    )\
-	WHERE RNUM BETWEEN ? AND ?*/
+	    /*searchCOOK_TALK=SELECT * FROM (SELECT ROWNUM RNUM,A.* FROM( \
+SELECT BOARD_NO,BOARD_CONTENT,BOARD_TITLE,USER_ID,CREATE_DATE \
+FROM COOK_TALK C LEFT JOIN MEMBER M ON C.USER_NO = M.USER_NO WHERE M.USER_ID =? OR C.BOARD_TITLE LIKE ? ORDER BY C.BOARD_NO DESC) A ) WHERE RNUM BETWEEN ? AND ?*/
 	     String sql = prop.getProperty("searchCOOK_TALK");
 	     int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() + 1;
 	     int endRow = startRow + pi.getBoardLimit() - 1;
@@ -279,6 +263,7 @@ public class CookTalkDao {
 					c.setBoardNo(rset.getInt("BOARD_NO"));
 					c.setBoardContent(rset.getString("BOARD_CONTENT"));
 					c.setBoardTitle(rset.getString("BOARD_TITLE"));
+					c.setUserId(rset.getString("USER_ID"));
 					c.setCreateDate(rset.getDate("CREATE_DATE"));
 					list.add(c);
 				}

@@ -32,7 +32,7 @@
     
     <style type="text/css">
      
-        ul, li{ 
+       #liSearchOption{ 
             list-style:none;
             text-align:center;
             padding:0;

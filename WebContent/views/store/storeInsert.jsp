@@ -70,7 +70,7 @@
     </head>
     <body>
 
-	   <!--  <%@ include file="../common/menubar.jsp" %> -->
+	    <%@ include file="../common/menubar.jsp" %> 
          <hr>
         <div class="outer">
            

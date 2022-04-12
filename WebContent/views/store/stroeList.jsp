@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+     import = "java.util.ArrayList, com.uni.store.model.dto.*" pageEncoding="UTF-8" %>
+     <%@page import="com.uni.common.PageInfo"%>
+<% 
+	ArrayList<Store> list = (ArrayList<Store>)request.getAttribute("list");
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	
+	int listCount = pi.getListCount();
+	int currentPage = pi.getCurrentPage();
+	int maxPage = pi.getMaxPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,79 +76,77 @@
           
             margin-left: 600px; 
     }
+     #header{
+          margin-left: 300px;
+        color:  rgb(155, 89, 182);
+    }
    </style>
 </head>
 <body>
-        <!--  <%@ include file="../common/menubar.jsp" %> -->
-    <div id="main">
-   
+         <%@ include file="../common/menubar.jsp" %>
+    	<br>
+    	<div id="main">
+   			  <h2 id="header">배불리 몰</h2>
+            <hr>
             <div id="search">
                 
                 <input id='txtKeyWord' placeholder="상품명,#레시피"/>
                 <input type='button' value='검색'/>
             </div>
-            <hr>
+            
     <!-- 스토어 목록  -->
         <div class="topList" align="center">
             <br>
+            <%if(list.isEmpty()){ %>
+	    	<h3 style="margin:50px;">결과가 없습니다.</h3>
+	    	<%} %>  
             <div id="List">
-                   
-                   
+                 <%for(Store s : list){ %>                  
                 <div class="product" align="center"> 
                     <input type="hidden" value="1"> 
-                    <img src="/j.jpg" width="350px" height="150px"> <br>
-                    <a>#김치볶음밥</a><br>
-                    <a>국내산김치</a><br>
-                    <a>15000원</a>
+                    <img src="<%=request.getContextPath()%>/resources/images/<%=s.getStroeImg()%>" width="350px" height="150px"> <br>
+                    <a>#<%=s.getRecipeTitle()%></a><br>
+                    <a><%=s.getProductName()%></a><br>
+                    <a><%=s.getPrice()%>원</a>
                     </div>
-                            <div class="product" align="center"> 
-                                <input type="hidden" value="1"> 
-                                <img src="/j.jpg" width="350px" height="150px"> <br>
-                                <a>#김치볶음밥</a><br>
-                                <a>국내산김치</a><br>
-                                <a>15000원</a>
-                                </div>
-                                <div class="product" align="center"> 
-                                    <input type="hidden" value="1"> 
-                                    <img src="/j.jpg" width="350px" height="150px"> <br>
-                                    <a>#김치볶음밥</a><br>
-                                    <a>국내산김치</a><br>
-                                    <a>15000원</a>
-                                    </div>
-                                    <div class="product" align="center"> 
-                                        <input type="hidden" value="1"> 
-                                        <img src="/j.jpg" width="350px" height="150px"> <br>
-                                        <a>#김치볶음밥</a><br>
-                                        <a>국내산김치</a><br>
-                                        <a>15000원</a>
-                                        </div>
-                                        <div class="product" align="center"> 
-                                            <input type="hidden" value="1"> 
-                                            <img src="/j.jpg" width="350px" height="150px"> <br>
-                                            <a>#김치볶음밥</a><br>
-                                            <a>국내산김치</a><br>
-                                            <a>15000원</a>
-                                            </div>
-                                            <div class="product" align="center"> 
-                                                <input type="hidden" value="1"> 
-                                                <img src="/j.jpg" width="350px" height="150px"> <br>
-                                                <a>#김치볶음밥</a><br>
-                                                <a>국내산김치</a><br>
-                                                <a>15000원</a>
-                                                </div>
-                            </div>
-                         
-                            <button id="butt">재료추가</button><br><br>
-            <nav aria-label="Page navigation example">
-                
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#"> &lt; </a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#"> &gt; </a></li>
-                </ul>
-            </nav>
+                    <%}%>
+                       
+                    </div>
+                  	 <% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
+            	 <button id="butt"  onclick="location.href='<%=request.getContextPath()%>/insertStoreFormdo'">재료추가</button>
+					<% } %>
+        <div class="pagingArea" align="center">
+			<!-- 맨 처음으로 (<<) -->
+			<button id="butt1" onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=1'"> &lt;&lt; </button>
+		
+			<!-- 이전페이지로(<) -->
+			<%if(currentPage == 1){ %>
+			<button id="butt1" disabled> &lt; </button>
+			<%}else{ %>
+			<button id="butt1" onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<%} %>
+			
+			<!-- 페이지 목록 -->
+			<%for(int p=startPage; p<=endPage; p++){ %>
+				
+				<%if(p == currentPage){ %>
+				<button id="butt1" disabled> <%= p %> </button>
+				<%}else{ %>
+				<button id="butt1" onclick="location.href='<%=request.getContextPath() %>/cookTalkList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<%} %>
+				
+			<%} %>
+			
+			<!-- 다음페이지로(>) -->
+			<%if(currentPage == maxPage){ %>
+			<button id="butt1"disabled> &gt; </button>
+			<%}else { %>
+			<button id="butt1"onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<%} %>
+		
+			<!-- 맨 끝으로 (>>) -->
+			<button id="butt1"onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+		</div> 
         </div></div>
     
 
