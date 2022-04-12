@@ -187,9 +187,9 @@
                 <h4><b>만드는 방법</b></h4>
                 <br>
                 <%-- for(int i=1; i<fileList.size(); i++){ --%>
-                <% for(int i=1; i<cont.length; i++){ %>
+                <% for(int i=0; i<cont.length; i++){ %>
 	                <!-- img src="<%--=contextPath --%>/resources/images/recipeFiles/<%--=fileList.get(i).getChangeName()--%>" -->
-	                <div><h5>Step <%=i %></h5><%=cont[i-1] %></div>
+	                <div><h5>Step <%=i +1%></h5><%=cont[i]%></div>
 	                <br>
                 <% } %>
             </div>
