@@ -66,11 +66,15 @@
             <button id="login" onclick="loginPage();">로그인</button>
             <button id="login" onclick="enrollPage();">회원가입</button>
 			<%}else{ %>
-            
+            <%if(loginUser.getUserId().equals("admin")){ %>
+            <button id="login" onclick="adminpage()">관리자</button> 
+            <button id="logout" onclick="logout()">로그아웃</button>
+            <%}else{ %>
             <!-- 로그인 후 -->
             <button id="login" onclick="myPage()">마이페이지</button> 
             <button id="login" onclick="basketpage()">장바구니</button> 
             <button id="logout" onclick="logout()">로그아웃</button>
+            <%} %>
   		 <%} %>
         </div>
 		
@@ -91,6 +95,10 @@
 	    function logout(){
 	    	location.href="<%=request.getContextPath()%>/logout.do";
 	    }
+	    function adminpage(){
+	    	location.href="<%=request.getContextPath()%>/adminpage.do";
+	    }
+	    
 		
 	</script>
     <nav class="navbar navbar-expand-lg">
