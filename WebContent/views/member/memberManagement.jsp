@@ -43,66 +43,57 @@
 		<br>
 		<h2 align="center">전체 회원 관리</h2>
 		<br>
-		        
-		<table class="listArea" align="center">
-			<thead>
-				<tr>
-                    <th width="30"><input type="checkbox" name="select-all"></th>
-					<th width="100">아이디</th>
-					<th width="80">회원명</th>
-					<th width="100">연락처</th>
-					<th width="100">이메일</th>
-					<th width="100">주소</th>
-                    <th width="100">가입일</th>
-				</tr> 	
-			</thead>
-			<tbody>
+		<form action="<%=request.getContextPath()%>/checkmember.do" method="post">   
+			<table class="listArea" align="center">
+				<thead>
+					<tr>
+	                    <th width="30"><input type="checkbox" name="select-all"></th>
+						<th width="100">아이디</th>
+						<th width="80">회원명</th>
+						<th width="100">연락처</th>
+						<th width="100">이메일</th>
+						<th width="100">주소</th>
+	                    <th width="100">가입일</th>
+					</tr> 	
+				</thead>
+				<tbody>
+					
+			<% if(list.isEmpty()){ %>
+					 	<tr>
+							<td colspan="5">가입된 회원이 없습니다.</td>
+						</tr>
+					 <% }else{  %>
+					 	<% for(Member m : list){ %>
+					 		<tr>
+					 			<td><input type="checkbox" name="selected" value=<%= m.getUserId() %>></td>
+					 			<td><%= m.getUserId() %></td>
+								<td><%= m.getUserName() %></td>
+								<td><%= m.getEmail() %></td>
+								<td><%= m.getPhone() %></td>
+								<td><%= m.getAddress() %></td>
+								<td><%= m.getEnrollDate() %></td>
+					 		</tr>
+					 	<% } %>
+					 <% } %>
+				</tbody> 
 				
-		<% if(list.isEmpty()){ %>
-				 	<tr>
-						<td colspan="5">가입된 회원이 없습니다.</td>
-					</tr>
-				 <% }else{  %>
-				 	<% for(Member m : list){ %>
-				 		<tr>
-				 			<td><input type="checkbox" name="selected"></td>
-				 			<td><%= m.getUserId() %></td>
-							<td><%= m.getUserName() %></td>
-							<td><%= m.getEmail() %></td>
-							<td><%= m.getPhone() %></td>
-							<td><%= m.getAddress() %></td>
-							<td><%= m.getEnrollDate() %></td>
-				 		</tr>
-				 	<% } %>
-				 <% } %>
-			</tbody> 
+			</table>
 			
-		</table>
-		
-		<br><br>
-		<div align="center">
-			<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
-			
-			<%-- <button onclick="location.href='<%=contextPath%>/deleteMember.do'">삭제하기</button>--%>
-			<button id="deletemember" onclick="memberDeleteClick()">선택삭제</button> 
-		<% } %>
-		</div>
-		
+			<br><br>
+			<div align="center">
+				<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
+				
+				<%-- <button onclick="location.href='<%=contextPath%>/deleteMember.do'">삭제하기</button>--%>
+				<button type="submit" id="deletemember">선택삭제</button> 
+			<% } %>
+			</div>
+		</form>    
 	</div>
 	<script>
 		$('input[name=select-all]').on('change', function(){
 		  $('input[name=selected]').prop('checked', this.checked);
 		});
 		
-		$(function(){
-			$("#deletemember").click(function(){
-				let id = $('input:checkbox[name="selected"]:checked').val();
-				
-				console.log(id)
-				
-				
-			})
-		})
 	</script>
     	<%@ include file = "/views/common/footer.jsp" %>
 </body>

@@ -81,6 +81,14 @@ public class Survey {
 		return "Survey [surveyNo=" + surveyNo + ", category=" + category + ", surveyTitle=" + surveyTitle
 				+ ", surveyContent=" + surveyContent + ", createDate=" + createDate + ", status=" + status + "]";
 	}
+
+
+	public Survey(int surveyNo, String surveyTitle, Date createDate) {
+		super();
+		this.surveyNo = surveyNo;
+		this.surveyTitle = surveyTitle;
+		this.createDate = createDate;
+	}
 	
 	
 	
