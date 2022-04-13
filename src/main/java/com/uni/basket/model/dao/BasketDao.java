@@ -25,10 +25,8 @@ public class BasketDao {
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -42,7 +40,7 @@ public class BasketDao {
 //		SELECT SEQ_BNO.NEXTVAL, ?, PRODUCT_NO, 1\
 //				FROM STORE WHERE PRODUCT_NAME IN ? AND STOCK > 0
 		
-		String sql = "INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT) SELECT SEQ_BNO.NEXTVAL, "+basket.getUserNo()+", PRODUCT_NO, 1 FROM STORE WHERE PRODUCT_NAME IN ("+basket.getProductName()+") AND STOCK > 0";
+		String sql = "INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT) SELECT SEQ_BKNO.NEXTVAL, "+basket.getUserNo()+", PRODUCT_NO, 1 FROM STORE WHERE PRODUCT_NAME IN ("+basket.getProductName()+") AND STOCK > 0";
 		
 		try {
 			stmt = conn.createStatement();
@@ -62,7 +60,10 @@ public class BasketDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectBasketList");
-//		SELECT BASKET_NO, USER_NO, PRODUCT_NAME, BASKET_AMOUNT PRICE FROM BASKET JOIN STORE USING(PRODUCT_NO) WHERE USER_NO=?
+//		SELECT BASKET_NO, USER_NO, PRODUCT_NAME, BASKET_AMOUNT, PRICE , CHANGE_NAME \
+//		FROM BASKET JOIN (SELECT PRODUCT_NO, PRODUCT_NAME, PRICE, CHANGE_NAME \
+//		FROM STORE A JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2) B ON(A.PRODUCT_NO=B.REF_BNO) \
+//		)USING(PRODUCT_NO) WHERE USER_NO=?
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -75,7 +76,8 @@ public class BasketDao {
 						rset.getInt("USER_NO"), 
 						rset.getString("PRODUCT_NAME"), 
 						rset.getInt("BASKET_AMOUNT"),
-						rset.getInt("PRICE")
+						rset.getInt("PRICE"),
+						rset.getString("CHANGE_NAME")
 						);
 				list.add(basket);
 				System.out.println(basket);
@@ -87,7 +89,41 @@ public class BasketDao {
 	}
 
 	public int updateBasket(Connection conn, Basket basket) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result =0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateBasket");
+//		UPDATE BASKET SET BASKET_AMOUNT = ? WHERE BASKET_NO = ?
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, basket.getBasketAmount());
+			pstmt.setInt(2, basket.getBasketNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int deleteBasket(Connection conn, String bskNo) {
+		int result =0;
+		Statement stmt = null;
+		
+//		DELETE FROM BASKET WHERE BASKET_NO IN (?)
+		
+		String sql = "DELETE FROM BASKET WHERE BASKET_NO IN ("+bskNo+")";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			result = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+		}
+		return result;
 	}
 }

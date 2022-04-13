@@ -54,15 +54,17 @@
         #recipe_explain>div{width: 300px; height: 250px; margin: 0px 0px 60px 50px; display: inline-block;}
         
         #basketbtn{background-color:#9372A1; color:white; border: solid 2px rgba(255, 255, 255, 0); border-radius: 5px;}
+        #list{position: absolute;margin-left:38%;border: solid 2px rgba(255, 255, 255, 0); border-radius: 5px;}
     </style>
 
 </head>
 <body>
 	<%@ include file = "../common/menubar.jsp" %>
     <div class="outer">
-        <br> <!-- 경로 -->
+        <!-- 경로 -->
+        <br> 
         <span id="moveIndex">홈</span> > <span id="moveList">#<%=recipe.getrCategoryName()%></span> > <span><%= recipe.getRecipeTitle()%></span>
-         <button style="margin-left: 1250px; color: purple;" onclick="location.href='<%=contextPath%>/updateFormRecipe.do?rId=<%=recipe.getRecipeNo()%>'">레시피 수정</button>
+        <button style="margin-left: 1250px; color: purple;" onclick="location.href='<%=contextPath%>/updateFormRecipe.do?rId=<%=recipe.getRecipeNo()%>'">레시피 수정</button>
         <script>
         	$(function(){
         		<!--홈으로-->
@@ -86,27 +88,22 @@
 					$.ajax({
 						url:"likeyClick.do",
 						type:"post",
-						data:{
-								rId: rId
-						},
+						data:{rId: rId},
 						success:function(status){
-							console.log(status);
 							if(status =="Already Likey"){
 								$("#thumbsup").attr("src", "<%=contextPath %>/resources/images/recipe/like_2.png");
 								$("#likey_btn").attr("style", "background-color: rgba(225, 199, 235, 0.4); border: solid 2px rgba(255, 255, 255, 0); color: rgb(147, 114, 161);");
-								
 							}
 						},
-						error:function(){
-							console.log("ajax 통신실패 -찜 조회");
-						}
+						error:function(){console.log("ajax 통신실패 -찜 조회");}
 					});
         		<% }%>
 			});
         </script>
         <hr><br>
-
-        <div class="recipe"> <!----레시피---->
+		
+		<!----레시피---->
+        <div class="recipe"> 
             <h2><b><%= recipe.getRecipeTitle()%></b></h2><br> <!--레시피 이름-->
              
     
@@ -115,6 +112,7 @@
                 <img src="<%=contextPath %>/resources/images/recipeFiles/<%= titleImg%>" id="thumbnail">
                 <button id="likey_btn" disabled><img src="<%=contextPath %>/resources/images/recipe/like_1.png" id="thumbsup">찜하기</button>
             </div>
+            <!--썸네일, 좋아요 스크립트-->
             <script>
 				$("#likey_btn").click(function(){
 					var rId = <%=recipe.getRecipeNo()%>;
@@ -164,8 +162,9 @@
 					}
 				})
         	</script>
-    
-            <div id="recipe_info"> <!--레시피 정보-->
+    		
+    		<!--레시피 정보-->
+            <div id="recipe_info"> 
                 <h5 id="recipe_tag" style="font-weight: bolder;"><%= recipe.getRecipeTag()%></h5><br>
                 <p id="recipe_content"><%=recipe.getRecipeDes()%></p>
                 <hr><!--구분선-->
@@ -183,7 +182,8 @@
 
             <hr><!--구분선-->
 
-            <div id="recipe_explain"> <!--조리법-->
+			<!--조리법-->
+            <div id="recipe_explain"> 
                 <h4><b>만드는 방법</b></h4>
                 <br>
                 <%-- for(int i=1; i<fileList.size(); i++){ --%>
@@ -197,20 +197,25 @@
 
         <hr style="margin-top: 0;"> <!--구분선-->
 
-        <div id="ingredients"> <!----재료---->
-            <input type="checkbox" id="allchecked" checked> <!--전체 선택-->
+		<!----재료---->
+        <div id="ingredients"> 
+        	<!--전체 선택-->
+            <input type="checkbox" id="allchecked" checked> 
             <label for="allchecked">전체 선택</label><br><hr style="margin: 0px 0px 10px 0px;">
-
-            <div> <!-- method="get"선택 상품 장바구니에 담기-->
+			
+			<!-- method="get"선택 상품 장바구니에 담기(시간 남으면 재료 이미지 불러오기)-->
+            <div> 
 	            <% for(int i=0; i<pro.length; i++){ %>
-                <input type="checkbox" id="ingredient1" name="ingredient" value="재료<%=i%>" checked>
-                <label for ="ingredient1"><%=pro[i]%></label> |
+                <input type="checkbox" id="ingredient<%=i%>" name="ingredient" value="<%=pro[i]%>" checked>
+                <label for ="ingredient<%=i%>"><%=pro[i]%></label> |
 	            <% } %>
                 <hr style="margin: 0;"> <!--구분선-->
                 <br>
                 <button type="button" id="basketbtn" style="float: right;" disabled>장바구니에 담기</button>
             </div>
         </div>
+
+		<!----재료 스크립트---->
         <script>
         $(function(){
 			$("#allchecked").click(function(){ //전체 선택
@@ -224,23 +229,21 @@
 			});
 
 			$("#basketbtn").click(function(){
-				console.log(pro)
-				var pros = [];
-				<%for(int i=0; i < pro.length; i++) {%>
-                pros.push("'<%=pro[i]%>'");
-				console.log("'<%=pro[i]%>'")
-                <%} %>
-				//재료에 작은따옴표, 구분자를 붙여서 문자열로 넘기기
-                var pro = pros.join(',');
-                
-				console.log("pro : "+pro)
-				console.log("pros : "+pros)
+				
+				var cnt = $("input[name='ingredient']:checked").length;
+				var proName = [];
+				$("input[name='ingredient']:checked").each(function() {
+					proName.push("'"+$(this).attr('value')+"'");
+	                console.log("'"+$(this).attr('value')+"'");
+                });
+				proName=proName.join(',');
+				console.log(proName);
 				
 				$.ajax({
 					url:"basketInsert.do",
 					type:"get",
 					data:{
-						pro: pro
+						pro: proName
 					},
 					success:function(status){
 						if(status=="success"){ // 장바구니 담기 성공하면
@@ -257,15 +260,20 @@
 					}
 				});
 			});
+			
         });
-			
-			
-			
-			
         </script>
-
-        <br>
-        <button>목록</button>
+        
+        <br><br>
+        
+        <!--목록 버튼-->
+        <button id="list" onclick="listBtn();">목록</button>
+        <script>
+		function listBtn(){
+			window.history.back(); //수정해야 함
+		}
+        </script>
+     
     </div>
     <%@ include file = "../common/footer.jsp" %>
 </body>
