@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8" import = "java.util.ArrayList, com.uni.survey.model.dto.Survey"%>
+<%
+	ArrayList<Survey> list = (ArrayList<Survey>) request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +10,13 @@
 <title>Insert title here</title>
 <style>
         .tab_content{
-            text-align: left;font-size: 0;max-width: 850px;margin: 100px auto;
+            text-align: left;font-size: 15px;max-width: 850px;margin: 50px auto;
         }
         input[type="radio"] {display: none;}
-        input[type="radio"] + label {display: inline-block;padding: 20px;background: aqua;color: #999;font-size: 14px;cursor: pointer;}
-        input[type="radio"]:checked + label {background: #aaa;color: #000;}
+        input[type="radio"] + label {display: inline-block;padding: 20px;background: transparent;color: black;font-size: 20px;cursor: pointer;}
+        input[type="radio"]:checked + label {background: transparent;color: purple;}
 
-        .conbox {width: 850px;height: 300px;background: #aaa;margin:0 auto;display: none;}
+        .conbox {width: 850px;height: 300px; ;margin:0 auto;display: none;}
         input[id="tab01"]:checked ~ .con1 {display: block;}
         input[id="tab02"]:checked ~ .con2 {display: block;}
 
@@ -28,7 +30,37 @@
             margin-left: 5px;
         }
         button[name="surbtn"] {font-size: 15px;}
-        label[name="tablabel"] {width: 100px; height: 50px; margin: 0px; text-align: center;}
+        label[name="tablabel"] {width: 100px; height: 50px; margin: 0px; text-align: center; background-color: transparent;}
+   		table{
+   			margin-top:40px;
+   			width:800px;
+        	font-size: 15px;
+            border-top: 0.1px solid #444444;
+            border-collapse: collapse;
+            text-align: center;
+   		}
+   		th, td {
+            border-bottom: 0.1px solid #444444;
+            border-left: 0.1px solid #444444;
+            padding: 10px;
+        }
+        th:first-child, td:first-child {
+            border-left: none;
+        }
+        th{
+            background-color: rgb(245, 245, 245);
+            font-weight: 400;
+        }
+        
+        .insertsurvey{
+        	border: 1px solid;
+            border-radius: 5px;
+            width: 240px;
+            height: 56px;
+            background-color: rgb(188, 231, 235);
+            color: white;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
@@ -38,52 +70,57 @@
 	        <label for="tab01" name="tablabel">진행중</label>
 	        <input type="radio" name="tabmenu" id="tab02">
 	        <label for="tab02" name="tablabel">종료</label>
-	
+			<hr>
 	        <div class="conbox con1">
-	            내용1
-	            <div class="button">
-	                <button type="submit" name="surbtn" id="updatebtn">수정</button>
-	                <button type="submit" name="surbtn" id="deletebtn">삭제</button>
-	            </div>
+				<table class="listArea" align="center">
+					<thead>
+						<tr>
+							<th width="10">글번호</th>
+							<th width="100">글제목</th>
+							<th width="50">작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+				<% if(list.isEmpty()){ %>
+						 	<tr>
+								<td colspan="5">진행중인 설문이 없습니다.</td>
+							</tr>
+						 <% }else{  %>
+						 	<% for(Survey s : list){ %>
+						 		<tr>
+						 			<td><%= s.getSurveyNo() %></td>
+									<td><%= s.getSurveyTitle() %></td>
+									<td><%= s.getCreateDate() %></td>
+						 		</tr>
+						 	<% } %>
+						 <% } %>
+					</tbody>
+	        	  </table>    
+	        	  <br><br>
+	        	  <div align="center">
+					<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
+			
+					<button class="insertsurvey" onclick="location.href='<%=contextPath%>/insertFormsurvey.do'">작성하기</button> 
+					<% } %>
+				</div>  
 	        </div>
+	            
 	        <div class="conbox con2">내용2</div>
 	    </div>
 	    
-	    <div class="replyArea">
-			<!-- 댓글 작성하는 div -->
-			<table border="1" align="center">
-				<tr>
-					<th>댓글작성</th>
-					<% if(loginUser != null){ %>
-					<td><textarea rows="3" cols="60" id="replyContent" style="resize:none;"></textarea></td>
-					<td><button id="addReply">댓글등록</button></td>
-					<% }else{ %>
-					<td><textarea readonly rows="3" cols="60" id="replyContent" style="resize:none;">로그인한 사용자만 가능한 서비스입니다. 로그인 후 이용해주세요</textarea></td>
-					<td><button disabled>댓글등록</button></td>
-					<% } %>
-				</tr>
-			</table>
-		<!-- 댓글 리스트들 보여주는 div -->
-			<div id="replyListArea">
-				<table id="replyList" border="1" align="center">
-					<!-- <tr>
-						<td width="100px">admin</td>
-						<td width="330px">댓글작성내용</td>
-						<td width="150px">2020년 1월 23일</td>
-					</tr>
-					<tr>
-						<td width="100px">user01</td>
-						<td width="330px">댓글작성내용</td>
-						<td width="150px">2020년 1월 22일</td>
-					</tr>
-					<tr>
-						<td width="100px">test01</td>
-						<td width="330px">댓글작성내용</td>
-						<td width="150px">2020년 1월 20일</td>
-					</tr> -->
-				</table>
-			</div>
-		</div>
+	    <script type="text/javascript">
+			<% if(!list.isEmpty()){%>
+				$(function(){
+					$(".listArea>tbody>tr").click(function(){
+						var nno = $(this).children().eq(0).text();
+						
+						location.href ="<%=contextPath%>/detailsurvey.do?nno="+nno;
+					})
+				})
+				
+			<%}%>
+		</script>
 		<%@ include file = "/views/common/footer.jsp" %>
 </body>
 </html>

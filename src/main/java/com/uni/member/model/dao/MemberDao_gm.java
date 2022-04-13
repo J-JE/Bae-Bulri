@@ -136,10 +136,11 @@ public class MemberDao_gm {
 		
 
 		String sql = prop.getProperty("deleteMember");
-		
+		System.out.println(sql);
 		try {
+			sql = sql.replace("?", "\'" + userid + "\'");
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid); 
+			
 			
 			result = pstmt.executeUpdate(); 
 		} catch (SQLException e) {
