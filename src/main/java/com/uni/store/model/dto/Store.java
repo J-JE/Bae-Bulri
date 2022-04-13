@@ -1,5 +1,5 @@
 package com.uni.store.model.dto;
-import java.util.Date;
+import java.sql.Date;
 
 public class Store {
 	
@@ -11,12 +11,22 @@ public class Store {
 	private String status;//상태값
 	private String StroeImg;//스토어의 타이틀 사진
 	private String recipeTitle;//레시피 제목
+	
 	public Store() {
 		// TODO Auto-generated constructor stub
 	}
 
 	
 	
+	public Store(String productName, int price, int stock) {
+		super();
+		this.productName = productName;
+		this.price = price;
+		this.stock = stock;
+	}
+
+
+
 	public Store(int productNo, int category, String productName, int price, int stock, String status, String stroeImg,
 			String recipeTitle) {
 		super();
@@ -35,6 +45,17 @@ public class Store {
 
 
 	
+
+
+
+	public Store(int productNo, int category, String productName, int price, int stock) {
+		super();
+		this.productNo = productNo;
+		this.category = category;
+		this.productName = productName;
+		this.price = price;
+		this.stock = stock;
+	}
 
 
 

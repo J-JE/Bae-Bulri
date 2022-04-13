@@ -76,25 +76,27 @@
            
             <h1 class="main" href="index.jsp">재료추가</h1>
             <hr>
+            <form id="insertForm" action="insertStore.do" method="post" enctype="multipart/form-data">
             <div id="content"> 
                 <img src="" width="400px" height="400px">
+                  <input type="file" id ="fileItem" name="upFile" style="height: 30px;">
                 <br><br>
                 <button id="i_butt">사진등록</button>
             </div>
                 <div id="store_all">
             <div class="store_title">
                 <h4 for="name">제목</h4>
-                <input type="text" class="form-control" id="name" placeholder="이름을 입력해주세요" value="" required="">
+                <input type="text" class="form-control" name="title" placeholder="이름을 입력해주세요" value="" required="">
               </div>
               <br>
               <div class="store_price">
                 <h4 for="name">가격</h4>
-                <input type="text" class="form-control" id="name" placeholder="가격을 입력해주세요" value="" required="">
+                <input type="text" class="form-control" name="price" placeholder="가격을 입력해주세요" value="" required="">
               </div>
               <br>
               <div class="store_amount">
                 <h4 for="name">재고</h4>
-                <input type="text" class="form-control" id="name" placeholder="재고을 입력해주세요" value="" required="">
+                <input type="text" class="form-control" name="stock" placeholder="재고을 입력해주세요" value="" required="">
               </div>
             </div>
             <div id="all_butt">
@@ -102,6 +104,7 @@
                 
                 <button id="o_butt">취소</button>
             </div>
+            </form>
         </div>
     
            	 <%@ include file = "../common/footer.jsp" %>

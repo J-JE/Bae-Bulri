@@ -24,72 +24,62 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 
-      #main{
-            width: 1500px;
-            height:  1000px;
+      #bae{
+            width: 1000px;
+            height:  900px;
             margin: 0 auto; /*가운데 정렬*/
         }
- #search{
-     margin-top: 100px;
+ 	#search{
+     margin-top: 30px;
     margin-bottom: 50px;
-     margin-left: 900px;
+     margin-left: 720px;
      
  }
 
 .product {
-        margin-left: 300px;
+        margin-left: 30px;
         float: left;
         position: relative;
        
    }
 .topList {
-      width: 1500px;
-      height: 1000px;
-      color: black;
-    
-  
-
-   }
-
-#List{
-    margin-top: 50px;
-    display: block;
-    margin: 0 auto; /*가운데 정렬*/
-    
-}
+		 margin-left: 60px;
+      width: 900px;
+      height: 600px;
+       }
 
 /*페이징*/ 
-.pagination {
-      margin-bottom: 60px;
-      width:200px;
-      left:0; right:0;
-      margin-left:auto;
-      margin-right:auto;
-      color: black;
-      } /* 가로 중앙 정렬 */
+
       #butt{
         background-color:  rgb(155, 89, 182);
         color: white;
         margin:0 auto; 
             margin-top: 30px; 
             width:100px; 
-          
-            margin-left: 600px; 
+           margin-left: 800px; 
     }
      #header{
-          margin-left: 300px;
+         
         color:  rgb(155, 89, 182);
     }
+    
+   #butt1{
+    background-color: rgb(133, 69, 133);
+        color: white;
+   }
+
+   .pagingArea{
+   	 margin-top: 30px; 
+   }
    </style>
 </head>
 <body>
          <%@ include file="../common/menubar.jsp" %>
     	<br>
-    	<div id="main">
+    	<div id="bae">
    			  <h2 id="header">배불리 몰</h2>
             <hr>
             <div id="search">
-                
                 <input id='txtKeyWord' placeholder="상품명,#레시피"/>
                 <input type='button' value='검색'/>
             </div>
@@ -101,29 +91,43 @@
 	    	<h3 style="margin:50px;">결과가 없습니다.</h3>
 	    	<%} %>  
             <div id="List">
-                 <%for(Store s : list){ %>                  
-                <div class="product" align="center"> 
+                 <%for(Store s : list){ %>
+                  <tbody>                  
+                <div class="product" > 
                     <input type="hidden" value="1"> 
-                    <img src="<%=request.getContextPath()%>/resources/images/<%=s.getStroeImg()%>" width="350px" height="150px"> <br>
-                    <a>#<%=s.getRecipeTitle()%></a><br>
+                    <img src="<%=request.getContextPath()%>/resources/images/store<%=s.getStroeImg()%>" width="400px" height="200px"> <br>
+                   
                     <a><%=s.getProductName()%></a><br>
                     <a><%=s.getPrice()%>원</a>
                     </div>
+                    </tbody>
                     <%}%>
-                       
-                    </div>
-                  	 <% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
-            	 <button id="butt"  onclick="location.href='<%=request.getContextPath()%>/insertStoreFormdo'">재료추가</button>
-					<% } %>
-        <div class="pagingArea" align="center">
+				</div>
+	           <br> <br>
+       </div>
+                <script type="text/javascript">
+	           $(function(){//클릭 시 게시물 상세페이지로 이동
+	   			$(".product").click(function(){
+	   				var sid = $(this).children().eq(0).text();
+	   				location.href="<%=request.getContextPath()%>/detailStore.do?sid="+sid;
+	   			})	
+	   		
+	   			})
+           </script> 
+       		
+        <% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
+		<button id="butt" onclick="location.href='<%=contextPath %>/insertStoreForm.do'">상품 추가</button>
+		<% } %>
+     <!-- 페이징바 만들기 -->
+		<div class="pagingArea" align="center">
 			<!-- 맨 처음으로 (<<) -->
-			<button id="butt1" onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=1'"> &lt;&lt; </button>
+			<button id="butt1" onclick="location.href='<%=request.getContextPath()%>/storeList.do?currentPage=1'"> &lt;&lt; </button>
 		
 			<!-- 이전페이지로(<) -->
 			<%if(currentPage == 1){ %>
 			<button id="butt1" disabled> &lt; </button>
 			<%}else{ %>
-			<button id="butt1" onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
+			<button id="butt1" onclick="location.href='<%= request.getContextPath() %>/storeList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
 			<%} %>
 			
 			<!-- 페이지 목록 -->
@@ -132,7 +136,7 @@
 				<%if(p == currentPage){ %>
 				<button id="butt1" disabled> <%= p %> </button>
 				<%}else{ %>
-				<button id="butt1" onclick="location.href='<%=request.getContextPath() %>/cookTalkList.do?currentPage=<%= p %>'"> <%= p %> </button>
+				<button id="butt1" onclick="location.href='<%=request.getContextPath() %>/storeList.do?currentPage=<%= p %>'"> <%= p %> </button>
 				<%} %>
 				
 			<%} %>
@@ -141,15 +145,15 @@
 			<%if(currentPage == maxPage){ %>
 			<button id="butt1"disabled> &gt; </button>
 			<%}else { %>
-			<button id="butt1"onclick="location.href='<%= request.getContextPath() %>/cookTalkList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
+			<button id="butt1"onclick="location.href='<%= request.getContextPath() %>/storeList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
 			<%} %>
 		
 			<!-- 맨 끝으로 (>>) -->
-			<button id="butt1"onclick="location.href='<%=request.getContextPath()%>/cookTalkList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
+			<button id="butt1"onclick="location.href='<%=request.getContextPath()%>/storeList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
 		</div> 
-        </div></div>
+       
     
-
+</div>
       <%@ include file = "../common/footer.jsp" %>
        
  

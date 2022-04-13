@@ -46,7 +46,7 @@ public class StoreListServlet extends HttpServlet {
 		int boardLimit;//한 페이지에 보여질 게시물 최대 갯수
 		
 		//총 게시물 갯수 
-		listCount = new CookTalkService().getListCount();
+		listCount = new StoreService().getListCount();
 		System.out.println("listCount : " + listCount);
 		
 		//현재 페이지 
@@ -58,11 +58,11 @@ public class StoreListServlet extends HttpServlet {
 		}
 		
 		//페이지 최대 갯수
-		pageLimit = 10;
+		pageLimit = 30;
 		
 		
 		//게시물 최대 갯수
-		boardLimit = 10;
+		boardLimit = 6;
 		
 		// * maxPage : 총 페이지 수
 				/*

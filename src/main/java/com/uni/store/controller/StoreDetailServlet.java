@@ -1,27 +1,29 @@
-package com.uni.cook_talk.controller;
+package com.uni.store.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.cook_talk.model.dto.Cook_Talk;
-import com.uni.cook_talk.model.service.CookTalkService;
-import com.uni.member.model.dto.Member;
+import com.uni.common.Attachment;
+import com.uni.store.model.dto.Store;
+import com.uni.store.model.service.StoreService;
 
 /**
- * Servlet implementation class CookTalkInsertServlet
+ * Servlet implementation class StoreDetailServlet
  */
-@WebServlet("/insertCookTalk.do")
-public class CookTalkInsertServlet extends HttpServlet {
+@WebServlet("/detailStore.do")
+public class StoreDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CookTalkInsertServlet() {
+    public StoreDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,23 +32,21 @@ public class CookTalkInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String ckTitle = request.getParameter("ckTitle");
-		String ckContent = request.getParameter("ckContent");
+		int sid = Integer.parseInt(request.getParameter("sid"));
+		Store s = new StoreService().selectStore(sid);
 		
-		 int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
-	
-		Cook_Talk c = new Cook_Talk(ckTitle,ckContent,userNo);
+		ArrayList<Attachment> filelist = new StoreService().selectThumbnail(sid);
 		
-		int result = new CookTalkService().insertCookTalk(c);
-		
-		 if(result>0) {
-			 request.getSession().setAttribute("msg", "게시물이 등록되었습니다");
-			 response.sendRedirect("cookTalkList.do");
-			}else {
-				request.setAttribute("msg","등록 실패");
-				
-			}
-		
+		if(s != null) {
+			request.setAttribute("s", s);
+			request.setAttribute("fileList", filelist);
+			request.getRequestDispatcher("views/store/storeDetail.jsp").forward(request, response);
+		}else {
+			request.setAttribute("msg", "사진게시판 상세보기 실패");
+			request.getRequestDispatcher("views/commom/errorPage.jsp").forward(request, response);
+
+		}
+
 		}
 	
 
