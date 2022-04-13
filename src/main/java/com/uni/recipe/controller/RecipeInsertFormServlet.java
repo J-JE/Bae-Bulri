@@ -27,7 +27,7 @@ public class RecipeInsertFormServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 화면 전환만 진행
-		request.getRequestDispatcher("views/recipe/recipeInsertForm.jsp").forward(request, response);
+		request.getRequestDispatcher("views/recipe/recipeInsertFormView.jsp").forward(request, response);
 	}
 
 	/**
