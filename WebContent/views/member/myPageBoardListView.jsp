@@ -105,11 +105,31 @@ a {
       }
 
 #delete{
-    background-color: purple;
-    color: white;
+
     border-radius: 8px;
+    background-color: #bce7eb;
+	color : white;
 }
 
+nav{
+	margin-left : 100px;
+}
+
+#liSearchOption{ 
+    list-style:none;
+    text-align:right;
+    margin-bottom:10px;
+
+}
+#txtKeyWord{
+	width : 250px;
+	height : 38px;
+	list-style:none;
+}
+#searchBtn{
+	background-color: #bce7eb;
+	color : white;
+}
 
 </style>
 </head>
@@ -139,13 +159,29 @@ a {
             <table class="table table-hover table-striped text-center" id="list">
               <thead>
                 <tr>
-                    <th><input type="checkBox"></th>
+                    <th><input type="checkBox" id="allcheck"></th>
                     <th>번호</th>
                     <th>작성날짜</th>
                     <th>제목</th>
                 </tr>
             </thead>
+			<li id='liSearchOption'>
+                    <div>
+                        <input id='txtKeyWord' placeholder="제목을 입력하세요">
+                         <button class="btn btn-outline-secondary" type="button" id="searchBtn">검색</button>
+                    </div>
+            </li>
+            
+            <script>
+			$(function(){
+				$("#searchBtn").click(function(){
+					var bkw = $("#txtKeyWord").val();
+					location.href="<%=contextPath%>/myBoardSearch.do?bkw=" + bkw;
+					});
+			 });
+		</script>
             <tbody>
+            
             	<%if(list.isEmpty()){ %>
             	<tr>
             		<td colspan="4">작성한 글이 없습니다.</td>
@@ -155,10 +191,10 @@ a {
             		 
             		  <tr>
             		   <input type="hidden" value="<%=ct.getBoardNo() %>">
-            		  	  <td><input type="checkBox"></td>
+            		      <td><input type="checkBox" name="RowCheck" ></td>
             		  	  <td><%= ct.getBoardNo()%></td>
             		  	  <td><%= ct.getCreateDate()%></td>
-            		  	  <td id="title"><%= ct.getBoardTitle()%></td>	 
+            		  	  <td class="title"><%= ct.getBoardTitle()%></td>	 
             		  </tr>
             		  
             		    <%} %>
@@ -178,49 +214,63 @@ a {
             </tbody>
             </table>
            <script>
-	           $(function(){//클릭 시 게시글 상세페이지로 이동
-	   			$("#title").click(function(){//제목을 클릭 시 상세페이지로 이동
+	           $(function(){
+	        	   var chkObj = document.getElementsByName("RowCheck");
+	        	   var rowCnt = chkObj.length;
+	   			$(".title").click(function(){//제목을 클릭 시 상세페이지로 이동
 	   				var cno = $("#list>tbody>tr").children().eq(0).val();
 	   				location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
-	   			})	
+	   			  });	
+	   			
+	   			
+	   			  $('#allcheck').click(function(){//체크박스 전체 선택
+	   		         var cnk_listArr = $("input[name='RowCheck']");
+	   			  	 for(var i = 0; i<cnk_listArr.length; i++){
+	   			  		 cnk_listArr[i].checked = this.checked;
+	   			  	 }
+	   		   	   });
+	   			  
+
 	   		
-	   			})
+	   			});
+	   			
+	 
+
            </script>
-           
-            <button id="delete">선택 글 삭제</button> 
-        <!-- 페이징바 만들기 -->
-			<div class="pagingArea" align="center">
-			<!-- 맨 처음으로 (<<) -->
-			<button onclick="location.href='<%=contextPath%>/myBoardList.do?currentPage=1'"> &lt;&lt; </button>
-		
-			<!-- 이전페이지로(<) -->
-			<%if(currentPage == 1){ %>
-			<button disabled> &lt; </button>
-			<%}else{ %>
-			<button onclick="location.href='<%= contextPath %>/myBoardList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
-			<%} %>
-			
-			<!-- 페이지 목록 -->
-			<%for(int p=startPage; p<=endPage; p++){ %>
-				
-				<%if(p == currentPage){ %>
-				<button disabled> <%= p %> </button>
-				<%}else{ %>
-				<button onclick="location.href='<%=contextPath %>/myBoardList.do?currentPage=<%= p %>'"> <%= p %> </button>
-				<%} %>
-				
-			<%} %>
-			
-			<!-- 다음페이지로(>) -->
-			<%if(currentPage == maxPage){ %>
-			<button disabled> &gt; </button>
-			<%}else { %>
-			<button onclick="location.href='<%= contextPath %>/myBoardList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
-			<%} %>
-		
-			<!-- 맨 끝으로 (>>) -->
-			<button onclick="location.href='<%=contextPath%>/myBoardList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
-			</div> 
+
+   
+          <%--   <button id="delete" onclick="deleteValue();">선택 글 삭제</button>--%> 
+			 <button class="btn btn-outline-secondary" type="button" id="delete" onclick="deleteValue();">선택 글 삭제 </button>
+              <!-- 페이징바 만들기 -->
+            <nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<!-- 이전페이지로(<) -->
+		        	<%if(currentPage == 1){ %>
+						<li class="page-item"><a class="page-link" disabled> &lt; </a></li>
+					<%}else{ %>
+						<li class="page-item"><a class="page-link" href="<%=contextPath %>/myBoardList.do?currentPage=<%= currentPage-1 %>"> &lt; </a></li>
+					<%} %>
+					
+					<!-- 페이지 목록 -->
+					<%for(int p=startPage; p<=endPage; p++){ %>
+					
+						<%if(p == currentPage){ %>
+							<li class="page-item"><a class="page-link" disabled"><%= p %></a></li>
+						<%}else{ %>
+							<li class="page-item"><a class="page-link" href="<%=contextPath %>/myBoardList.do?currentPage=<%= p %>"><%= p %></a></li>
+						<%} %>
+					<%} %>
+					
+					<!-- 다음페이지로(>) -->
+					<%if(currentPage == maxPage){ %>
+						<li class="page-item"><a class="page-link" disabled> &gt; </a></li>
+					<%}else { %>
+						<li class="page-item"><a class="page-link" href="<%=contextPath %>/myBoardList.do?currentPage=<%=currentPage+1 %>"> &gt; </a></li>
+					<%} %>
+					
+				</ul>
+		    </nav>
+  
 		<br><br>
 		<%-- <div align="center">
 		<% if(loginUser != null){ %>

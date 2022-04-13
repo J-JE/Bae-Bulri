@@ -24,7 +24,7 @@ public class MemberDao_th {
 	private Properties prop = new Properties();
 
 	public MemberDao_th() {
-		String fileName = MemberDao_gm.class.getResource("/sql/member/mypagemember-query.properties").getPath();
+		String fileName = MemberDao_th.class.getResource("/sql/member/mypagemember-query.properties").getPath();
 		System.out.println("fileName   " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
@@ -223,5 +223,40 @@ public class MemberDao_th {
 		
 		return result;
 	}
+	public ArrayList<Cook_Talk> searchMyBoard(Connection conn, String bkw, PageInfo pi, String userId) {
+		ArrayList<Cook_Talk> list = new ArrayList<Cook_Talk>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		//SearchMyBoard=SELECT * FROM( SELECT ROWNUM RNUM, A.* FROM ( SELECT BOARD_NO, BOARD_TITLE, CREATE_DATE FROM COOK_TALK A JOIN MEMBER B ON A.USER_NO = B.USER_NO WHERE BOARD_TITLE LIKE ? AND B.USER_ID = ? AND A.STATUS = 'Y' ORDER BY BOARD_NO DESC) A) WHERE RNUM BETWEEN ? AND ?
+		String sql = prop.getProperty("SearchMyBoard");
+		int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() + 1;
+	    int endRow = startRow + pi.getBoardLimit() - 1;
+	    
+	    try {
+	    	pstmt = conn.prepareStatement(sql);
+			bkw = '%' +bkw + '%';
+			pstmt.setString(1, bkw);
+			pstmt.setString(2, userId);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Cook_Talk(rset.getInt("BOARD_NO"),
+						   rset.getDate("CREATE_DATE"),
+						   rset.getString("BOARD_TITLE")		
+			));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+
+
 
 }

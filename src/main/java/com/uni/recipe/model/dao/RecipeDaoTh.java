@@ -19,7 +19,7 @@ public class RecipeDaoTh {
 	private Properties prop = new Properties();
 
 	public RecipeDaoTh() {
-		String fileName = MemberDao_gm.class.getResource("/sql/recipe/recipe_Th-query.properties").getPath();
+		String fileName = RecipeDaoTh.class.getResource("/sql/recipe/recipe_Th-query.properties").getPath();
 		System.out.println("fileName   " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
@@ -37,16 +37,17 @@ public class RecipeDaoTh {
 		PreparedStatement pstmt = null;
 		
 		String sql = prop.getProperty("updateRecipe");
-		//updateRecipe=UPDATE RECIPE SET RECIPE_TITLE = ?, RECIPE_TAG = ?, RECIPE_DES = ?, RECIPE_PRO = ?, RECIPE_TIME=?, RECIPE_CONTENT = ? WHERE RECIPE_NO = ?
+		//updateRecipe=UPDATE RECIPE SET R_CATEGORY_NO = ?, RECIPE_TITLE = ?, RECIPE_TAG = ?, RECIPE_DES = ?, RECIPE_PRO = ?, RECIPE_TIME=?, RECIPE_CONTENT = ? WHERE RECIPE_NO = ?
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, r.getRecipeTitle());
-			pstmt.setString(2, r.getRecipeTag());
-			pstmt.setString(3, r.getRecipeDes());
-			pstmt.setString(4, r.getRecipePro());
-			pstmt.setInt(5, r.getRecipeTime());
-			pstmt.setString(6, r.getRecipeContent());
-			pstmt.setInt(7, r.getRecipeNo());
+			pstmt.setInt(1, r.getrCategoryNo());
+			pstmt.setString(2, r.getRecipeTitle());
+			pstmt.setString(3, r.getRecipeTag());
+			pstmt.setString(4, r.getRecipeDes());
+			pstmt.setString(5, r.getRecipePro());
+			pstmt.setInt(6, r.getRecipeTime());
+			pstmt.setString(7, r.getRecipeContent());
+			pstmt.setInt(8, r.getRecipeNo());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -139,6 +140,7 @@ public class RecipeDaoTh {
 				r.setRecipeNo(rset.getInt("RECIPE_NO"));
 				r.setCategory(rset.getInt("CATEGORY"));
 				r.setrCategoryNo(rset.getInt("R_CATEGORY_NO"));
+				//r.setrCategoryName(rset.getString("R_CATEGORY_NAME")); 우선 보류
 				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
 				r.setRecipeTag(rset.getString("RECIPE_TAG"));
 				r.setRecipeDes(rset.getString("RECIPE_DES"));

@@ -71,7 +71,6 @@ a {
         margin-left: 80px;
         margin-top: 100px;
         float: left;
-
   
 	}
 .topList {
@@ -79,7 +78,7 @@ a {
 		height: 900px;
 		color: black;
 		margin-right: 1000px;
-
+		
 
 	}
 #thumbList{
@@ -141,7 +140,9 @@ a {
       }
 
 
-    
+    nav{
+    	margin-left : 100px;
+    }
     
 </style>
 </head>
@@ -169,7 +170,6 @@ a {
             		<input type="hidden" value="<%=r.getRecipeNo() %>">
             		<img id="img" class="" src="<%=contextPath %>/resources/images/recipeFiles/<%= r.getThImg() %>" width="150px" height="150px"><br>
             		<p><%=r.getRecipeTitle()%></p>
-           		
             		<button class="button" onclick="location.href='<%=request.getContextPath()%>/deleteLikey.do?rno=<%=r.getRecipeNo()%>'">삭제</button>
             	</div>
             	<%} %>
@@ -241,39 +241,36 @@ a {
                         </div>      
             
             </div>
-			 <!-- 페이징바 만들기 -->
-			<div class="pagingArea" align="center">
-			<!-- 맨 처음으로 (<<) -->
-			<button onclick="location.href='<%=contextPath%>/myLikeyList.do?currentPage=1'"> &lt;&lt; </button>
-		
-			<!-- 이전페이지로(<) -->
-			<%if(currentPage == 1){ %>
-			<button disabled> &lt; </button>
-			<%}else{ %>
-			<button onclick="location.href='<%= contextPath %>/myLikeyList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
-			<%} %>
+            
+            <nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<!-- 이전페이지로(<) -->
+		        	<%if(currentPage == 1){ %>
+						<li class="page-item"><a class="page-link" disabled> &lt; </a></li>
+					<%}else{ %>
+						<li class="page-item"><a class="page-link" href="<%=contextPath %>/myLikeyList.do?currentPage=<%= currentPage-1 %>"> &lt; </a></li>
+					<%} %>
+					
+					<!-- 페이지 목록 -->
+					<%for(int p=startPage; p<=endPage; p++){ %>
+					
+						<%if(p == currentPage){ %>
+							<li class="page-item"><a class="page-link" disabled"><%= p %></a></li>
+						<%}else{ %>
+							<li class="page-item"><a class="page-link" href="<%=contextPath %>/myLikeyList.do?currentPage=<%= p %>"><%= p %></a></li>
+						<%} %>
+					<%} %>
+					
+					<!-- 다음페이지로(>) -->
+					<%if(currentPage == maxPage){ %>
+						<li class="page-item"><a class="page-link" disabled> &gt; </a></li>
+					<%}else { %>
+						<li class="page-item"><a class="page-link" href="<%=contextPath %>/myLikeyList.do?currentPage=<%=currentPage+1 %>"> &gt; </a></li>
+					<%} %>
+					
+				</ul>
+		    </nav>
 			
-			<!-- 페이지 목록 -->
-			<%for(int p=startPage; p<=endPage; p++){ %>
-				
-				<%if(p == currentPage){ %>
-				<button disabled> <%= p %> </button>
-				<%}else{ %>
-				<button onclick="location.href='<%=contextPath %>/myLikeyList.do?currentPage=<%= p %>'"> <%= p %> </button>
-				<%} %>
-				
-			<%} %>
-			
-			<!-- 다음페이지로(>) -->
-			<%if(currentPage == maxPage){ %>
-			<button disabled> &gt; </button>
-			<%}else { %>
-			<button onclick="location.href='<%= contextPath %>/myLikeyList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
-			<%} %>
-		
-			<!-- 맨 끝으로 (>>) -->
-			<button onclick="location.href='<%=contextPath%>/myLikeyList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
-			</div> 
     
             <br>
             <br>
