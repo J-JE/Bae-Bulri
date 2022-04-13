@@ -57,7 +57,7 @@ public class MemberService_th {
 	public int deleteLikey(int rno, int userNo) {
 		Connection conn = getConnection();
 		int result = new MemberDao_th().deleteLikey(conn,rno,userNo);
-		
+		System.out.println(result);
 		if(result > 0) {
 			commit(conn);
 		}else {
@@ -66,5 +66,17 @@ public class MemberService_th {
 		close(conn);
 		return result;
 	}
+
+	public ArrayList<Cook_Talk> searchMyBoard(PageInfo pi, String bkw, String userId) {
+		Connection conn = getConnection();
+		ArrayList<Cook_Talk> list = new MemberDao_th().searchMyBoard(conn,bkw,pi,userId);
+		
+		close(conn);
+		return list;
+	}
+
+
+
+
 
 }

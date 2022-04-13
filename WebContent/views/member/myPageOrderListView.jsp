@@ -102,7 +102,9 @@ a {
       margin-right: 1px;
       }
 
-
+	  nav{
+	  	margin-left : 100px;
+	  }
 </style>
 </head>
 <body>
@@ -210,49 +212,38 @@ a {
                 
             </tbody>
             </table>
-              <!-- 페이징바 만들기 -->
-			<div class="pagingArea" align="center">
-			<!-- 맨 처음으로 (<<) -->
-			<button onclick="location.href='<%=contextPath%>/myOrderList.do?currentPage=1'"> &lt;&lt; </button>
-		
-			<!-- 이전페이지로(<) -->
-			<%if(currentPage == 1){ %>
-			<button disabled> &lt; </button>
-			<%}else{ %>
-			<button onclick="location.href='<%= contextPath %>/myOrderList.do?currentPage=<%= currentPage-1 %>'"> &lt; </button>
-			<%} %>
+             <!-- 페이징바 만들기 -->
+            <nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<!-- 이전페이지로(<) -->
+		        	<%if(currentPage == 1){ %>
+						<li class="page-item"><a class="page-link" disabled> &lt; </a></li>
+					<%}else{ %>
+						<li class="page-item"><a class="page-link" href="<%=contextPath %>/myOrderList.do?currentPage=<%= currentPage-1 %>"> &lt; </a></li>
+					<%} %>
+					
+					<!-- 페이지 목록 -->
+					<%for(int p=startPage; p<=endPage; p++){ %>
+					
+						<%if(p == currentPage){ %>
+							<li class="page-item"><a class="page-link" disabled"><%= p %></a></li>
+						<%}else{ %>
+							<li class="page-item"><a class="page-link" href="<%=contextPath %>/myOrderList.do?currentPage=<%= p %>"><%= p %></a></li>
+						<%} %>
+					<%} %>
+					
+					<!-- 다음페이지로(>) -->
+					<%if(currentPage == maxPage){ %>
+						<li class="page-item"><a class="page-link" disabled> &gt; </a></li>
+					<%}else { %>
+						<li class="page-item"><a class="page-link" href="<%=contextPath %>/myOrderList.docurrentPage=<%=currentPage+1 %>"> &gt; </a></li>
+					<%} %>
+					
+				</ul>
+		    </nav>
+             
 			
-			<!-- 페이지 목록 -->
-			<%for(int p=startPage; p<=endPage; p++){ %>
-				
-				<%if(p == currentPage){ %>
-				<button disabled> <%= p %> </button>
-				<%}else{ %>
-				<button onclick="location.href='<%=contextPath %>/myOrderList.do?currentPage=<%= p %>'"> <%= p %> </button>
-				<%} %>
-				
-			<%} %>
-			
-			<!-- 다음페이지로(>) -->
-			<%if(currentPage == maxPage){ %>
-			<button disabled> &gt; </button>
-			<%}else { %>
-			<button onclick="location.href='<%= contextPath %>/myOrderList.do?currentPage=<%= currentPage+1 %>'"> &gt; </button>
-			<%} %>
-		
-			<!-- 맨 끝으로 (>>) -->
-			<button onclick="location.href='<%=contextPath%>/myOrderList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
-
-			</div> 
-          <%--   <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#"> &lt; </a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#"> &gt; </a></li>
-                </ul>
-            </nav> --%>
+     
 	  </div>
 	  <%@ include file = "../common/footer.jsp" %>
 </body>

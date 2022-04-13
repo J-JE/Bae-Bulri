@@ -15,16 +15,16 @@ import com.uni.member.model.dto.Member;
 import com.uni.member.model.service.MemberService_th;
 
 /**
- * Servlet implementation class myBoardListServlet
+ * Servlet implementation class myBoardSearchServlet
  */
-@WebServlet("/myBoardList.do")
-public class myBoardListServlet extends HttpServlet {
+@WebServlet("/myBoardSearch.do")
+public class myBoardSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public myBoardListServlet() {
+    public myBoardSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -76,14 +76,16 @@ public class myBoardListServlet extends HttpServlet {
 		
 		//페이지를 생성해서 담는다.
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
+		//mypageBoardListView에서  넘겨준 bkw를 받는다 
+		String bkw = request.getParameter("bkw");
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String userId = loginUser.getUserId();
-		ArrayList<Cook_Talk> list = new MemberService_th().boardSelect(pi,userId);
-		System.out.println(list); //값이 잘 넘어오나 확인
+		ArrayList<Cook_Talk> list = new MemberService_th().searchMyBoard(pi,bkw,userId);
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		
 		request.getRequestDispatcher("/views/member/myPageBoardListView.jsp").forward(request, response);
+		
 	}
 
 	/**

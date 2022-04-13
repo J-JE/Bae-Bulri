@@ -75,10 +75,15 @@
           <form class="validation-form was-validated" action="<%=contextPath%>/updateRecipe.do" method="post" enctype="multipart/form-data">
           <input type="hidden" name="rId" value="<%= r.getRecipeNo() %>">
             <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="name">레시피 제목</label>
-                <input type="text" class="form-control" id="name" name="title" placeholder="" value="<%= r.getRecipeTitle() %>" required>
-              </div>
+	              <div class="col-md-6 mb-3">
+	                <label for="name">레시피 제목</label>
+	                <input type="text" class="form-control" id="name" name="title" placeholder="" value="<%= r.getRecipeTitle() %>" required>
+	              </div>
+              
+	              <div class="col-md-6 mb-3">
+	              <label for="category">레시피 카테고리</label>
+	              <input type="text" class="form-control" id="category" name="category" placeholder="" value="<%=r.getrCategoryNo() %>" required>
+	              </div>
               </div>
   
               <div class="mb-3">

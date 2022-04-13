@@ -51,7 +51,7 @@ public class RecipeUpdateServlet extends HttpServlet {
 			
 			
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath , maxSize , "UTF-8", new MyFileRenamePolicy());
-
+			int category = Integer.parseInt(multiRequest.getParameter("category"));
 			int rId = Integer.parseInt(multiRequest.getParameter("rId"));
 			String[] pros = multiRequest.getParameterValues("product");
 			String[] contents = multiRequest.getParameterValues("content");
@@ -66,6 +66,7 @@ public class RecipeUpdateServlet extends HttpServlet {
 			
 			Recipe r = new Recipe();
 			r.setRecipeNo(rId);
+			r.setrCategoryNo(category);
 			r.setRecipeTitle(multiRequest.getParameter("title"));
 			r.setRecipeTag(multiRequest.getParameter("tag"));
 			r.setRecipeDes(multiRequest.getParameter("desc"));
