@@ -10,15 +10,15 @@ import java.util.Properties;
 
 import com.uni.common.Attachment;
 import com.uni.recipe.model.dto.Recipe;
+
 import static com.uni.common.JDBCTemplate.*;
 
 public class RecipeDaoJw {
-	
 	private Properties prop = new Properties();
 	
-	public void recipeDao() {
-		String fileName = RecipeDaoJw.class.getResource("/sql/recipe/recipe-query.properties").getPath();
-		System.out.println("fileName   " + fileName);
+	public RecipeDaoJw() {
+		String fileName = RecipeDaoJw.class.getResource("/sql/recipe/recipeJw-query.properties").getPath();
+		System.out.println("fileName " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
@@ -50,7 +50,7 @@ public class RecipeDaoJw {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}finally {
 			close(pstmt);
 		}
 		
@@ -62,7 +62,7 @@ public class RecipeDaoJw {
 		PreparedStatement pstmt = null;
 		
 		String sql = prop.getProperty("insertAttachment");
-
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, at.getCategory());
@@ -80,31 +80,46 @@ public class RecipeDaoJw {
 		
 		return result;
 	}
-	
-	
-/*	public int getNext() {
-		Connection conn = getConnection();
+
+	public int deleteRecipe(Connection conn, int rId) {
+		int result = 0;
 		PreparedStatement pstmt = null;
-		ResultSet rset = null;
 		
-		String sql = "SELECT RECIPE_NO FROM RECIPE ORDER BY RECIPE_NO DESC";
+		String sql = prop.getProperty("deleteRecipe");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rset = pstmt.executeQuery();
+			pstmt.setInt(1, rId);
 			
-			if(rset.next()) {
-				return rset.getInt(1) + 1;
-			}
-			return 1;
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			close(rset);
+		} finally {
 			close(pstmt);
-			close(conn);
 		}
-		return -1;
-	} */
+		
+		return result;
+	}
+
+	public int deleteAttachment(Connection conn, int rId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

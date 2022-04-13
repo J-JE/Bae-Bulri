@@ -1,10 +1,12 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+<%@ page import="com.uni.member.model.dto.Member" %> 
 <%
 	Member m = (Member)request.getAttribute("loginUser");
-	//String name = m.getUserName();
+	String name = m.getUserName();
+	String address = m.getAddress();
+	String phone = m.getPhone();
+	String email = m.getEmail();
 %>        
 <!DOCTYPE html>
 <html>
@@ -49,6 +51,7 @@
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
+        
           <table class="product-talbe">
                    <tbody>
                           	<form method="get">
@@ -88,24 +91,16 @@
       <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
         주문자 정보
-        <button type="button" onclick="location.href = '../member/memberUpdateForm.jsp'">수정</button>
+        <!-- 수정 버튼을 누를 경우 주문자의 정보를 수정할 수 있는 마이페이지-회원 수정 페이지로 이동하게 해둠 -->
+        <button type="button" onclick="location.href='../member/memberUpdateForm.jsp'">수정</button>
       </a>
       </div>
       <div id="collapseTwo" class="collapse show" data-parent="#accordion">
         <div class="card-body">
           <div class="customer-area">
-          	<span>주문자 : <% if(m != null) {
-				m.getPhone();
-			}else{ %> 주문자
-			<%} %></span> <br>
-			<span>전화번호 : <% if(m != null) {
-				m.getPhone();
-			}else{ %> 전화번호
-			<%} %></span> <br>
-			<span>이메일 : <% if(m != null) {
-				m.getEmail();
-			}else{ %> 이메일
-			<%} %></span> <br><br>
+          	<span> <b>주문자</b> <% m.getUserName(); %></span> <br>
+          	<span> <b>전화번호</b> <% m.getPhone(); %></span> <br>
+          	<span> <b>이메일</b> <% m.getEmail(); %></span> <br><br>
 			* 정확한 정보로 등록되어있는지 확인해주세요.
 			</div>
         </div> <!-- card-body -->
@@ -136,10 +131,7 @@
 							<tr>
 								<th>이름</th>
 								<td>
-								<% if(m != null) {
-								m.getUserName();
-								}else{ %> 주문자
-								<%} %>
+								<% m.getUserName(); %>
 								</td>
 							</tr>
 							<tr>
@@ -148,10 +140,7 @@
 								<input class="selectAddress" value="T" type="hidden">
 								<input class="addressee_input" value="" type="hidden">
 								<input class="address1_input" type="hidden" value="">
-								<% if(m != null) {
-								m.getAddress();
-								}else{ %> 서울
-								<%} %>																					
+								<% m.getAddress(); %>																				
 								</td>
 							</tr>
 						</tbody>
@@ -205,10 +194,7 @@
 			<th>포인트 사용</th>
 			<td>
 				포인트
-				<% if(m != null) {
-				m.getPoint();
-				}else{ %>
-				<%} %>
+				<% m.getPoint(); %>
 				<input class="order_point_input" value="0">원 
 				<a class="order_point_input_btn order_point_input_btn_N" data-state="N">모두사용</a>
 				<a class="order_point_input_btn order_point_input_btn_Y" data-state="Y" style="display: none;">사용취소</a>
@@ -243,7 +229,7 @@
 					</li>
 				</ul>
 			</div>
-			<!-- 결제하기 버튼 -->
+			<!-- 결제 영역 -->
 			<div class="total_info_btn_div">
 			<!-- 결제하기 버튼 -->
 				<a class="order_btn">주문하기</a>
@@ -256,9 +242,9 @@
     </div> <!-- accordion -->
     
     <!-- 주문 요청 form -->
-	<form class="order_form" action="/order.do" method="post">
+	<form class="order_form" action="<%= contextPath %>/order.do" method="post">
 		<!-- 주문자 회원번호 -->
-		<input name="memberId" value="" type="hidden">
+		<input name="userNo" value="" type="hidden">
 		<!-- 주소 -->
 		<input name="address" type="hidden">
 		<!-- 사용 포인트 -->
@@ -431,16 +417,6 @@ $(".order_btn").on("click", function(){
 	$("input[name='usePoint']").val($(".order_point_input").val());	
 	
 	/* 상품정보 */
-	let form_contents = ''; 
-	$(".goods_table_price_td").each(function(index, element){
-		let bookId = $(element).find(".individual_bookId_input").val();
-		let bookCount = $(element).find(".individual_bookCount_input").val();
-		let bookId_input = "<input name='orders[" + index + "].bookId' type='hidden' value='" + bookId + "'>";
-		form_contents += bookId_input;
-		let bookCount_input = "<input name='orders[" + index + "].bookCount' type='hidden' value='" + bookCount + "'>";
-		form_contents += bookCount_input;
-	});	
-	$(".order_form").append(form_contents);	
 	
 	/* 서버 전송 */
 	$(".order_form").submit();	

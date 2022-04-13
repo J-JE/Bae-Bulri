@@ -28,4 +28,19 @@ public class RecipeServiceJw {
 		close(conn);
 		return result1 * result2;
 	}
+
+	public int deleteRecipe(int rId) {
+		Connection conn = getConnection();
+		int result1 = new RecipeDaoJw().deleteRecipe(conn, rId);
+		int result2 = new RecipeDaoJw().deleteAttachment(conn, rId);
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1 * result2;
+	}
 }
