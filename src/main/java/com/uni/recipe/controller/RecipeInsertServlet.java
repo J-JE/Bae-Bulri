@@ -79,7 +79,7 @@ public class RecipeInsertServlet extends HttpServlet {
 							
 				if(result > 0) {
 					request.getSession().setAttribute("msg", "레시피가 등록되었습니다.");
-					response.sendRedirect("index.jsp");
+					response.sendRedirect("recipeList.do");
 				}else {
 					if(at != null) {
 						File failedFile = new File(savePath + at.getChangeName());
