@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+     import = "java.util.ArrayList, com.uni.store.model.dto.*,com.uni.common.Attachment" pageEncoding="UTF-8" %>
+    
+<% 
+    Store s = (Store)request.getAttribute("s"); 
+	ArrayList<Store> fileList = (ArrayList<Store>)request.getAttribute("fileList");
+
+	Attachment StroeImg  = fileList.get(0);
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -71,8 +78,8 @@
                 </div>
                 
                 <div id="store_data"> <!--스토어 정보-->
-                    <h4 id="store_name" style="font-weight: bolder;">국내산 <br>맛좋은 김치 </h4><br>
-                    <h4 id="store_price" style="font-weight: bolder;">15000원</h4><br>
+                    <h4 id="store_name" style="font-weight: bolder;"><%= s.getProductName() %></h4><br>
+                    <h4 id="store_price" style="font-weight: bolder;"><%=s.getPrice()%>원</h4><br>
                     <h4 id="store_amount"><input type="number" min="1" max="100" value="1"/></h4>
                 </div>
                 <div id="all_butt">

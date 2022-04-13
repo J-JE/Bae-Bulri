@@ -1,4 +1,4 @@
-package com.uni.cook_talk.controller;
+package com.uni.store.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,21 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.cook_talk.model.dto.Cook_Talk;
-import com.uni.cook_talk.model.service.CookTalkService;
-import com.uni.member.model.dto.Member;
-
 /**
- * Servlet implementation class CookTalkInsertServlet
+ * Servlet implementation class StoreInsertFormServlet
  */
-@WebServlet("/insertCookTalk.do")
-public class CookTalkInsertServlet extends HttpServlet {
+@WebServlet("/insertStoreForm.do")
+public class StoreInsertFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CookTalkInsertServlet() {
+    public StoreInsertFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,29 +26,11 @@ public class CookTalkInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String ckTitle = request.getParameter("ckTitle");
-		String ckContent = request.getParameter("ckContent");
-		
-		 int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
-	
-		Cook_Talk c = new Cook_Talk(ckTitle,ckContent,userNo);
-		
-		int result = new CookTalkService().insertCookTalk(c);
-		
-		 if(result>0) {
-			 request.getSession().setAttribute("msg", "게시물이 등록되었습니다");
-			 response.sendRedirect("cookTalkList.do");
-			}else {
-				request.setAttribute("msg","등록 실패");
-				
-			}
-		
-		}
-	
+		request.getRequestDispatcher("views/store/storeInsert.jsp").forward(request, response);
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	 */}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

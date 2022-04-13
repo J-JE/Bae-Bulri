@@ -74,7 +74,7 @@
             margin-top: 30px; 
             width:100px; 
           
-            margin-left: 600px; 
+            margin-left: 700px; 
     }
    #butt1{
     background-color: rgb(133, 69, 133);
