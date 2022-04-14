@@ -240,13 +240,34 @@
         <script>
     	function orderBtn(){
     		var count = $("input[name='ingredient']:checked").length;
-    		var order = [];
+    		var bNos = [];
     		$("input[name='ingredient']:checked").each(function() {
-    			order.push($(this).attr('value'));
+    			bNos.push($(this).attr('value'));
                 console.log($(this).attr('value'));
             });
-    			order=order.join(',');
-                console.log(order);
+    		bNos=bNos.join(',');
+            console.log(bNos);
+            
+            var tPrice=$("#sumPrice").text();
+            console.log(totalPrice);
+            /*$.ajax({
+				url:"orderInsert.do",
+				type:"post",
+				data:{
+					bNos: bNos,
+					tPrice: tPrice
+				},
+				success:function(status){
+					if(status=="success"){ // 장바구니 담기 성공하면
+						alert("주문페이지로 이동합니다.")
+					}else{
+						alert("주문에 실패했습니다.")
+					}
+				},
+				error:function(){
+					console.log("ajax 통신실패 -장바구니 전송");
+				}
+			});*/
     	}
         </script>
     </div>
