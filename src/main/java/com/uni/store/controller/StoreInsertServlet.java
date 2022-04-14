@@ -35,9 +35,10 @@ public class StoreInsertServlet extends HttpServlet {
     }
 
 	/**
+	 * @param category 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response, int category) throws ServletException, IOException {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10 * 1024 * 1024;
 			
@@ -57,14 +58,13 @@ public class StoreInsertServlet extends HttpServlet {
 			s.setStock(stock);
 			
 			Attachment at = null;
-	           if(multiRequest.getOriginalFileName("upfile") != null) {//게시글은 필수고, 첨부파일은 없을 수 도있음
+	           if(multiRequest.getOriginalFileName("upfile") != null) {
 	              String originName = multiRequest.getOriginalFileName("upfile");
 	              String changeName = multiRequest.getFilesystemName("upfile");//바뀐 파일 이름
 	              
-	              System.out.println("originName : " + originName);
-	              System.out.println("changeName : " + changeName);
 	              
 	              at = new Attachment();
+	            
 	              at.setFilePath(savePath);
 	              at.setOriginName(originName);
 	              at.setChangeName(changeName);
@@ -72,14 +72,14 @@ public class StoreInsertServlet extends HttpServlet {
 	           int result = new StoreService().insertStore(s,at);
 	           
 	           if(result > 0) {//등록 성공시
-	              request.getSession().setAttribute("msg", "게시글 등록 성공");
+	              request.getSession().setAttribute("msg", "제품 등록 성공");
 	              response.sendRedirect("storeList.do");
 	           }else {
 	              if(at != null) {//첨부파일이 null이 아니면
 	                 File failedFile = new File(savePath + at.getChangeName());
 	                 failedFile.delete();//파일을 지워줌
 	              }
-	              request.setAttribute("msg", "게시글 등록 실패");
+	              request.setAttribute("msg", "제품 등록 실패");
 	              request.getRequestDispatcher("views/commom/errorPage.jsp").forward(request, response);
 
 	           }

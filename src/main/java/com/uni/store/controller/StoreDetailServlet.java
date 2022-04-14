@@ -33,21 +33,19 @@ public class StoreDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int sid = Integer.parseInt(request.getParameter("sid"));
+		
 		Store s = new StoreService().selectStore(sid);
 		
-		ArrayList<Attachment> filelist = new StoreService().selectThumbnail(sid);
+		
 		
 		if(s != null) {
 			request.setAttribute("s", s);
-			request.setAttribute("fileList", filelist);
 			request.getRequestDispatcher("views/store/storeDetail.jsp").forward(request, response);
 		}else {
-			request.setAttribute("msg", "사진게시판 상세보기 실패");
-			request.getRequestDispatcher("views/commom/errorPage.jsp").forward(request, response);
-
+			 request.setAttribute("msg", "게시글 등록 실패");
+             request.getRequestDispatcher("views/commom/errorPage.jsp").forward(request, response);
 		}
-
-		}
+	}
 	
 
 	/**

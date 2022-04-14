@@ -1,7 +1,6 @@
 package com.uni.store.model.dao;
 
-import static com.uni.common.JDBCTemplate.close;
-
+import static com.uni.common.JDBCTemplate.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,7 +14,7 @@ import java.util.Properties;
 
 import com.uni.common.Attachment;
 import com.uni.common.PageInfo;
-import com.uni.recipe.model.dto.Recipe;
+
 import com.uni.store.model.dto.Store;
 
 public class StoreDao {
@@ -39,11 +38,12 @@ public class StoreDao {
 		ArrayList<Store>list = new ArrayList<Store>();
 		 PreparedStatement pstmt = null;
 	     ResultSet rset = null;
-	    // selectStList=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM(SELECT PRODUCT_NAME, PRICE, CHANGE_NAME FROM STORE S JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON(S.PRODUCT_NO=B.REF_BNO))A)WHERE RNUM BETWEEN ? AND ?
+	    // selectStList=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM(SELECT PRODUCT_NO,PRODUCT_NAME,PRICE,STOCK,CHANGE_NAME FROM STORE S JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON(S.PRODUCT_NO=B.REF_BNO))A)WHERE RNUM BETWEEN ? AND ?
 	     
+	     String sql = prop.getProperty("selectStList");
 	     int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() + 1;
 	     int endRow = startRow + pi.getBoardLimit() - 1;
-	     String sql = prop.getProperty("selectStList");
+	    
 	     
 	 	try {
 			pstmt = conn.prepareStatement(sql);
@@ -53,8 +53,10 @@ public class StoreDao {
 			rset = pstmt.executeQuery();
 			while(rset.next()) {//FROM전 까지만 받아서
 				Store s = new Store();
+				s.setProductNo(rset.getInt("PRODUCT_NO"));
 				s.setProductName(rset.getString("PRODUCT_NAME"));
 				s.setPrice(rset.getInt("PRICE"));
+				s.setStock(rset.getInt("STOCK"));
 				s.setStroeImg(rset.getString("CHANGE_NAME"));
 				
 				list.add(s);//s에 담은 정보를 list에 담아주고
@@ -73,7 +75,7 @@ public class StoreDao {
 		
 		Statement stmt = null;
 		ResultSet rset = null;
-		
+		//getListCount=SELECT COUNT(*) FROM COOK_TALK WHERE STATUS='Y
 		String sql = prop.getProperty("getListCount");
 		try {
 			stmt = conn.createStatement();
@@ -98,20 +100,21 @@ public class StoreDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectSTORE");
-		//selectSTORE= SELECT PRODUCT_NO,CATEGORY,PRODUCT_NAME,PRICE,STOCK FROM STORE WHERE PRODUCT_NO=?
-	
+		//selectSTORE=SELECT PRODUCT_NO,PRODUCT_NAME,PRICE,STOCK,CHANGE_NAME FROM STORE S LEFT JOIN (SELECT * FROM ATTACHMENT WHERE STATUS = 'Y') D ON ( S.PRODUCT_NO = D.REF_BNO ) AND S.STATUS = 'Y' WHERE S.PRODUCT_NO = ?
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sid);
+			
 			rset = pstmt.executeQuery();
+			
 			if(rset.next()) {
 				s = new Store(rset.getInt("PRODUCT_NO"),
-						rset.getInt("CATEGORY"),
 						rset.getString("PRODUCT_NAME"),
 						rset.getInt("PRICE"),
-						rset.getInt("STOCK")
-					
-						);
+						rset.getInt("STOCK"),
+						rset.getString("CHANGE_NAME")
+					);
 				
 			}
 		} catch (SQLException e) {
@@ -125,80 +128,87 @@ public class StoreDao {
 		
 		return s;
 	}
-	public ArrayList<Attachment> selectThumbnail(Connection conn, int sid) {
-		ArrayList<Attachment>list = new ArrayList<>() ;
+	public Attachment selectAttachment(Connection conn, int sid) {
+		//selectAttachment=SELECT FILE_NO, ORIGIN_NAME, CHANGE_NAME FROM ATTACHMENT WHERE REF_BNO=? AND STATUS='Y'
+		Attachment at = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+	String sql = prop.getProperty("selectAttachment");
 		
-		String sql = prop.getProperty("selectAttachment");
-				try {
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setInt(1, sid);
-					rset = pstmt.executeQuery();
-					
-					while(rset.next()) {
-						Attachment at = new Attachment();
-						at.setFileNo(rset.getInt("FILE_NO"));
-						at.setOriginName(rset.getString("ORIGIN_NAME"));
-						at.setChangeName(rset.getString("CHANGE_NAME"));
-						
-						list.add(at);
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}finally {
-					close(rset);
-					close(pstmt);
-				}
-				return list;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sid);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				at = new Attachment();
+				at.setFileNo(rset.getInt("FILE_NO"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
 			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return at;
+	}
 	public int insertStore(Connection conn, Store s) {
-		int result = 0;
+			int result = 0;
 		 PreparedStatement pstmt = null;
 		 //insertSTORE=INSERT INTO STORE VALUES(SEQ_PNO.NEXTVAL, 2, ?, ?, ?, DEFAULT)
 		  String sql = prop.getProperty("insertSTORE");
 		  
-		   try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, s.getProductName());
-			pstmt.setInt(2, s.getPrice());
-			pstmt.setInt(3,s.getStock());
+		  try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, s.getProductName());
+				pstmt.setInt(2, s.getPrice());
+				pstmt.setInt(3, s.getStock());
 			
-			result = pstmt.executeUpdate();
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}
+		
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
+			return result;
 		}
 	
-		
-		return result;
-	}
 	public int insertAttachment(Connection conn, Attachment at) {
 		int result = 0;
-		PreparedStatement pstmt = null;
-		//insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, ?, SEQ_PNO.CURRVAL, ?, ?, ?, SYSDATE, DEFAULT)
-		 String sql = prop.getProperty("insertAttachment");
-		 
-		 try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, at.getCategory());
-			pstmt.setString(2, at.getOriginName());
-			pstmt.setString(3, at.getChangeName());
-			pstmt.setString(4, at.getFilePath());
-			
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-		}
+		 PreparedStatement pstmt = null;
+		// insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, ?, SEQ_PNO.CURRVAL, ?, ?, ?, SYSDATE, DEFAULT)
+		  String sql = prop.getProperty("insertAttachment");
+		  
+		  try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, at.getCategory());
+				pstmt.setString(2, at.getOriginName());
+				pstmt.setString(3, at.getChangeName());
+				pstmt.setString(4, at.getFilePath());
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}
 		
-		return result;
+			
+			return result;
+		}
 	}
+	
 
-}
+
+
+

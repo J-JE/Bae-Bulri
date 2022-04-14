@@ -92,28 +92,30 @@
 	    	<%} %>  
             <div id="List">
                  <%for(Store s : list){ %>
-                  <tbody>                  
+                                  
                 <div class="product" > 
-                    <input type="hidden" value="1"> 
-                    <img src="<%=request.getContextPath()%>/resources/images/store<%=s.getStroeImg()%>" width="400px" height="200px"> <br>
+                    <input type="hidden" value="<%=s.getProductNo()%>"> 
+                    <img src="<%=request.getContextPath()%>/resources/images/store/<%=s.getStroeImg()%>" width="400px" height="200px"> <br>
                    
                     <a><%=s.getProductName()%></a><br>
                     <a><%=s.getPrice()%>원</a>
                     </div>
-                    </tbody>
+                    
                     <%}%>
 				</div>
 	           <br> <br>
        </div>
-                <script type="text/javascript">
-	           $(function(){//클릭 시 게시물 상세페이지로 이동
-	   			$(".product").click(function(){
-	   				var sid = $(this).children().eq(0).text();
-	   				location.href="<%=request.getContextPath()%>/detailStore.do?sid="+sid;
-	   			})	
-	   		
-	   			})
-           </script> 
+             
+            	<script>
+		<%if(!list.isEmpty()){%>
+		$(function(){
+			$(".product").click(function(){
+				var sid = $(this).children().eq(0).val();
+				location.href = "<%=contextPath%>/detailStore.do?sid="+sid;
+			})
+		})
+		<%}%>
+	</script>
        		
         <% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
 		<button id="butt" onclick="location.href='<%=contextPath %>/insertStoreForm.do'">상품 추가</button>
