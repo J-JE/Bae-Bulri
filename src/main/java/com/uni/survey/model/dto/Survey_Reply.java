@@ -9,7 +9,7 @@ public class Survey_Reply {
 	private int userNo;
 	private Date createDate;
 	private String status;
-	
+	private String userid;
 	public Survey_Reply() {
 		// TODO Auto-generated constructor stub
 	}
@@ -23,6 +23,29 @@ public class Survey_Reply {
 		this.userNo = userNo;
 		this.createDate = createDate;
 		this.status = status;
+	}
+
+	
+	public Survey_Reply(int replyNo, int surveyNo, String replyContent, int userNo, Date createDate, String status,
+			String userid) {
+		super();
+		this.replyNo = replyNo;
+		this.surveyNo = surveyNo;
+		this.replyContent = replyContent;
+		this.userNo = userNo;
+		this.createDate = createDate;
+		this.status = status;
+		this.userid = userid;
+	}
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 
@@ -77,7 +100,29 @@ public class Survey_Reply {
 	@Override
 	public String toString() {
 		return "Survey_Reply [replyNo=" + replyNo + ", surveyNo=" + surveyNo + ", replyContent=" + replyContent
-				+ ", userNo=" + userNo + ", createDate=" + createDate + ", status=" + status + "]";
+				+ ", userNo=" + userNo + ", createDate=" + createDate + ", status=" + status + ", userid=" + userid
+				+ "]";
 	}
+
+
+	public Survey_Reply(int replyNo, String replyContent, int userNo, Date createDate) {
+		super();
+		this.replyNo = replyNo;
+		this.replyContent = replyContent;
+		this.userNo = userNo;
+		this.createDate = createDate;
+	}
+
+
+	public Survey_Reply(int replyNo, String replyContent, Date createDate, String userid) {
+		super();
+		this.replyNo = replyNo;
+		this.replyContent = replyContent;
+		this.createDate = createDate;
+		this.userid = userid;
+	}
+	
+	
+	
 	
 }

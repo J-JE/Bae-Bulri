@@ -1,6 +1,7 @@
 package com.uni.survey.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,21 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.common.Attachment;
-import com.uni.survey.model.dto.Survey;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.uni.survey.model.dto.Survey_Reply;
 import com.uni.survey.model.service.SurveyService;
 
 /**
- * Servlet implementation class surveyDetailServlet
+ * Servlet implementation class surveyRListServlet
  */
-@WebServlet("/detailsurvey.do")
-public class surveyDetailServlet extends HttpServlet {
+@WebServlet("/srlist.do")
+public class surveyRListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public surveyDetailServlet() {
+    public surveyRListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,19 +33,13 @@ public class surveyDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int nno = Integer.parseInt(request.getParameter("nno"));
+		int sno = Integer.parseInt(request.getParameter("sno"));
 		
-		Survey s = new SurveyService().selectSurvey(nno);
-		Attachment at = new SurveyService().selectAttachment(nno);
+		ArrayList<Survey_Reply> list = new SurveyService().selectRList(sno);
 		
-		if(s != null) {
-			request.setAttribute("s", s);
-			request.setAttribute("at", at);
-			request.getRequestDispatcher("views/survey/surveyDetailView.jsp").forward(request, response);
-		}else {
-			request.setAttribute("msg", "게시글 상세조회 실패하였습니다");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create();
+		gson.toJson(list, response.getWriter());
 	}
 
 	/**
