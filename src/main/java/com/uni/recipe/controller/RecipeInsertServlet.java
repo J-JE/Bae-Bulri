@@ -69,7 +69,6 @@ public class RecipeInsertServlet extends HttpServlet {
 				String changeName = multi.getFilesystemName("upFile");
 				
 				at = new Attachment();
-				at.setCategory(category);
 				at.setFilePath(savePath);
 				at.setOriginName(originName);
 				at.setChangeName(changeName);

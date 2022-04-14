@@ -61,7 +61,7 @@
                 <a class="recipe-menu-link" href="#">작성하기</a>
                 <!-- 여기부터 테스트용 주문 페이지 연결 링크 -->
                 >
-                <a class="recipe-menu-link" href="../order/order.jsp">주문하기</a>
+                <a class="recipe-menu-link" href="<%=contextPath %>/orderForm.do">주문하기</a>
                 <!-- 여기까지 삭제하면 됨 -->
         </div>
         <hr>
