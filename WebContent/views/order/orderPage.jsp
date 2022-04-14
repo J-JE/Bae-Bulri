@@ -39,158 +39,135 @@
    </div> <!-- con-top -->
    
    <div id="accordion">
-    <div class="card">
-      <div class="card-header">
-        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-          주문 상품
-        </a>
-      </div>
-      <div id="collapseOne" class="collapse show" data-parent="#accordion">
-        <div class="card-body">
-          <table class="product-talbe">
-                   <tbody>
-                          	<form method="get">
-                    <tr>
-                        <td class="order-pro">
-                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
-                            <label for ="ingredient1">상품</label>
-                        </td>
-                        <td>
-                            <label>수량 </label>
-                            <input type="number" name="amount" min="0" max="50" value="1" style="width: 50px;"></td>
-                        <td>
-                            가격
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="order-pro">
-                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
-                            <label for ="ingredient1">상품</label>
-                        </td>
-                        <td>
-                            <label>수량 </label>
-                            <input type="number" name="amount" min="0" max="50" value="1" style="width: 50px;"></td>
-                        <td>
-                            가격
-                        </td>
-                    </tr>
-                </form>
-                          </tbody>
-                </table>
-        </div>
-      </div>
-    </div>
+   	<div class="card">
+   	 <div class="card-header">
+   	  <a class="collapsed card-link" data-toggle="collapse" href="#collapseOne">
+   	  	주문 상품
+   	  </a>
+   	 </div> <!-- card-header -->
+   	 <div id="collapseOne" class="collapse show" data-parent="#accordion">
+   	 	
+   	 </div> <!-- collapseOne -->
+   	</div> <!-- card -->
+   	
+   	<div class="card">
+   	 <div class="card-header">
+   	  <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+   	  	주문자 정보
+   	  	<!-- 수정 버튼 -->
+   	  </a>
+   	 </div> <!-- card-header -->
+   	 <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+   	  <div class="customer-area">
+   	   주문자 : <% if(m != null) {
+   		   m.getUserName();
+   	   }else{%> 주문자 이름 들어올 자리
+   	   <%} %>
+   	   <br>
+   	   전화번호 : <% if(m != null){
+   		   m.getPhone();
+   	   }else{ %> 전화번호 들어올 자리
+   	   <%} %>
+   	   <br>
+   	   이메일 : <% if(m != null){
+   		   m.getEmail();
+   	   }else{ %> 이메일 들어올 자리
+   	   <%} %>
+   	   <br><br>
+   	   * 정확한 정보로 등록되어 있는지 확인해주세요.
+   	  </div> <!-- customer-area -->
+   	 </div> <!-- collapseTwo -->
+   	</div> <!-- card -->
+   	
+   	<div class="card">
+   	<div class="card-header">
+   	 <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+   	 	배송지 정보
+   	 </a>
+   	</div> <!-- card-header -->
+   	<div id="collapseThree" class="collapse show" data-parent="#accordion">
+   	 <div class="addr-info">
+   	 
+   	  <div class="addr-area-1">
+   	  <button class="addr_btn addr_btn_1" onclick="showAddr('1')" style="background-color: #3c3838;">기존 주소</button>
+   	  <button class="addr_btn addr_btn_2" onclick="showAddr('2')">직접 입력</button>
+   	 </div> <!-- addr-area-1 -->
+   	 
+   	 <div class="addr-area-2">
+   	  <div class="addr-area-2 addr-inner-div" style="display: block">
+   	  	<table>
+   	  		<colgroup>
+   	  			<col width="25%">
+   	  			<col width="*">
+   	  		</colgroup>
+   	  		<tr>
+   	  		 <th>이름</th>
+   	  		 <td>
+   	  		 	<% if(m != null){
+   	  		 		m.getUserName();
+   	  		 	}else{ %> 이름 들어가는 부분
+   	  		 	<%} %>
+   	  		 </td>
+   	  		</tr>
+   	  		<tr>
+   	  		 <th>주소</th>
+   	  		 <td>
+   	  		 	<input class="selectAddress" value="T" type="hidden">
+				<input class="addressee_input" value="" type="hidden">
+				<input class="address1_input" type="hidden" value="">
+				<% if(m != null){
+					m.getAddress();
+				}else{ %> 주소 들어갈 자리
+				<%} %>
+   	  		 </td>
+   	  		</tr>
+   	  	</table>
+   	  </div>
+   	  
+   	  <div class="addr-area2 addr-inner-div-2" style="display: bloack">
+   	  	<table>
+   	  		<colgroup>
+   	  			<col width="25%">
+   	  			<col width="*">
+   	  		</colgroup>
+   	  		<tr>
+   	  			<th>이름</th>
+   	  			<td>
+   	  			 <input class="addressee_input">
+   	  			</td>
+   	  		</tr>
+   	  		<tr>
+   	  			<th>주소</th>
+   	  			<td>
+   	  				<input class="selectAddress" value="F" type="hidden">
+					<input type="text" id="selectAddr" name="selectAddr">
+   	  			</td>
+   	  		</tr>
+   	  	</table>
+   	  </div>
+  	 </div> <!-- addr-area-2 -->
+   	 
+   	 </div> <!-- addr-info -->
+   	</div> <!-- collapseThree -->
+   	</div> <!-- card -->
+   	
+   	<div class="card">
+   	<div class="card-header">
+   	 <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+   	 	결제 정보
+   	 </a>
+   	 <div id="collapseFour" class="collapse show" data-parent="#accordion">
+   	  <div>
+   	  </div>
+   	 </div> <!-- collapseFour -->
+   	</div> <!-- card-header -->
+   	</div> <!-- card -->
+   
+   </div> <!-- accordion -->  
     
-    <div class="card">
-      <div class="card-header">
-        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-        주문자 정보
-        <button type="button" onclick="location.href = '../member/memberUpdateForm.jsp'">수정</button>
-      </a>
-      </div>
-      <div id="collapseTwo" class="collapse show" data-parent="#accordion">
-        <div class="card-body">
-          <div class="customer-area">
-          	<span>주문자 : <% if(m != null) {
-				m.getPhone();
-			}else{ %> 주문자
-			<%} %></span> <br>
-			<span>전화번호 : <% if(m != null) {
-				m.getPhone();
-			}else{ %> 전화번호
-			<%} %></span> <br>
-			<span>이메일 : <% if(m != null) {
-				m.getEmail();
-			}else{ %> 이메일
-			<%} %></span> <br><br>
-			* 정확한 정보로 등록되어있는지 확인해주세요.
-			</div>
-        </div> <!-- card-body -->
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-          배송지 정보
-        </a>
-      </div>
-      <div id="collapseThree" class="collapse show" data-parent="#accordion">
-        <div class="card-body">
-          <div class="addressInfo_div">
-			<div class="addressInfo_button_div">
-			<button class="address_btn address_btn_1" onclick="showAdress('1')" style="background-color: #3c3838;">기존 주소</button>
-			<button class="address_btn address_btn_2" onclick="showAdress('2')">직접 입력</button>
-			</div>
-			<div class="addressInfo_input_div_wrap">
-			<div class="addressInfo_input_div addressInfo_input_div_1" style="display: block">
-					<table>
-						<colgroup>
-							<col width="25%">
-							<col width="*">
-						</colgroup>
-						<tbody>
-							<tr>
-								<th>이름</th>
-								<td>
-								<% if(m != null) {
-								m.getUserName();
-								}else{ %> 주문자
-								<%} %>
-								</td>
-							</tr>
-							<tr>
-								<th>주소</th>
-								<td>
-								${memberInfo.memberAddr1} ${memberInfo.memberAddr2}<br>${memberInfo.memberAddr3}
-								<input class="selectAddress" value="T" type="hidden">
-								<input class="addressee_input" value="${memberInfo.memberName}" type="hidden">
-								<input class="address1_input" type="hidden" value="${memberInfo.memberAddr1}">
-								<% if(m != null) {
-								m.getAddress();
-								}else{ %> 서울
-								<%} %>																					
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="addressInfo_input_div addressInfo_input_div_2">
-				<table>
-					<colgroup>
-						<col width="25%">
-						<col width="*">
-					</colgroup>
-					<tbody>
-					<tr>
-						<th>이름</th>
-						<td>
-							<input class="addressee_input">
-						</td>
-					</tr>
-					<tr>
-						<th>주소</th>
-						<td>
-							<input class="selectAddress" value="F" type="hidden">
-							<input type="text" id="selectAddr" name="selectAddr">
-							<input class="address1_input" readonly="readonly"> <a class="address_search_btn" onclick="execution_daum_address()">주소 찾기</a><br>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-						</div>
-					</div>
-				</div> <!-- 여기까지 배송주소 영역 -->
-        </div>
-      </div>
+	
       
       <div class="card">
-      <div class="card-header">
-        <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
-        결제 정보
-      </a>
-      </div>
       <div id="collapseFour" class="collapse show" data-parent="#accordion">
         <div class="card-body">
          <div class="point-area">

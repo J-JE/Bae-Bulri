@@ -2,11 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.uni.member.model.dto.Member" %> 
 <%
-	Member m = (Member)request.getAttribute("loginUser");
-	String name = m.getUserName();
-	String address = m.getAddress();
-	String phone = m.getPhone();
-	String email = m.getEmail();
+	Member m = (Member)request.getSession().getAttribute("loginUser");
 %>        
 <!DOCTYPE html>
 <html>
@@ -36,6 +32,7 @@
 <%@ include file="../common/menubar.jsp" %>
 
 <div class="container">
+
   <div class="con-top">
   	<span>장바구니</span> >
     <span id="zenOrder">주문하기</span> >
@@ -43,19 +40,18 @@
    </div> <!-- con-top -->
         
   <div id="accordion">
+  
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" href="#collapseOne">
           주문 상품
         </a>
       </div>
+      
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
-        
-          <table class="product-talbe">
-                   <tbody>
-                          	<form method="get">
-                    <tr>
+        	<table class="product-table">
+        		<tr>
                         <td class="order-pro">
                             <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
                             <label for ="ingredient1">상품</label>
@@ -80,19 +76,18 @@
                             가격
                         </td>
                     </tr>
-                </form>
-                          </tbody>
-                </table>
-        </div>
-      </div>
-    </div>
+        	</table>
+        </div> <!-- card-body -->
+      </div> <!-- collapseOne -->
+    </div> <!-- card -->
     
     <div class="card">
       <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
         주문자 정보
-        <!-- 수정 버튼을 누를 경우 주문자의 정보를 수정할 수 있는 마이페이지-회원 수정 페이지로 이동하게 해둠 -->
-        <button type="button" onclick="location.href='../member/memberUpdateForm.jsp'">수정</button>
+        <!-- 수정 버튼을 누를 경우 주문자의 정보를 수정할 수 있는 마이페이지-회원 수정 페이지로 이동 -->
+        <!-- 수정 후 다시 주문페이지로 돌아오도록 하는 것 & 화면 적용이 애매해서 일단 주석 처리, 수정 기능없이 갈 수도 있음 -->
+     <!--   <button type="button" onclick="location.href='../member/memberUpdateForm.jsp'">수정</button> -->
       </a>
       </div>
       <div id="collapseTwo" class="collapse show" data-parent="#accordion">
@@ -104,8 +99,8 @@
 			* 정확한 정보로 등록되어있는지 확인해주세요.
 			</div>
         </div> <!-- card-body -->
-      </div>
-    </div>
+      </div> <!-- collapseTwo -->
+    </div> <!-- card -->
     
     <div class="card">
       <div class="card-header">
@@ -113,6 +108,7 @@
           배송지 정보
         </a>
       </div>
+      
       <div id="collapseThree" class="collapse show" data-parent="#accordion">
         <div class="card-body">
           <div class="addressInfo_div">
@@ -120,6 +116,7 @@
 			<button class="address_btn address_btn_1" onclick="showAdress('1')" style="background-color: #3c3838;">기존 주소</button>
 			<button class="address_btn address_btn_2" onclick="showAdress('2')">직접 입력</button>
 			</div>
+			
 			<div class="addressInfo_input_div_wrap">
 			<div class="addressInfo_input_div addressInfo_input_div_1" style="display: block">
 					<table>
@@ -163,8 +160,7 @@
 						<th>주소</th>
 						<td>
 							<input class="selectAddress" value="F" type="hidden">
-							<input type="text" id="selectAddr" name="selectAddr" placeholder="주소를 입력하세요.">
-							<input class="address1_input" readonly="readonly"> <a class="address_search_btn" onclick="execution_daum_address()">주소 찾기</a><br>
+							<input type="text" id="address1_input" name="selectAddr" placeholder="주소를 입력하세요.">
 						</td>
 					</tr>
 					</tbody>
@@ -232,6 +228,7 @@
 			<!-- 결제 영역 -->
 			<div class="total_info_btn_div">
 			<!-- 결제하기 버튼 -->
+				<button class="order_btn">주문하기</button>
 				<a class="order_btn">주문하기</a>
 			</div>
 		</div>				
@@ -244,11 +241,11 @@
     <!-- 주문 요청 form -->
 	<form class="order_form" action="<%= contextPath %>/order.do" method="post">
 		<!-- 주문자 회원번호 -->
-		<input name="userNo" value="" type="hidden">
+		<input name="userNo" type="hidden" value="null">
 		<!-- 주소 -->
-		<input name="address" type="hidden">
+		<input name="address" type="hidden" value="null">
 		<!-- 사용 포인트 -->
-		<input name="usePoint" type="hidden">
+		<input name="usePoint" type="hidden" value="null">
 		<!-- 상품 정보 -->
 	</form>
     
@@ -259,28 +256,8 @@
 $(document).ready(function(){
 	
 	/* 주문 조합정보란 최신화 */
-	setTotalInfo();
-	
-	/* 이미지 삽입 */
-	$(".image_wrap").each(function(i, obj){
+	setTotalInfo();	
 		
-		const bobj = $(obj);
-		
-		if(bobj.data("bookid")){
-			const uploadPath = bobj.data("path");
-			const uuid = bobj.data("uuid");
-			const fileName = bobj.data("filename");
-			
-			const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
-			
-			$(this).find("img").attr('src', '/display?fileName=' + fileCallPath);
-		} else {
-			$(this).find("img").attr('src', '/resources/img/goodsNoImage.png');
-		}
-		
-	});		
-	
-	
 });
 
 /* 주소입력란 버튼 */
