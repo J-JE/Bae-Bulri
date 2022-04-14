@@ -6,6 +6,7 @@
 	Recipe r = (Recipe)request.getAttribute("r");
 	Attachment at = (Attachment)request.getAttribute("at");
 	
+	String[] Content = r.getRecipeContent().split("!");
 
 %>
 <html lang="ko">
@@ -52,6 +53,7 @@
     table {
         width: 1000px;
     }
+    
 
   </style>
   </head>
@@ -142,20 +144,23 @@
 				<%-- 	<%} %> --%>
 					
 				
+				<% for(int i = 0; i < Content.length; i++){ %>
 				
-                   <%--  <tr>
-                        <th >과정이미지</th>
+                     <tr>
+                       <%-- <th >과정이미지</th>
                         <td>
                             <img id="subImg1" width="250px" height="150px"> 
                         </td>--%>
-                        <th>과정1</th>
-                        <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
+                        
+                        <th>과정<%=i+1 %></th>
+                        <td> <textarea name="content" rows="7" cols="60%" style="resize:none;"><%=Content[i] %></textarea></td>
                     </tr>
-                    <tr>
+                    <% }%>
+                   <%-- --%>  <tr>
                         <%-- <th >과정2이미지</th>
                         <td >
                             <img id="subImg2" width="250px" height="150px"> 
-                        </td> --%>
+                        </td> 
                         <th>과정2</th>
                         <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
                     </tr>
@@ -163,27 +168,24 @@
                        <%-- <th >과정3이미지</th>
                         <td >
                             <img id="subImg3" width="250px" height="150px"> 
-                        </td> --%>
+                        </td> 
                         <th>과정3</th>
                         <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
-                    </tr>
+                    </tr>--%>
 
 
 
                 </table>
-                <div id="fileArea"> <!-- 파일을 등록할 수있게 -->
-                    <input type="file" name="upFile2" id="upFile2" onchange="loadImg(this, 2);">
-                    <input type="file" name="upFile3" id="upFile3" onchange="loadImg(this, 3);">
-                    <input type="file" name="upFile4" id="upFile4" onchange="loadImg(this, 4);">
-                </div>
+				</div>
+				
+           	 </div>
             </div>
-            
          
               <hr>
 
             <div class="mb-4"></div>
             <button class="btn btn-primary btn-lg btn-block" type="submit">수정 완료</button>
-            <button class="btn btn-primary btm-lg btn-block" type="button">수정 취소</button>
+            <button class="btn btn-primary btm-lg btn-block" type="button" id="back">수정 취소</button>
           
         </form>
         </div>
@@ -207,24 +209,21 @@
         });
       }, false);
 
-
-      $(function(){
-		$("#fileArea").hide();
-		
-		$("#subImg1").click(function(){
-			$("#upFile2").click();
-		});
-		
-		$("#subImg2").click(function(){
-			$("#upFile3").click();
-		});
-		
-		$("#subImg3").click(function(){
-			$("#upFile4").click();
-		});
 	
 	});
+	
     </script>
+    
+     <script type="text/javascript">
+     $(function(){
+ 		$('#back').click(function(){
+ 			if(confirm("수정을 취소 하시겠습니까?")){
+ 				location.href="<%=request.getContextPath()%>/recipeList.do";
+ 			}
+ 		});
+ 		
+ 	});
+        </script>
   
   
   </div></div>     	  <%@ include file = "../common/footer.jsp" %></body></html>

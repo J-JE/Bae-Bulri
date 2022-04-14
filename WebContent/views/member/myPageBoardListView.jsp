@@ -155,7 +155,12 @@ nav{
             <br>
             <br>
 
-
+			<li id='liSearchOption'>
+                    <div>
+                        <input id='txtKeyWord' placeholder="제목을 입력하세요">
+                        <button class="btn btn-outline-secondary" type="button" id="searchBtn">검색</button>
+                    </div>
+            </li>
             <table class="table table-hover table-striped text-center" id="list">
               <thead>
                 <tr>
@@ -165,12 +170,7 @@ nav{
                     <th>제목</th>
                 </tr>
             </thead>
-			<li id='liSearchOption'>
-                    <div>
-                        <input id='txtKeyWord' placeholder="제목을 입력하세요">
-                         <button class="btn btn-outline-secondary" type="button" id="searchBtn">검색</button>
-                    </div>
-            </li>
+	
             
             <script>
 			$(function(){
@@ -187,10 +187,10 @@ nav{
             		<td colspan="4">작성한 글이 없습니다.</td>
             	</tr>
             	<%}else{ %>
-            		  <%for(Cook_Talk ct : list){ %>
+            	  <%for(Cook_Talk ct : list){ %>
             		 
             		  <tr>
-            		   <input type="hidden" value="<%=ct.getBoardNo() %>">
+            		   <input type="hidden" value="<%=ct.getBoardNo()%>">
             		      <td><input type="checkBox" name="RowCheck" ></td>
             		  	  <td><%= ct.getBoardNo()%></td>
             		  	  <td><%= ct.getCreateDate()%></td>
@@ -198,7 +198,19 @@ nav{
             		  </tr>
             		  
             		    <%} %>
-            	     <%} %>
+            		 <%} %>
+            		<%--   <%for(int i = 0; i < list.size(); i++){ %>
+            		  
+            		  <tr>
+            		   	  <input type="hidden" value="<%=list.get(i).getBoardNo() %>">
+            		      <td><input type="checkBox" name="RowCheck" value="<%=list.get(i).getBoardNo()%>" ></td>
+            		  	  <td><%= list.get(i).getBoardNo()%></td>
+            		  	  <td><%= list.get(i).getCreateDate()%></td>
+            		  	  <td class="title"><%= list.get(i).getBoardTitle()%></td>	 
+            		  </tr>
+            		  
+            		    <%}%>
+            	     <%} %>--%>
                <%--  <tr>
                     <td><input type="checkBox"> </td>
                     <td>1</td>
@@ -215,19 +227,21 @@ nav{
             </table>
            <script>
 	           $(function(){
-	        	   var chkObj = document.getElementsByName("RowCheck");
-	        	   var rowCnt = chkObj.length;
 	   			$(".title").click(function(){//제목을 클릭 시 상세페이지로 이동
 	   				var cno = $("#list>tbody>tr").children().eq(0).val();
 	   				location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
 	   			  });	
 	   			
 	   			
-	   			  $('#allcheck').click(function(){//체크박스 전체 선택
-	   		         var cnk_listArr = $("input[name='RowCheck']");
-	   			  	 for(var i = 0; i<cnk_listArr.length; i++){
-	   			  		 cnk_listArr[i].checked = this.checked;
-	   			  	 }
+	   			   $('#allcheck').click(function(){//체크박스 전체 선택
+	   				 if($("#allcheck").is(":checked")){ 
+	                       
+	                        $("input:checkbox[name='RowCheck']").prop("checked", true);
+	                    }else{ //체크 해제되면
+	                        
+	                        $("input:checkbox[name='RowCheck']").prop("checked", false);
+	                    }
+	   				 
 	   		   	   });
 	   			  
 
@@ -240,7 +254,51 @@ nav{
 
    
           <%--   <button id="delete" onclick="deleteValue();">선택 글 삭제</button>--%> 
-			 <button class="btn btn-outline-secondary" type="button" id="delete" onclick="deleteValue();">선택 글 삭제 </button>
+			 <button class="btn btn-outline-secondary" type="button" id="delete">선택 글 삭제 </button>
+             
+          <%--    <script>
+             	$("#delete").click(function(){
+             		var count = $("input[name='RowCheck']:checked").length;
+             		var bNo = [];
+             		$("input[name='RowCheck']:checked").each(function(){
+
+             			bNo.push($(this).attr('value'));
+             		});
+             		bNo = bNo.join(',');
+             		console.log(bNo);
+             		if(count == 0){
+             			alert("게시글을 선택 해 주세요")
+             		}else{
+             			$.ajax({
+             				url:"deleteMyBoard.do",
+             				type:"post",
+             				data:{
+             					bNo:bNo
+             				},
+             				success:function(result){
+             					if(result =="result"){
+             						
+             						var warning = confirm("건을 정말 삭제 하시겠습니까?")
+             						if (!warning) {
+             				            alert("취소를 누르셨습니다.");
+             				        } else {
+             				        	alert("성공적으로 게시글을 삭제했습니다.")
+                 						history.go(0);
+             				        }
+             		
+             					}else{
+             						alert("게시글에 삭제 실패하였습니다.")
+             					}
+             				},
+             				error:function(){
+             					console.log("ajax 통신 실패");
+             				}
+             			});
+             		}
+		
+             		
+             	});
+             </script>--%>
               <!-- 페이징바 만들기 -->
             <nav aria-label="Page navigation example">
 				<ul class="pagination">
@@ -272,11 +330,7 @@ nav{
 		    </nav>
   
 		<br><br>
-		<%-- <div align="center">
-		<% if(loginUser != null){ %>
-		<button onclick="location.href='enrollFormBoard.do'">작성하기</button>
-		<% } %>
-		</div>--%>
+
      </div>
         <%@ include file = "../common/footer.jsp" %>
 </body>

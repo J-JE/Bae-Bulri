@@ -123,7 +123,9 @@ public class RecipeUpdateServlet extends HttpServlet {
 			//System.out.println("servlet =====" + fileList);
 			
 			if(result > 0) {
+				request.getSession().setAttribute("msg", "성공적으로 수정이 되었습니다.");
 				response.sendRedirect("recipeDetail.do?rId="+rId);
+
 			}else {
 				request.setAttribute("msg", "레시피 수정에 실패하였습니다.");
 				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response); 

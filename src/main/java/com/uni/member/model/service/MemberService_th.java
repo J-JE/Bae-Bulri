@@ -75,6 +75,20 @@ public class MemberService_th {
 		return list;
 	}
 
+	public int deleteMyBoardList(String bNo) {
+		Connection conn = getConnection();
+		int result = new MemberDao_th().deleteMyBoardList(conn,bNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	
 
 
 

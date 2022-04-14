@@ -105,6 +105,35 @@ a {
 	  nav{
 	  	margin-left : 100px;
 	  }
+	  
+#liSearchOption{ 
+    list-style:none;
+    text-align:right;
+    margin-bottom:10px;
+
+}
+#txtKeyWord{
+	width : 250px;
+	height : 38px;
+	list-style:none;
+}
+#searchBtn{
+	background-color: #bce7eb;
+	color : white;
+}
+
+#select{
+	   list-style:none;
+    text-align:left;
+    margin-bottom:10px;
+    position: absolute;
+    margin-left : 600px;
+    height : 38px;
+}
+#selectBar{
+display: inline-block;
+
+}
 </style>
 </head>
 <body>
@@ -127,9 +156,8 @@ a {
             <br>
             <br>
             <br>
-            <br>
-
-
+            <br>   	    
+           	   
             <table class="table table-hover table-striped text-center">
               <thead>
                 <tr>
