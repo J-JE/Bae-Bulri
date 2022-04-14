@@ -86,7 +86,7 @@
 						<input type="checkbox" id="<%=proName%>" name="ingredient" value="<%=basketNo%>" checked>
 					</td>
 					<td class="pro_info">
-						<img src="<%=contextPath %>/resources/images/basket/<%=img%>" style="width: 50px; height: 50px; margin:2px;">
+						<img src="<%=contextPath %>/resources/images/store/<%=img%>" style="width: 50px; height: 50px; margin:2px;">
 						<label for ="<%=proName%>"><%=proName%></label>
 					</td>
 					<td>
@@ -241,6 +241,12 @@
     	function orderBtn(){
     		var count = $("input[name='ingredient']:checked").length;
     		var order = [];
+    		$("input[name='ingredient']:checked").each(function() {
+    			order.push($(this).attr('value'));
+                console.log($(this).attr('value'));
+            });
+    			order=order.join(',');
+                console.log(order);
     	}
         </script>
     </div>

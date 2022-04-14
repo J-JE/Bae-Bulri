@@ -62,7 +62,15 @@ public class RecipeListServlet extends HttpServlet {
 		request.setAttribute("pi", pi);
 		
 		//////////////////////////////////////////////////////레시피
-		ArrayList<Recipe> list = new RecipeService_jje().selectRecipeList(pi); //레시피 목록 호출
+		ArrayList<Recipe> list = null;
+		
+		if(request.getParameter("rcn") == null) {
+			list = new RecipeService_jje().selectRecipeList(pi); //레시피 전제 목록 호출
+		}else {
+			int rcn = Integer.parseInt(request.getParameter("rcn"));
+			list = new RecipeService_jje().selectR_CategoryList(pi, rcn); //카테고리별 레시피 목록 호출
+			request.setAttribute("rcn", rcn);
+		}
 		
 		request.setAttribute("list", list);
 		System.out.println(list);

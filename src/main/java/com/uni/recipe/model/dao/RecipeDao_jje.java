@@ -90,6 +90,7 @@ WHERE RNUM BETWEEN ? AND ?
 				r.setRecipeNo(rset.getInt("RECIPE_NO"));
 				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
 				r.setRecipeTag(rset.getString("RECIPE_TAG"));
+				r.setrCategoryName(rset.getString("R_CATEGORY_NAME"));
 				r.setThImg(rset.getString("CHANGE_NAME"));
 				
 				list.add(r);
@@ -139,6 +140,7 @@ ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
 				r.setRecipeNo(rset.getInt("RECIPE_NO"));
 				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
 				r.setRecipeTag(rset.getString("RECIPE_TAG"));
+				r.setrCategoryName(rset.getString("R_CATEGORY_NAME"));
 				r.setThImg(rset.getString("CHANGE_NAME"));
 				
 				list.add(r);
@@ -249,6 +251,52 @@ ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
 			close(pstmt);
 		}
 		return fileList;
+	}
+
+
+	public ArrayList<Recipe> selectR_CategoryList(Connection conn, PageInfo pi, int rcn) {
+		int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() +1;
+		int endRow = startRow + pi.getBoardLimit() - 1;
+		
+		ArrayList<Recipe> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRecipeCategoryList");
+/*
+selectAllRecipeList=SELECT * FROM ( SELECT ROWNUM RNUM, A.* FROM ( \
+SELECT RECIPE_NO, RECIPE_TITLE, RECIPE_TAG, R_CATEGORY_NAME, CHANGE_NAME \
+FROM RECIPE B LEFT JOIN RECIPE_CATEGORY C USING(R_CATEGORY_NO) LEFT JOIN ( \
+SELECT * FROM ATTACHMENT WHERE FILE_NO IN( \
+SELECT MIN(FILE_NO) FILE_NO FROM ATTACHMENT WHERE STATUS='Y' GROUP BY REF_BNO) \
+)D ON (B.RECIPE_NO = D.REF_BNO) AND B.STATUS='Y' WHERE R_CATEGORY_NO=? ORDER BY RECIPE_NO DESC )A)WHERE RNUM BETWEEN ? AND ?
+*/
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, rcn);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Recipe r = new Recipe();
+				r.setRecipeNo(rset.getInt("RECIPE_NO"));
+				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				r.setRecipeTag(rset.getString("RECIPE_TAG"));
+				r.setThImg(rset.getString("CHANGE_NAME"));
+				r.setrCategoryName(rset.getString("R_CATEGORY_NAME"));
+				
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 

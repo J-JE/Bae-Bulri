@@ -110,10 +110,10 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">              
                         <li><a class="dropdown-item" href="<%=contextPath %>/recipeList.do"># 전체</a></li>
-                        <li><a class="dropdown-item" href="#"># 계절</a></li>
-                        <li><a class="dropdown-item" href="#"># 다이어트</a></li>
-                        <li><a class="dropdown-item" href="#"># 자취생</a></li>
-                        <li><a class="dropdown-item" href="#"># 안주/간식</a></li>
+                        <li><a class="dropdown-item" href="<%=contextPath %>/recipeList.do?rcn=1"># 계절</a></li>
+                        <li><a class="dropdown-item" href="<%=contextPath %>/recipeList.do?rcn=2"># 다이어트</a></li>
+                        <li><a class="dropdown-item" href="<%=contextPath %>/recipeList.do?rcn=3"># 자취생</a></li>
+                        <li><a class="dropdown-item" href="<%=contextPath %>/recipeList.do?rcn=4"># 안주/간식</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

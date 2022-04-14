@@ -62,6 +62,14 @@ public class RecipeService_jje {
 		return fileList;
 	}
 
+	public ArrayList<Recipe> selectR_CategoryList(PageInfo pi, int rcn) {
+		Connection conn = getConnection();
+		ArrayList<Recipe> list = new RecipeDao_jje().selectR_CategoryList(conn, pi, rcn);
+		
+		close(conn);
+		return list;
+	}
+
 	
 	
 }

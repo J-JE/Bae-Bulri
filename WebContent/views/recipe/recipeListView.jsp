@@ -9,6 +9,18 @@
 	int maxPage = pi.getMaxPage();
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
+	
+	String rcName = "전체";
+	if(request.getParameter("rcn") != null){
+		int rcn = (int)request.getAttribute("rcn");
+		System.out.println("뷰에 값 있음 : "+rcn);
+        switch (rcn) {
+            case 1:  rcName = "계절"; break;
+            case 2:  rcName = "다이어트"; break;
+            case 3:  rcName = "자취생"; break;
+            case 4:  rcName = "안주/간식"; break;
+        }
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -17,50 +29,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>메인페이지</title>
+    <title>RecipeList</title>
 	<style>
-		header {
-			color: black;
-			text-shadow: 1px 1px 2px lightgray;
-			width:80%;
-			left:0; right:0;
-			margin-left:auto;
-			margin-right:auto;
-		}
+		header { color: black; text-shadow: 1px 1px 2px lightgray; width:80%; left:0; right:0; margin-left:auto; margin-right:auto; }
 		
-		img{
-			height:200px;
-		}
-		
-		.pagination {
-			margin-top: 55px;
-			width:200px;
-			left:0; right:0;
-			margin-left:auto;
-			margin-right:auto;
-		} /* 가로 중앙 정렬 */
-		
-		.pagination li a {
-			color:#1fc7d6;
-			background-color: white;
-			margin-left: 1px;
-			margin-right: 1px;
-		}
-		
-		.pagination li a:hover {
-			color:white;
-			background-color: #bce7eb;
-			margin-left: 1px;
-			margin-right: 1px;
-		}
-		
-		#insertRecipeBtn{
-			color: white;
-			background-color:#9372A1;
-			border: solid 2px rgba(255, 255, 255, 0);
-			border-radius: 5px;
-			float: right;
-		}
+		img{ height:200px; }
+		.pagination { margin-top: 55px; width:200px; left:0; right:0; margin-left:auto; margin-right:auto; } /* 가로 중앙 정렬 */
+		.pagination li a { color:#1fc7d6; background-color: white; margin-left: 1px; margin-right: 1px; }
+		.pagination li a:hover { color:white; background-color: #bce7eb; margin-left: 1px; margin-right: 1px; }
+		#insertRecipeBtn{ color: white; background-color:#9372A1; border: solid 2px rgba(255, 255, 255, 0); border-radius: 5px; float: right; }
 		#insertRecipeBtn:hover{ color: white;}
 		#searchBtn{background-color: #bce7eb; color: white; border: none; border-radius: unset;}
 		.input-group{width: 50% !important; margin: auto;}
@@ -71,7 +48,7 @@
     <div class="container-fluid" style="margin-top: 55px;">
     <header>
     	<!-- 레시피 카테고리 -->
-	    <h2>#카테고리</h2>
+	    <h2>#<%=rcName%></h2>
 	    <hr>
 	    
 	    	<!-- list 없음 -->
