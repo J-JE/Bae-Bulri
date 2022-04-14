@@ -16,7 +16,7 @@
         input[type="radio"] + label {display: inline-block;padding: 20px;background: transparent;color: black;font-size: 20px;cursor: pointer;}
         input[type="radio"]:checked + label {background: transparent;color: purple;}
 
-        .conbox {width: 850px;height: 300px; ;margin:0 auto;display: none;}
+        .conbox {width: 850px; margin:0 auto;display: none;}
         input[id="tab01"]:checked ~ .con1 {display: block;}
         input[id="tab02"]:checked ~ .con2 {display: block;}
 
@@ -81,20 +81,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						
-				<% if(list.isEmpty()){ %>
-						 	<tr>
-								<td colspan="5">진행중인 설문이 없습니다.</td>
-							</tr>
-						 <% }else{  %>
-						 	<% for(Survey s : list){ %>
-						 		<tr>
-						 			<td><%= s.getSurveyNo() %></td>
-									<td><%= s.getSurveyTitle() %></td>
-									<td><%= s.getCreateDate() %></td>
-						 		</tr>
-						 	<% } %>
-						 <% } %>
+						<% %>
+						<% if(list.isEmpty()){ %>
+								 	<tr>
+										<td colspan="5">진행중인 설문이 없습니다.</td>
+									</tr>
+								 <% }else{  %>
+								 	<% for(Survey s : list){ %>
+								 		<tr>
+								 			<td><%= s.getSurveyNo() %></td>
+											<td><%= s.getSurveyTitle() %></td>
+											<td><%= s.getCreateDate() %></td>
+								 		</tr>
+								 	<% } %>
+								 <% } %>
 					</tbody>
 	        	  </table>    
 	        	  <br><br>

@@ -8,21 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.common.Attachment;
-import com.uni.survey.model.dto.Survey;
 import com.uni.survey.model.service.SurveyService;
 
 /**
- * Servlet implementation class surveyDetailServlet
+ * Servlet implementation class surveyDeleteSurvlet
  */
-@WebServlet("/detailsurvey.do")
-public class surveyDetailServlet extends HttpServlet {
+@WebServlet("/deleteSurvey.do")
+public class surveyDeleteSurvlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public surveyDetailServlet() {
+    public surveyDeleteSurvlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,15 +31,14 @@ public class surveyDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int nno = Integer.parseInt(request.getParameter("nno"));
 		
-		Survey s = new SurveyService().selectSurvey(nno);
-		Attachment at = new SurveyService().selectAttachment(nno);
+		int result = new SurveyService().deleteSurvey(nno);
 		
-		if(s != null) {
-			request.setAttribute("s", s);
-			request.setAttribute("at", at);
-			request.getRequestDispatcher("views/survey/surveyDetailView.jsp").forward(request, response);
+		if(result > 0) {
+			request.setAttribute("msg", "설문조사 삭제 완료");
+			response.sendRedirect("surveyList.do");
+			
 		}else {
-			request.setAttribute("msg", "게시글 상세조회 실패하였습니다");
+			request.setAttribute("msg", "게시글 삭제 실패하였습니다");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}

@@ -47,10 +47,15 @@ public class surveyInsertServlet extends HttpServlet {
 	           
 	           MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
 	           
-	           Survey s = new Survey();
-	           String title = multiRequest.getParameter("title");
+	           System.out.println(multiRequest.getOriginalFileName("upfile"));
+			   System.out.println(multiRequest.getFilesystemName("upfile"));
+				
+	           
+			   String title = multiRequest.getParameter("title");
 	           String content = multiRequest.getParameter("content");
 	           
+	           
+	           Survey s = new Survey();
 	           s.setSurveyTitle(title);
 	           s.setSurveyContent(content);
 	          

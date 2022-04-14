@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import com.uni.common.Attachment;
 import com.uni.survey.model.dto.Survey;
+import com.uni.survey.model.dto.Survey_Reply;
 
 public class SurveyDao {
 
@@ -87,7 +88,7 @@ public class SurveyDao {
 		return	result;
 	}
 	public int insertAttachment(Connection conn, Attachment at) {
-		//insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?, SYSDATE, NULL, DEFAULT)
+		//insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, 3, SEQ_SNO.CURRVAL, ?, ?, ?, SYSDATE, DEFAULT)
 				int result =0;
 				PreparedStatement pstmt = null;
 //				ORIGIN_NAME
@@ -173,6 +174,103 @@ public class SurveyDao {
 			close(pstmt);
 		}
 		return at;
+	}
+	
+	public int deleteSurvey(Connection conn, int nno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		//deleteSurvey=UPDATE SURVEY SET STATUS='N' WHERE SURVEY_NO=?
+		String sql = prop.getProperty("deleteSurvey");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, nno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public int deleteAttachment(Connection conn, int nno) {
+		//deleteAttachment=UPDATE ATTACHMENT SET STATUS='N' WHERE REF_BNO=?
+				int result = 0;
+				PreparedStatement pstmt = null;
+				String sql = prop.getProperty("deleteAttachment");
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, nno);
+					
+					result = pstmt.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					close(pstmt);
+				}
+				return result;
+	}
+	public ArrayList<Survey_Reply> selectRList(Connection conn, int sno) {
+		ArrayList<Survey_Reply> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRlist");
+		//SELECT S_REPLY_NO, S_REPLY_CONTENT, USER_NO, CREATE_DATE FROM SURVEY_REPLY R JOIN MEMBER USING(USER_NO) WHERE SURVEY_NO=? AND R.STATUS='Y' ORDER BY S_REPLY_NO DESC
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Survey_Reply r = new Survey_Reply(rset.getInt("S_REPLY_NO"),
+									rset.getString("S_REPLY_CONTENT"),
+									rset.getDate("CREATE_DATE"),
+									rset.getString("USER_ID"));
+				
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	public int insertReply(Connection conn, Survey_Reply sr) {
+		int result =0;
+		PreparedStatement pstmt = null;
+		//insertReply=INSERT INTO SURVEY_REPLY VALUES(SEQ_SRNO.NEXTVAL, ?, ?, ?, SYSDATE, DEFAULT)
+//		SURVEY_NO
+//		S_REPLY_CONTENT
+//		USER_NO
+		String sql = prop.getProperty("insertReply");
+		
+		try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sr.getSurveyNo());
+				pstmt.setString(2, sr.getReplyContent());
+				pstmt.setInt(3, sr.getUserNo());
+				
+				
+				result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return	result;
 	}
 
 }
