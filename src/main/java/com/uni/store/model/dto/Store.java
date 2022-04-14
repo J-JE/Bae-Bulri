@@ -1,5 +1,5 @@
 package com.uni.store.model.dto;
-import java.sql.Date;
+
 
 public class Store {
 	
@@ -11,21 +11,9 @@ public class Store {
 	private String status;//상태값
 	private String StroeImg;//스토어의 타이틀 사진
 	private String recipeTitle;//레시피 제목
-	
 	public Store() {
 		// TODO Auto-generated constructor stub
 	}
-
-	
-	
-	public Store(String productName, int price, int stock) {
-		super();
-		this.productName = productName;
-		this.price = price;
-		this.stock = stock;
-	}
-
-
 
 	public Store(int productNo, int category, String productName, int price, int stock, String status, String stroeImg,
 			String recipeTitle) {
@@ -43,47 +31,15 @@ public class Store {
 	
 	
 
-
 	
 
-
-
-	public Store(int productNo, int category, String productName, int price, int stock) {
+	public Store(int productNo, String productName, int price, int stock, String stroeImg) {
 		super();
 		this.productNo = productNo;
-		this.category = category;
 		this.productName = productName;
 		this.price = price;
 		this.stock = stock;
-	}
-
-
-
-	public Store(String productName, int price, String stroeImg, String recipeTitle) {
-		super();
-		this.productName = productName;
-		this.price = price;
-		this.recipeTitle = recipeTitle;
 		this.StroeImg = stroeImg;
-		
-	}
-
-
-
-	public String getStroeImg() {
-		return StroeImg;
-	}
-
-	public void setStroeImg(String stroeImg) {
-		StroeImg = stroeImg;
-	}
-
-	public String getRecipeTitle() {
-		return recipeTitle;
-	}
-
-	public void setRecipeTitle(String recipeTitle) {
-		this.recipeTitle = recipeTitle;
 	}
 
 	public int getProductNo() {
@@ -134,12 +90,35 @@ public class Store {
 		this.status = status;
 	}
 
+	public String getStroeImg() {
+		return StroeImg;
+	}
+
+	public void setStroeImg(String stroeImg) {
+		StroeImg = stroeImg;
+	}
+
+	public String getRecipeTitle() {
+		return recipeTitle;
+	}
+
+	public void setRecipeTitle(String recipeTitle) {
+		this.recipeTitle = recipeTitle;
+	}
+
 	@Override
 	public String toString() {
 		return "Store [productNo=" + productNo + ", category=" + category + ", productName=" + productName + ", price="
 				+ price + ", stock=" + stock + ", status=" + status + ", StroeImg=" + StroeImg + ", recipeTitle="
 				+ recipeTitle + "]";
 	}
+
+	
+
+	
+	
+	
+	
 
 	
 	

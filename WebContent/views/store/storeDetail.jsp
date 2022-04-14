@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-     import = "java.util.ArrayList, com.uni.store.model.dto.*,com.uni.common.Attachment" pageEncoding="UTF-8" %>
+     import = "com.uni.store.model.dto.*,com.uni.common.Attachment" pageEncoding="UTF-8" %>
     
 <% 
     Store s = (Store)request.getAttribute("s"); 
-	ArrayList<Store> fileList = (ArrayList<Store>)request.getAttribute("fileList");
-
-	Attachment StroeImg  = fileList.get(0);
+	String titleImg = s.getStroeImg();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,17 +20,17 @@
     
         <style>
             .outer{
-                width:80%;
+                width:800;
+                height: 500px;
                 margin: 0 auto;
                 margin-left: 500px;
                 position: relative;
-                width: 1500px;
-                height:  800px;
+            
             }
             #content{
-                width: 500px; height: 500px;
+                width: 400px; height: 400px;
                 float: left;
-                margin-left:50px;
+                
                 position: relative;
                 
             }
@@ -43,11 +41,11 @@
                 margin-left: 600px;
             }
             #store_name{
-             margin-left: 600px;
+             margin-left: 550px;
             }
             #store_price{
                 margin-top: 30px;
-                margin-left: 600px;
+                margin-left: 550px;
             }
             #store_amount{
                 margin-left: 600px;
@@ -61,7 +59,11 @@
             }
             #b_butt{ background-color: rgb(155, 89, 182);;
                 color: white;}
-            
+            #thumbnail{
+             margin-left: 10px;
+             width: 400px; 
+             height:400px;
+            }
          
         </style>
     
@@ -73,14 +75,13 @@
          <hr>
         <div class="outer">
                 <div id="content"> 
-                    <img src="/j.jpg" width="500px" height="500px">
-
+					<img src="<%=contextPath %>/resources/images/store/<%= titleImg%>" id="thumbnail">
                 </div>
                 
                 <div id="store_data"> <!--스토어 정보-->
                     <h4 id="store_name" style="font-weight: bolder;"><%= s.getProductName() %></h4><br>
                     <h4 id="store_price" style="font-weight: bolder;"><%=s.getPrice()%>원</h4><br>
-                    <h4 id="store_amount"><input type="number" min="1" max="100" value="1"/></h4>
+                   
                 </div>
                 <div id="all_butt">
                 <button id="b_butt">장바구니에 넣기</button>
@@ -89,6 +90,10 @@
             </div>
        
         </div>
+        <form action="" id="postForm" method="post">
+			<input type="hidden" name="sid" value="<%= s.getProductNo() %>">
+		</form>
+		
     <%@ include file = "../common/footer.jsp" %>
                 
     </body>

@@ -15,7 +15,7 @@ import java.util.Properties;
 import com.uni.common.PageInfo;
 import com.uni.cook_talk.model.dto.Cook_Talk;
 import com.uni.cook_talk.model.dto.Cook_Talk_Reply;
-import com.uni.recipe.model.dto.Recipe;
+
 
 public class CookTalkDao {
 	private Properties prop = new Properties();
