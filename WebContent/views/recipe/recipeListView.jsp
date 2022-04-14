@@ -3,7 +3,6 @@
 <% 
 	ArrayList<Recipe> list = (ArrayList<Recipe>)request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();

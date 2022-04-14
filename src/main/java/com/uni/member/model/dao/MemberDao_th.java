@@ -256,6 +256,24 @@ public class MemberDao_th {
 		}
 		return list;
 	}
+	public int deleteMyBoardList(Connection conn, String bNo) {
+		int result = 0;
+		Statement stmt = null;;
+		String sql = "DELETE FROM COOK_TALK WHERE BOARD_NO IN ("+bNo+")";
+
+		try {
+			stmt = conn.createStatement();;
+			
+			result = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+		}
+		return result;
+	}
+
 
 
 
