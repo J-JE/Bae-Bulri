@@ -58,12 +58,11 @@ public class StoreListServlet extends HttpServlet {
 		}
 		
 		//페이지 최대 갯수
-		pageLimit = 30;
+		pageLimit = 10;
 		
 		
 		//게시물 최대 갯수
 		boardLimit = 6;
-		
 		// * maxPage : 총 페이지 수
 				/*
 				 * ex) boardLimit : 10 이라는 가정 하에

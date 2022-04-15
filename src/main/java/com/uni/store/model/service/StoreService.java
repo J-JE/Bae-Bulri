@@ -52,9 +52,10 @@ public class StoreService {
 		
 		if(at != null) {
 			result2 = new StoreDao().insertAttachment(conn, at); 
+			System.out.println("서비스1=11111111==================="+result1);
+			System.out.println("서비스=22222==================="+result2);
 		}
-		System.out.println("스토어추가======================================"+result1+result2);
-		if(result1 * result2 > 0) {
+		if(result1 *result2 > 0) {
 			commit(conn);
 		}else {
 			rollback(conn);
@@ -62,6 +63,45 @@ public class StoreService {
 		
 		close(conn);
 		return result1 * result2;
+	}
+
+	public int updateStore(Store s, Attachment at) {
+		Connection conn = getConnection();
+		
+		int result1 = new StoreDao().updateStore(conn,s);
+		
+		int result2 = 1;
+		if(at != null) {
+				if(at.getFileNo() != 0) {
+					result2 = new StoreDao().updateAttachment(conn,at);
+				}else {
+					result2 = new StoreDao().insertAttachment(conn,at);
+				}
+				}
+				if(result1 *result2 > 0) {
+					commit(conn);
+				}else {
+					rollback(conn);
+				}
+		close(conn);
+		return result1 * result2;
+	}
+
+	public int deleteStore(int sid) {
+		Connection conn = getConnection();
+		
+		int result1 = new StoreDao().deleteStore(conn,sid);
+		int result2 = new StoreDao().deleteAttachment(conn,sid);
+		
+		System.out.println("스토어 삭제 ========================================result1"+result1);
+		System.out.println("스토어 삭제 ========================================result2"+result2);
+		if(result1 *result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1 * result2 ;
 	}
 
 

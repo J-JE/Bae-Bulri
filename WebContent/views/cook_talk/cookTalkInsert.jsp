@@ -20,7 +20,7 @@
      .logo>a>img{height:100% !important;  width: 100%;}
      .container{
             width: 880px;
-            margin: 0 auto; /*가운데 정렬*/
+            margin: auto; /*가운데 정렬*/
         }
   
   
@@ -50,7 +50,7 @@
   
   <body>
      <%@ include file="../common/menubar.jsp" %> 
-  
+  	<br>
     <div class="container">
       <div class="input-form-backgroud row">
         <div class="input-form col-md-12 mx-auto">
@@ -83,7 +83,7 @@
          
             <div id="f12">
             <button class="f1" id="butt"> 글 등록 </button>
-           <button class="f2" id="butt">취소하기</button>
+           <button class="f2" id="butt1">취소하기</button>
        
         </div>
          </form>
@@ -91,7 +91,16 @@
       </div>
       <!-- fotter 자리 -->
    </div>
-  
+  	        <script type="text/javascript">
+     $(function(){
+ 		$('#butt1').click(function(){
+ 			if(confirm("등록을 취소 하시겠습니까?")){
+ 				location.href="<%=request.getContextPath()%>/cookTalkList.do"
+ 			}
+ 		});
+ 		
+ 	});
+        </script>
   	  <%@ include file = "../common/footer.jsp" %>
 
   

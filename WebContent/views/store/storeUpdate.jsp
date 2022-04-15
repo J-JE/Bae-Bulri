@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.uni.common.*, com.uni.store.model.dto.*"%>
+	<%
+	Store s = (Store)request.getAttribute("s");
+	Attachment at = (Attachment)request.getAttribute("at");
+	%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,43 +19,23 @@
     
         <style>
 
-        .main{
-            margin-left:100px;
-       
-      }
-            .outer{
-                width:80%;
-                margin: 0 auto;
-                margin-left: 450px;
-                position: relative;
-                width: 1500px;
-                height:  700px;
-            }
-            #content{
-                width: 500px; height: 500px;
-                float: left;
-                margin-left:50px;
-                position: relative;
-                
-            }            
+        
+		#top{
+		  width: 800px;
+           height:  500px;
+           
+           margin: auto;
+		}
+         #all_butt{
+         margin-left:570px;
+         }
+     	.main1{
+     	 color: rgb(155, 89, 182);
+     	 font-size: large;
+     	}
+         
             #all_butt{
-                margin-left: 600px;
-            }
-            #store_all{
-                margin-left: 100px;
-            }
-            #name{
-                width: 250px; height: 40px;
-            }
-            #store_price{
-                margin-top: 310px;
-                margin-left: 600px;
-            }
-            #store_amount{
-                margin-left: 600px;
-            }
-            #all_butt{
-                margin-top: 250px;
+                margin-top:10px;
             }
             #o_butt{
                 background-color: rgb(87, 69, 69);
@@ -73,36 +57,59 @@
 
          <hr>
         <div class="outer">
-           
+           <div id="top">
             <h1 class="main" href="index.jsp">재료수정</h1>
             <hr>
-            <div id="content"> 
-                <img src="" width="400px" height="400px">
-                <br><br>
-                <button id="i_butt">사진변경</button>
-            </div>
-                <div id="store_all">
+            <form class="updateForm" action="<%= contextPath %>/updateStore.do" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="sid" value="<%=s.getProductNo()%>">	  
+            	  <div id="store_all">
+            	  
+            	  <div id="content"> 
+         		<h4 for="name">제품사진</h4>
+         			<% if(at != null){ %> <!-- 기존의 첨부파일이 있었을 경우 -->
+							<%= at.getOriginName() %> <br>
+							<input type='hidden' name='originFile' value='<%=at.getChangeName()%>'>
+							<input type='hidden' name='originFileNo' value='<%=at.getFileNo()%>'>
+						<% }%>
+						
+                  <input type="file" id ="fileItem" name="upFile" style="height: 50px;">
+                </div>
             <div class="store_title">
-                <h4 for="name">제목</h4>
-                <input type="text" class="form-control" id="name" placeholder="이름을 입력해주세요" value="" required="">
+                <h4 for="name">상품명</h4>
+              
+                <input type="text" class="form-control" name="title" placeholder="" value="<%=s.getProductName() %>" required="">
               </div>
               <br>
               <div class="store_price">
                 <h4 for="name">가격</h4>
-                <input type="text" class="form-control" id="name" placeholder="가격을 입력해주세요" value="" required="">
+                <input type="text" class="form-control" name="price" placeholder="" value="<%=s.getPrice() %>" required="">
               </div>
               <br>
               <div class="store_amount">
                 <h4 for="name">재고</h4>
-                <input type="text" class="form-control" id="name" placeholder="재고을 입력해주세요" value="" required="">
+                <input type="text" class="form-control" name="stock" placeholder="" value="<%=s.getStock() %>" required="">
               </div>
-            </div>
+              
+         		<br>
             <div id="all_butt">
                 <button id="b_butt">등록</button>
-                
                 <button id="o_butt">취소</button>
             </div>
+            
+            </form>
+            </div>
         </div>
+             <script type="text/javascript">
+     $(function(){
+ 		$('#o_butt').click(function(){
+ 			if(confirm("수정을 취소 하시겠습니까?")){
+ 				location.href="<%=request.getContextPath()%>/storeList.do"
+ 			}
+ 		});
+ 		
+ 	});
+        </script>
+ 
     	     <%@ include file = "../common/footer.jsp" %>
        
                 

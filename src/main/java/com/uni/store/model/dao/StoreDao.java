@@ -161,6 +161,8 @@ public class StoreDao {
 			int result = 0;
 		 PreparedStatement pstmt = null;
 		 //insertSTORE=INSERT INTO STORE VALUES(SEQ_PNO.NEXTVAL, 2, ?, ?, ?, DEFAULT)
+		 //insertSTORE=INSERT INTO STORE VALUES(SEQ_PNO.NEXTVAL, 2, ?, ?, ?, DEFAULT)
+
 		  String sql = prop.getProperty("insertSTORE");
 		  
 		  try {
@@ -185,15 +187,17 @@ public class StoreDao {
 	public int insertAttachment(Connection conn, Attachment at) {
 		int result = 0;
 		 PreparedStatement pstmt = null;
-		// insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL, ?, SEQ_PNO.CURRVAL, ?, ?, ?, SYSDATE, DEFAULT)
-		  String sql = prop.getProperty("insertAttachment");
+		// insertAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FNO.NEXTVAL,2, SEQ_PNO.CURRVAL, ?, ?, ?, SYSDATE, DEFAULT)
+	
+
+		 String sql = prop.getProperty("insertAttachment");
 		  
 		  try {
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, at.getCategory());
-				pstmt.setString(2, at.getOriginName());
-				pstmt.setString(3, at.getChangeName());
-				pstmt.setString(4, at.getFilePath());
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				
 				result = pstmt.executeUpdate();
 				
 			} catch (SQLException e) {
@@ -206,6 +210,94 @@ public class StoreDao {
 			
 			return result;
 		}
+	public int updateStore(Connection conn, Store s) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateSTORE");
+		//updateSTORE=UPDATE STORE  SET PRODUCT_NAME=?, PRICE=?, STOCK=? WHERE PRODUCT_NO=? 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, s.getProductName());
+			pstmt.setInt(2, s.getPrice());
+			pstmt.setInt(3, s.getStock());
+			pstmt.setInt(4, s.getProductNo());
+		
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public int updateAttachment(Connection conn, Attachment at) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		//updateAttachment=UPDATE ATTACHMENT SET ORIGIN_NAME = ?, CHANGE_NAME = ?, FILE_PATH = ? WHERE FILE_NO = ?
+		String sql = prop.getProperty("updateAttachment");
+		try {
+			{
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				pstmt.setInt(4, at.getFileNo());
+				
+				result = pstmt.executeUpdate();// 값을 담아준다.
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	public int deleteStore(Connection conn, int sid) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteSTORE");
+		//deleteSTORE=UPDATE STORE  SET   STATUS = 'N' WHERE PRODUCT_NO= ?
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public int deleteAttachment(Connection conn, int sid) {
+		//deleteAttachment=UPDATE ATTACHMENT SET STATUS='N' WHERE CATEGORY=2 AND REF_BNO=?
+
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 	}
 	
 
