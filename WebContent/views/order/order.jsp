@@ -93,9 +93,19 @@
       <div id="collapseTwo" class="collapse show" data-parent="#accordion">
         <div class="card-body">
           <div class="customer-area">
-          	<span> <b>주문자</b> <% m.getUserName(); %></span> <br>
-          	<span> <b>전화번호</b> <% m.getPhone(); %></span> <br>
-          	<span> <b>이메일</b> <% m.getEmail(); %></span> <br><br>
+          	<span> <b>주문자</b> <% if(m != null) {
+   		   m.getUserName();
+   	   }else{%> 주문자 이름 들어올 자리
+   	   <%} %> </span> <br>
+          	<span> <b>전화번호</b> <% if(m != null){
+   		   m.getPhone();
+   	   }else{ %> 전화번호 들어올 자리
+   	   <%} %> </span> <br>
+          	<span> <b>이메일</b> <% if(m != null){
+   		   m.getEmail();
+   	   }else{ %> 이메일 들어올 자리
+   	   <%} %> </span> <br><br>
+     <!--     	<span> <b>이메일</b> m.getEmail(); </span> <br><br> -->
 			* 정확한 정보로 등록되어있는지 확인해주세요.
 			</div>
         </div> <!-- card-body -->
@@ -128,16 +138,22 @@
 							<tr>
 								<th>이름</th>
 								<td>
-								<% m.getUserName(); %>
+								<% if(m != null){
+   	  		 		m.getUserName();
+   	  		 	}else{ %> 이름 들어가는 부분
+   	  		 	<%} %>
 								</td>
 							</tr>
 							<tr>
 								<th>주소</th>
-								<td>
-								<input class="selectAddress" value="T" type="hidden">
-								<input class="addressee_input" value="" type="hidden">
-								<input class="address1_input" type="hidden" value="">
-								<% m.getAddress(); %>																				
+   	  		 				<td>
+   	  		 	<input class="selectAddress" value="T" type="hidden">
+				<input class="addressee_input" value="" type="hidden">
+				<input class="address1_input" type="hidden" value="">
+				<% if(m != null){
+					m.getAddress();
+				}else{ %> 주소 들어갈 자리
+				<%} %>														
 								</td>
 							</tr>
 						</tbody>
@@ -159,6 +175,8 @@
 					<tr>
 						<th>주소</th>
 						<td>
+							<input class="selectAddress" value="F" type="hidden">
+							<input type="text" id="selectAddr" name="selectAddr">
 							<input class="selectAddress" value="F" type="hidden">
 							<input type="text" id="address1_input" name="selectAddr" placeholder="주소를 입력하세요.">
 						</td>
@@ -190,7 +208,10 @@
 			<th>포인트 사용</th>
 			<td>
 				포인트
-				<% m.getPoint(); %>
+				<% if(m != null){
+   	  	 			m.getPoint();
+   	  	 		}else{ %> 포인트 들어갈 자리
+   	  	 		<% } %>
 				<input class="order_point_input" value="0">원 
 				<a class="order_point_input_btn order_point_input_btn_N" data-state="N">모두사용</a>
 				<a class="order_point_input_btn order_point_input_btn_Y" data-state="Y" style="display: none;">사용취소</a>
@@ -228,7 +249,7 @@
 			<!-- 결제 영역 -->
 			<div class="total_info_btn_div">
 			<!-- 결제하기 버튼 -->
-				<button class="order_btn">주문하기</button>
+				<button class="payment-btn" onclick="payment()">결제하기</button>
 				<a class="order_btn">주문하기</a>
 			</div>
 		</div>				
@@ -399,6 +420,34 @@ $(".order_btn").on("click", function(){
 	$(".order_form").submit();	
 	
 });
+
+// 이니시스 결제로 하고 싶었는데 이니시스는 등록 절차를 거쳐야해서 카카오페이로 변경
+// 카카오페이 최소 결제금액 = 100원
+function payment(){
+	var IMP = window.IMP;
+	IMP.init('imp18688349'); // 가맹점 식별코드
+	
+	// 이 부분은 나중에 회원 정보에서 가져오도록 수정할 예정, 현재는 결제API 연동 확인을 위한 임시 데이터입니다.
+	IMP.request_pay({
+		pg : "kakaopay",
+		pay_method: 'card',
+		merchant_uid: 'merchant_' + new Date().getTime(),
+		name: '배불리 결제',
+		amount: '100',
+		buyer_email: '구매자 이메일',
+		buyer_name: '구매자 이름',
+		m_redirect_url: 'redirect url'
+	}), function(rsp){
+		if(rsp.success){
+			var msg = "결제가 완료되었습니다.";
+			alert(msg);
+			location.href='./orderComplete.jsp';
+		}else{
+			var msg = "결제에 실패하였습니다.";
+			alert(msg);
+		}
+	}
+}
 </script>
 
 </body>
