@@ -42,9 +42,10 @@ public class myBoardListServlet extends HttpServlet {
 		int pageLimit;   //한페이지 하단에 보여질 페이지 최대갯수
 		int boardLimit;  //한페이지에 보여질 게시글 최대갯수
 		
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
 		
-		
-		listCount = new MemberService_th().getListCount();
+		listCount = new MemberService_th().getBoardListCount(userNo);
 		
 		
 		currentPage = 1;  
@@ -76,7 +77,6 @@ public class myBoardListServlet extends HttpServlet {
 		
 		//페이지를 생성해서 담는다.
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String userId = loginUser.getUserId();
 		ArrayList<Cook_Talk> list = new MemberService_th().boardSelect(pi,userId);
 		System.out.println(list); //값이 잘 넘어오나 확인

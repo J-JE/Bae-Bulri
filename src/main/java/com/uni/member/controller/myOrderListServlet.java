@@ -42,9 +42,10 @@ public class myOrderListServlet extends HttpServlet {
 		int pageLimit;   //한페이지 하단에 보여질 페이지 최대갯수
 		int boardLimit;  //한페이지에 보여질 게시글 최대갯수
 		
-		
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
 		//총게시글 갯수를 구함
-		listCount = new MemberService_th().getListCount();
+		listCount = new MemberService_th().getOrderListCount(userNo);
 		
 		//현재페이지 게시글이 있으면 페이지를 선택을 함.
 		currentPage = 1;  //menubar에서 게시판 탭을 눌렀을때 제일 첫번째 page보여줘야 하기떄문에
@@ -80,7 +81,6 @@ public class myOrderListServlet extends HttpServlet {
 		
 		//페이지를 생성해서 담는다.
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String userId = loginUser.getUserId();
 		ArrayList<Order_Detail> list = new MemberService_th().orderSelect(pi,userId);
 		System.out.println("list : " + list);

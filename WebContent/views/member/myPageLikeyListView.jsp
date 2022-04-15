@@ -4,7 +4,6 @@
 <%
 	ArrayList<Recipe> list = (ArrayList<Recipe>)request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
@@ -24,16 +23,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
  #mypage{
-
 width:1000px;
 height:100%;
 margin: auto;
 margin-top:80px;
-
 }
 .myPageMenu{
-
-
 color: white;
 display: inline-block;
 width: 1000px;
@@ -41,36 +36,27 @@ position: absolute;
 margin-top: 20px;
 margin-left: 310px;
 line-height: 50px;
-
-
 }
-
 .myPagemenuBar{
-
 background-color: #BCE7EB;
 width: 120px;
 height: 50px;
 display: inline-block;
 text-align: center;
-
-
 }
 .myPagemenuBar :hover{background-color:rgba(255, 255, 255, 0.61); color: rgb(155, 89, 182); text-decoration:none}
-
 a {
  
  color : white;
-
 }
-
 .thumb {
-
-		width: 150px;
-		height: 150px;
+		width: 160px;
+		height: 185px;
         text-align: center;
         margin-left: 80px;
         margin-top: 100px;
         float: left;
+        border:1px solid lightgray;
   
 	}
 .topList {
@@ -79,13 +65,11 @@ a {
 		color: black;
 		margin-right: 1000px;
 		
-
 	}
 #thumbList{
     margin-top: 50px;
     display: block;
     float: left;
-
 }
 .button{
     float: right;
@@ -110,7 +94,6 @@ a {
             margin:0 auto;
             text-align:center;
     }
-
  
  
   
@@ -122,24 +105,18 @@ a {
       margin-left:auto;
       margin-right:auto;
       } /* 가로 중앙 정렬 */
-
       .pagination li a {
       color:#1fc7d6;
       background-color: white;
       margin-left: 1px;
       margin-right: 1px;
-
       }
-
       .pagination li a:hover {
       color:white;
       background-color: #bce7eb;
       margin-left: 1px;
       margin-right: 1px;
-
       }
-
-
     nav{
     	margin-left : 100px;
     }
@@ -168,26 +145,25 @@ a {
             	<%for(Recipe r : list){ %>
             	<div class="thumb" align="center">
             		<input type="hidden" value="<%=r.getRecipeNo() %>">
-            		<img id="img" class="" src="<%=contextPath %>/resources/images/recipeFiles/<%= r.getThImg() %>" width="150px" height="150px"><br>
+            		<img class="img" class="" src="<%=contextPath %>/resources/images/recipeFiles/<%= r.getThImg() %>" width="150px" height="150px"><br>
             		<p><%=r.getRecipeTitle()%></p>
             		<button class="button" onclick="location.href='<%=request.getContextPath()%>/deleteLikey.do?rno=<%=r.getRecipeNo()%>'">삭제</button>
             	</div>
             	<%} %>
             	<script>
             	
-            		$(function(){//마이페이지 찜 목록에서 클릭 시 레시피 번호를 가지고 상세 페이지로 이동
-            			$("#thumbList").on("click","#img",function(){
-            				var rId = $(".thumb").children().eq(0).val();
-            				location.href="<%=contextPath%>/recipeDetail.do?rId="+rId;
-            			})
-            		})
+            	$(function(){//마이페이지 찜 목록에서 클릭 시 레시피 번호를 가지고 상세 페이지로 이동
+        			$(".img").click(function(){
+        				var rId = $(this).prev().val();
+        				location.href="<%=contextPath%>/recipeDetail.do?rId="+rId;
+        			});
+            	
+        			 $("#list>tbody>tr").click(function(){
+     	   				var cno = $(this).children().eq(0).val();
+     	   				location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
+     	   			});
+        		});
             	</script>
-       	<%-- <script>
-       		function deleteLikey(){
-       			$("#postForm").attr("action", "<%=contextPath%>/deleteLikey.do");
-       		}
-       	
-       	</script>--%>
         
                     <%-- <div class="thumb" align="center">   이런식으로 나오게 함
                     <input type="hidden" value="1"> 
@@ -213,7 +189,6 @@ a {
                             <p>제목입니다.</p>
                            <button class="button">삭제</button>
                      </div>
-
                      <div class="thumb" align="center"> 
                         <input type="hidden" value="1"> 
                         <img src="/i.jpg" width="150px" height="150px"> <br>
@@ -274,28 +249,9 @@ a {
     
             <br>
             <br>
-           <%--  <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#"> &lt; </a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#"> &gt; </a></li>
-                </ul>
-            </nav>--%>
+         
         </div>
-    
 
-    
-       
         <%@ include file = "../common/footer.jsp" %>
-
-		<script type="text/javascript">
-	
-		<%--$(function() {
-			alert('삭제가 완료 되었습니다.')
-		}) --%>
-		</script>
-
 </body>
 </html>

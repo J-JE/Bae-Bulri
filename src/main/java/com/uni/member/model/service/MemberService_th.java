@@ -25,12 +25,28 @@ public class MemberService_th {
 		return mem;
 	}
 
-	public int getListCount() {
+	public int getLikeyListCount(int userNo) {
 		Connection conn = getConnection();
-		int listCount = new MemberDao_th().getListCount(conn);
+		int listCount = new MemberDao_th().getLikeyListCount(conn,userNo);
 		close(conn);
 		return listCount;
 	}
+	
+	
+	public int getBoardListCount(int userNo) {
+		Connection conn = getConnection();
+		int listCount = new MemberDao_th().getBoardListCount(conn,userNo);
+		close(conn);
+		return listCount;
+	}
+	
+	public int getOrderListCount(int userNo) {
+		Connection conn = getConnection();
+		int listCount = new MemberDao_th().getOrderListCount(conn,userNo);
+		close(conn);
+		return listCount;
+	}
+	
 
 	public ArrayList<Cook_Talk> boardSelect(PageInfo pi, String userId) {
 		Connection conn = getConnection();
@@ -87,6 +103,10 @@ public class MemberService_th {
 		close(conn);
 		return result;
 	}
+
+	
+
+
 
 	
 
