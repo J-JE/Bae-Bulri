@@ -50,7 +50,7 @@ a {
  color : white;
 }
 .thumb {
-		width: 160px;
+		width: 155px;
 		height: 185px;
         text-align: center;
         margin-left: 80px;
