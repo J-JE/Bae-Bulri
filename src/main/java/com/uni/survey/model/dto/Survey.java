@@ -89,6 +89,15 @@ public class Survey {
 		this.surveyTitle = surveyTitle;
 		this.createDate = createDate;
 	}
+
+
+	public Survey(int surveyNo, String surveyTitle, Date createDate, String status) {
+		super();
+		this.surveyNo = surveyNo;
+		this.surveyTitle = surveyTitle;
+		this.createDate = createDate;
+		this.status = status;
+	}
 	
 	
 	
