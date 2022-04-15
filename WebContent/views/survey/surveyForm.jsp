@@ -87,13 +87,16 @@
 										<td colspan="5">진행중인 설문이 없습니다.</td>
 									</tr>
 								 <% }else{  %>
+								 		
 								 	<% for(Survey s : list){ %>
+								 		<%if(s.getStatus().equals("Y")){ %>
 								 		<tr>
 								 			<td><%= s.getSurveyNo() %></td>
 											<td><%= s.getSurveyTitle() %></td>
 											<td><%= s.getCreateDate() %></td>
 								 		</tr>
 								 	<% } %>
+								 	<%} %>
 								 <% } %>
 					</tbody>
 	        	  </table>    
@@ -106,7 +109,36 @@
 				</div>  
 	        </div>
 	            
-	        <div class="conbox con2">내용2</div>
+	        <div class="conbox con2">
+				<table class="listArea" align="center">
+					<thead>
+						<tr>
+							<th width="10">글번호</th>
+							<th width="100">글제목</th>
+							<th width="50">작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% %>
+						<% if(list.isEmpty()){ %>
+								 	<tr>
+										<td colspan="5">진행중인 설문이 없습니다.</td>
+									</tr>
+								 <% }else{  %>
+								 		
+								 	<% for(Survey s : list){ %>
+								 		<%if(s.getStatus().equals("N")){ %>
+								 		<tr>
+								 			<td><%= s.getSurveyNo() %></td>
+											<td><%= s.getSurveyTitle() %></td>
+											<td><%= s.getCreateDate() %></td>
+								 		</tr>
+								 	<% } %>
+								 	<%} %>
+								 <% } %>
+					</tbody>
+	        	  </table>    
+			</div>
 	    </div>
 	    
 	    <script type="text/javascript">
