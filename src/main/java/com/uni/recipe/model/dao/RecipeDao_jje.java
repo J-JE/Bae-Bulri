@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.uni.common.Attachment;
 import com.uni.common.PageInfo;
 import com.uni.recipe.model.dto.Recipe;
+import com.uni.store.model.dto.Store;
 
 public class RecipeDao_jje {
 
@@ -296,6 +297,37 @@ SELECT MIN(FILE_NO) FILE_NO FROM ATTACHMENT WHERE STATUS='Y' GROUP BY REF_BNO) \
 			close(pstmt);
 		}
 		
+		return list;
+	}
+
+
+	public ArrayList<Store> selectStore(Connection conn, String ingredient) {
+		ArrayList<Store> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql ="SELECT PRODUCT_NO, PRODUCT_NAME, PRICE, CHANGE_NAME FROM STORE JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON(PRODUCT_NO=REF_BNO) WHERE PRODUCT_NAME IN("+ingredient+")";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Store s = new Store();
+				s.setProductNo(rset.getInt("PRODUCT_NO"));
+				s.setProductName(rset.getString("PRODUCT_NAME"));
+				s.setPrice(rset.getInt("PRICE"));
+				s.setStroeImg(rset.getString("CHANGE_NAME"));
+				
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
 		return list;
 	}
 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.uni.recipe.model.dto.Recipe, java.util.ArrayList, com.uni.common.Attachment"%>
+    pageEncoding="UTF-8" import="com.uni.recipe.model.dto.Recipe, com.uni.store.model.dto.Store, java.util.ArrayList, com.uni.common.Attachment"%>
 <%
 	Recipe recipe = (Recipe)request.getAttribute("recipe");
 	/*ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");*/
@@ -9,6 +9,8 @@
 	
 	String[] pro = recipe.getRecipePro().split(",");
 	String[] cont = recipe.getRecipeContent().split("!");
+	
+	ArrayList<Store> sList = (ArrayList<Store>)request.getAttribute("storeList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -222,15 +224,21 @@
             <label for="allchecked">전체 선택</label><br><hr style="margin: 0px 0px 10px 0px;">
 			
 			<!-- method="get"선택 상품 장바구니에 담기(시간 남으면 재료 이미지 불러오기)-->
-            <div> 
-	            <% for(int i=0; i<pro.length; i++){ %>
-                <input type="checkbox" id="ingredient<%=i%>" name="ingredient" value="<%=pro[i]%>" checked>
-                <label for ="ingredient<%=i%>"><%=pro[i]%></label> |
-	            <% } %>
-                <hr style="margin: 0;"> <!--구분선-->
-                <br>
-                <button type="button" id="basketbtn" style="float: right;" disabled>장바구니에 담기</button>
+			<div class="row row-cols-1 row-cols-md-6 g-4">
+				<% for(int i=0; i<sList.size(); i++){ %>
+				<div class="col">
+					<div class="card">
+						<img src="<%=contextPath %>/resources/images/store/<%=sList.get(i).getStroeImg()%>" class="card-img-top" alt="...">
+						<div class="card-body">
+							<input type="checkbox" name="ingredient" value="<%=sList.get(i).getProductName()%>" checked>
+							<h5 class="card-title"><%=sList.get(i).getProductName()%></h5>
+							<p class="card-text"><%=sList.get(i).getPrice()%></p>
+						</div>
+					</div>
+				</div>
+				<% } %>
             </div>
+			<button type="button" id="basketbtn" style="float: right;" disabled>장바구니에 담기</button>
         </div>
 
 		<!----재료 스크립트---->

@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.uni.common.Attachment;
 import com.uni.recipe.model.dto.Recipe;
 import com.uni.recipe.model.service.RecipeService_jje;
+import com.uni.store.model.dto.Store;
 
 /**
  * Servlet implementation class RecipeDetailServlet
@@ -37,7 +37,17 @@ public class RecipeDetailServlet extends HttpServlet {
 //		ArrayList<Attachment> fileList = new RecipeService_jje().selectAttachment(rId);
 		
 		if(recipe != null) {
+			//재료 이미지 갖고오기
+			String[] ingr = recipe.getRecipePro().split(",");
+			for(int i=0; i<ingr.length; i++) {
+				ingr[i]="'"+ingr[i]+"'";
+			}
+			String ingredient = String.join(",", ingr);
+			
+			ArrayList<Store> storeList = new RecipeService_jje().selectStore(ingredient);
+			
 			request.setAttribute("recipe", recipe);
+			request.setAttribute("storeList", storeList);
 //			request.setAttribute("fileList", fileList);
 			request.getRequestDispatcher("views/recipe/recipeDetailView.jsp").forward(request, response);
 		}else {

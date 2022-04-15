@@ -9,6 +9,7 @@ import com.uni.common.Attachment;
 import com.uni.common.PageInfo;
 import com.uni.recipe.model.dao.RecipeDao_jje;
 import com.uni.recipe.model.dto.Recipe;
+import com.uni.store.model.dto.Store;
 
 public class RecipeService_jje {
 
@@ -65,6 +66,14 @@ public class RecipeService_jje {
 	public ArrayList<Recipe> selectR_CategoryList(PageInfo pi, int rcn) {
 		Connection conn = getConnection();
 		ArrayList<Recipe> list = new RecipeDao_jje().selectR_CategoryList(conn, pi, rcn);
+		
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<Store> selectStore(String ingredient) {
+		Connection conn = getConnection();
+		ArrayList<Store> list = new RecipeDao_jje().selectStore(conn, ingredient);
 		
 		close(conn);
 		return list;
