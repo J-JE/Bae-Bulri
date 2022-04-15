@@ -243,14 +243,14 @@
     		var bNos = [];
     		$("input[name='ingredient']:checked").each(function() {
     			bNos.push($(this).attr('value'));
-                console.log($(this).attr('value'));
+                console.log("장바구니 한개씩 bNos: "+$(this).attr('value'));
             });
     		bNos=bNos.join(',');
-            console.log(bNos);
+            console.log("장바구니 전체 bNos: "+bNos);
             
-            var tPrice=$("#sumPrice").text();
-            console.log(totalPrice);
-            /*$.ajax({
+            var tPrice=Number($("#sumPrice").text());
+            console.log("총 가격 tPrice: "+tPrice);
+            $.ajax({
 				url:"orderInsert.do",
 				type:"post",
 				data:{
@@ -267,7 +267,7 @@
 				error:function(){
 					console.log("ajax 통신실패 -장바구니 전송");
 				}
-			});*/
+			});
     	}
         </script>
     </div>

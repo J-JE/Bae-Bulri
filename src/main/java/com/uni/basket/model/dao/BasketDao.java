@@ -1,6 +1,6 @@
 package com.uni.basket.model.dao;
 
-import static com.uni.common.JDBCTemplate.close;
+import static com.uni.common.JDBCTemplate.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,7 +38,7 @@ public class BasketDao {
 //		String sql = prop.getProperty("insertBasketList");
 //		INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT)\
 //		SELECT SEQ_BNO.NEXTVAL, ?, PRODUCT_NO, 1\
-//				FROM STORE WHERE PRODUCT_NAME IN ? AND STOCK > 0
+//		FROM STORE WHERE PRODUCT_NAME IN ? AND STOCK > 0
 		
 		String sql = "INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT) SELECT SEQ_BKNO.NEXTVAL, "+basket.getUserNo()+", PRODUCT_NO, 1 FROM STORE WHERE PRODUCT_NAME IN ("+basket.getProductName()+") AND STOCK > 0";
 		
@@ -84,6 +84,8 @@ public class BasketDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close(pstmt);
 		}
 		return list;
 	}
@@ -103,6 +105,8 @@ public class BasketDao {
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close(pstmt);
 		}
 		return result;
 	}
