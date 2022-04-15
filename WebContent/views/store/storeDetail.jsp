@@ -3,7 +3,7 @@
     
 <% 
     Store s = (Store)request.getAttribute("s"); 
-	String titleImg = s.getStroeImg();
+	
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +64,9 @@
              width: 400px; 
              height:400px;
             }
-         
+         #amount{
+          margin-left: 150px;
+         }
         </style>
     
     </head>
@@ -75,21 +77,29 @@
          <hr>
         <div class="outer">
                 <div id="content"> 
-					<img src="<%=contextPath %>/resources/images/store/<%= titleImg%>" id="thumbnail">
+					<img src="<%=contextPath %>/resources/images/store/<%=s.getStroeImg()%>" id="thumbnail">
                 </div>
                 
                 <div id="store_data"> <!--스토어 정보-->
                     <h4 id="store_name" style="font-weight: bolder;"><%= s.getProductName() %></h4><br>
+                    <input type="number" id= "amount" name="amount" min="0" max="50"  style="width: 40px;">
+                    <input type="button" name="updateAmount" value="수정" style="width: 50px;">    
                     <h4 id="store_price" style="font-weight: bolder;"><%=s.getPrice()%>원</h4><br>
-                   
-                </div>
-                <div id="all_butt">
-                <button id="b_butt">장바구니에 넣기</button>
-                <br><br>
-                <button id="o_butt">바로 구매하기</button>
-            </div>
-       
-        </div>
+                   </div>
+                   <% if(loginUser != null ){%><%--등록된 회원만 버튼이 보임 --%>
+           			  <div id="all_butt">
+		                <button id="b_butt">장바구니에 넣기</button>
+		                <br><br>
+		                <button id="o_butt">바로 구매하기</button>
+		            </div>
+            			<%}%>
+            			
+            			<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
+						<a href="updateStoreForm.do?sid=<%=s.getProductNo()%>">수정하기</a> &nbsp;&nbsp;
+						<a href="deleteStore.do?sid=<%=s.getProductNo()%>">삭제하기</a>
+						<% } %>
+            		
+              </div>
         <form action="" id="postForm" method="post">
 			<input type="hidden" name="sid" value="<%= s.getProductNo() %>">
 		</form>

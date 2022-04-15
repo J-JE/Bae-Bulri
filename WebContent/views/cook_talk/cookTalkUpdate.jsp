@@ -96,7 +96,16 @@
       </div>
       <!-- fotter 자리 -->
    </div>
-  
+  	  	        <script type="text/javascript">
+     $(function(){
+ 		$('#butt').click(function(){
+ 			if(confirm("수정을 취소 하시겠습니까?")){
+ 				location.href="<%=request.getContextPath()%>/cookTalkList.do"
+ 			}
+ 		});
+ 		
+ 	});
+        </script>
   	  <%@ include file = "../common/footer.jsp" %>
 
   

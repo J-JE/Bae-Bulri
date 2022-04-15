@@ -38,7 +38,7 @@ public class StoreInsertServlet extends HttpServlet {
 	 * @param category 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response, int category) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10 * 1024 * 1024;
 			
@@ -58,9 +58,9 @@ public class StoreInsertServlet extends HttpServlet {
 			s.setStock(stock);
 			
 			Attachment at = null;
-	           if(multiRequest.getOriginalFileName("upfile") != null) {
-	              String originName = multiRequest.getOriginalFileName("upfile");
-	              String changeName = multiRequest.getFilesystemName("upfile");//바뀐 파일 이름
+	           if(multiRequest.getOriginalFileName("upFile") != null) {
+	              String originName = multiRequest.getOriginalFileName("upFile");
+	              String changeName = multiRequest.getFilesystemName("upFile");//바뀐 파일 이름
 	              
 	              
 	              at = new Attachment();
@@ -70,7 +70,8 @@ public class StoreInsertServlet extends HttpServlet {
 	              at.setChangeName(changeName);
 	           }
 	           int result = new StoreService().insertStore(s,at);
-	           
+	           System.out.println("스토어서블릿추가======================================"+result);
+	   	
 	           if(result > 0) {//등록 성공시
 	              request.getSession().setAttribute("msg", "제품 등록 성공");
 	              response.sendRedirect("storeList.do");
@@ -80,8 +81,6 @@ public class StoreInsertServlet extends HttpServlet {
 	                 failedFile.delete();//파일을 지워줌
 	              }
 	              request.setAttribute("msg", "제품 등록 실패");
-	              request.getRequestDispatcher("views/commom/errorPage.jsp").forward(request, response);
-
 	           }
 	           
 	        }

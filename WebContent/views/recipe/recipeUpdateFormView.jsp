@@ -139,7 +139,7 @@
 									 <input type='hidden' name='originFileNo' value='<%=at.getFileNo()%>'>
 
 								</td>
-							</tr>
+								</tr>
 							<%} %>	
 				<%-- 	<%} %> --%>
 					

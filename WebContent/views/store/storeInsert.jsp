@@ -14,56 +14,19 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
         <style>
-
-        .main{
-            margin-left:100px;
-       
-      }
-          .outer{
-                width:80%;
-                margin: 0 auto;
-                margin-left: 450px;
-                position: relative;
-                width: 1500px;
-                height:  700px;
-            }
-            #content{
-                width: 500px; height: 500px;
-                float: left;
-                margin-left:50px;
-                position: relative;
-                
-            }            
-            #all_butt{
-                margin-left: 600px;
-            }
-            #store_all{
-                margin-left: 100px;
-            }
-            #name{
-                width: 250px; height: 40px;
-            }
-            #store_price{
-                margin-top: 310px;
-                margin-left: 600px;
-            }
-            #store_amount{
-                margin-left: 600px;
-            }
-            #all_butt{
-                margin-top: 250px;
-            }
-            #o_butt{
-                background-color: rgb(87, 69, 69);
-                color: white;
-            }
-            #b_butt{ background-color: rgb(87, 69, 69);
-                color: white;}
-            #i_butt{
-                margin-left: 300px;
-                background-color: rgb(155, 89, 182);;
-                color: white;
-            }
+		#top{
+		  width: 800px;
+           height:  500px;
+           
+           margin: auto;
+		}
+         #all_butt{
+         margin-left:570px;
+         }
+     	.main1{
+     	 color: rgb(155, 89, 182);
+     	 font-size: large;
+     	}
          
         </style>
     
@@ -72,20 +35,27 @@
 
 	    <%@ include file="../common/menubar.jsp" %> 
          <hr>
-        <div class="outer">
-           
-            <h1 class="main" href="index.jsp">재료추가</h1>
+   
+        <div id="outer">
+         
+            <div id="top">
+              <div class="main">
+                  <a class="main1" href="StoreList.do">배불리몰</a>
+                   &gt; 
+                  <a class="main1" href="#">재료추가</a>
+                  
+          </div>
             <hr>
-            <form id="insertForm" action="<%= contextPath %>/insertStore.do" method="post" enctype="multipart/form-data">
-            <div id="content"> 
-                <img src="" width="400px" height="400px">
-                  <input type="file" id ="fileItem" name="upFile" style="height: 30px;">
-                <br><br>
-                
-            </div>
-                <div id="store_all">
+            <form class="insertForm" action="<%= contextPath %>/insertStore.do" method="post" enctype="multipart/form-data">
+            	  <div id="store_all">
+            	  
+            	  <div id="content"> 
+         		<h4 for="name">제품사진</h4>
+                  <input type="file" id ="fileItem" name="upFile" style="height: 50px;">
+                </div>
             <div class="store_title">
                 <h4 for="name">상품명</h4>
+              
                 <input type="text" class="form-control" name="title" placeholder="상품명을 입력해주세요" value="" required="">
               </div>
               <br>
@@ -98,16 +68,28 @@
                 <h4 for="name">재고</h4>
                 <input type="text" class="form-control" name="stock" placeholder="재고을 입력해주세요" value="" required="">
               </div>
-            </div>
+              
+         		<br>
             <div id="all_butt">
                 <button id="b_butt">등록</button>
-                
                 <button id="o_butt">취소</button>
             </div>
+            
             </form>
         </div>
-    	
-           	 <%@ include file = "../common/footer.jsp" %>
+        </div>
+      <script type="text/javascript">
+     $(function(){
+ 		$('#o_butt').click(function(){
+ 			if(confirm("등록을 취소 하시겠습니까?")){
+ 				location.href="<%=request.getContextPath()%>/storeList.do";}
+ 				
+ 		});
+ 		
+ 	});
+        </script>
+    	  <%@ include file = "../common/footer.jsp" %>
+          
             
     </body>
 </html>
