@@ -1,9 +1,6 @@
 package com.uni.basket.model.service;
 
-import static com.uni.common.JDBCTemplate.close;
-import static com.uni.common.JDBCTemplate.commit;
-import static com.uni.common.JDBCTemplate.getConnection;
-import static com.uni.common.JDBCTemplate.rollback;
+import static com.uni.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
