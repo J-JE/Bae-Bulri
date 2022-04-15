@@ -40,6 +40,9 @@ public class myLikeyDeleteServlet extends HttpServlet {
 		if(result > 0) {
 			request.getSession().setAttribute("msg", "레시피가 삭제 되었습니다.");
 			response.sendRedirect("myLikeyList.do");
+		}else {
+			request.setAttribute("msg", "레시피 삭제에 실패하였습니다. 관리자에게 문의해주세요.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response); 
 		}
 	}
 

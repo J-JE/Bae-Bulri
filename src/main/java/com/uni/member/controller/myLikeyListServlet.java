@@ -42,14 +42,15 @@ public class myLikeyListServlet extends HttpServlet {
 		int pageLimit;   //한페이지 하단에 보여질 페이지 최대갯수
 		int boardLimit;  //한페이지에 보여질 게시글 최대갯수
 		
-		
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
 		//총게시글 갯수를 구함
-		listCount = new MemberService_th().getListCount();
-		
-		//현재페이지 게시글이 있으면 페이지를 선택을 함.
+		listCount = new MemberService_th().getLikeyListCount(userNo);
+		System.out.println("th-servlet-----" + listCount);
+
 		currentPage = 1;  //menubar에서 게시판 탭을 눌렀을때 제일 첫번째 page보여줘야 하기떄문에
 		
-		//페이지 전환시 전달받은 페이지가 있을경우 전달받은 페이지를 currentPage에 담기
+		
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));//자료형이 int 타입이라 형변환시켜줌
 		}
@@ -66,26 +67,22 @@ public class myLikeyListServlet extends HttpServlet {
 		
 		startPage = (currentPage - 1) / pageLimit * pageLimit +1;
 		
-		// * endPage : 현재 페이지에 보여지는 페이징 바의 끝 수
-		// startPage : 1	=> endPage : 10
-		// startPage : 11	=> endPage : 20
 		
 		endPage = startPage + pageLimit -1;
 		
-		//게시글에 끝에 따라 페이지는 달라지기때문에 endPage에 maxPage에 담아준다.
 		if(maxPage < endPage) {
 			endPage = maxPage;
 		}
 		
 		//페이지를 생성해서 담는다.
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		
 		String userId = loginUser.getUserId();
 		ArrayList<Recipe> list = new MemberService_th().likeySelect(pi,userId);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
-		
+
 		request.getRequestDispatcher("/views/member/myPageLikeyListView.jsp").forward(request, response); //화면 확인
 	}
 

@@ -73,16 +73,17 @@ public class MemberDao_th {
 		
 		return mem;
 	}
-	public int getListCount(Connection conn) {
+	public int getLikeyListCount(Connection conn, int userNo) {
 		int listCount = 0;
 		
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("getListCount");
+		String sql = prop.getProperty("getLikeyListCount");
 		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
 				listCount = rset.getInt(1);
@@ -92,10 +93,64 @@ public class MemberDao_th {
 			e.printStackTrace();
 		}finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		return listCount;
 	}
+	
+	public int getBoardListCount(Connection conn, int userNo) {
+		int listCount = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("getBoardListCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return listCount;
+	}
+	
+	
+	public int getOrderListCount(Connection conn, int userNo) {
+		int listCount = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("getOrderListCount");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return listCount;
+	}
+	
+	
+	
 	public ArrayList<Cook_Talk> boardSelect(Connection conn, PageInfo pi, String userId) {
 		ArrayList<Cook_Talk> list = new ArrayList<Cook_Talk>();
 		PreparedStatement pstmt = null;
@@ -273,6 +328,8 @@ public class MemberDao_th {
 		}
 		return result;
 	}
+	
+
 
 
 

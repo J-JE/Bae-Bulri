@@ -41,7 +41,8 @@ public class myPageServlet extends HttpServlet {
 			request.setAttribute("loginUser", member);
 			view = request.getRequestDispatcher("/views/member/myPage.jsp");
 		}else {
-			
+			request.setAttribute("msg", "회원 조회에 실패했습니다. 관리자에게 문의해주세요.");
+			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 		}
 		view.forward(request, response);
 	}

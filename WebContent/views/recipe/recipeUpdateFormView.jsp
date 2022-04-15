@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="java.util.ArrayList, com.uni.common.*, com.uni.recipe.model.dto.*"%>
     
 <%
- 	ArrayList<Attachment> fileList = (ArrayList<Attachment>)request.getAttribute("fileList");
+
 	Recipe r = (Recipe)request.getAttribute("r");
 	Attachment at = (Attachment)request.getAttribute("at");
 	

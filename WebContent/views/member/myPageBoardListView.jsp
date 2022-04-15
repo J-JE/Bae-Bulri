@@ -189,7 +189,7 @@ nav{
             	<%}else{ %>
             	  <%for(Cook_Talk ct : list){ %>
             		 
-            		  <tr>
+            		<%--  <tr>
             		   <input type="hidden" value="<%=ct.getBoardNo()%>">
             		      <td><input type="checkBox" name="RowCheck" ></td>
             		  	  <td><%= ct.getBoardNo()%></td>
@@ -197,9 +197,9 @@ nav{
             		  	  <td class="title"><%= ct.getBoardTitle()%></td>	 
             		  </tr>
             		  
-            		    <%} %>
+            		    <%} %>--%>
             		 <%} %>
-            		<%--   <%for(int i = 0; i < list.size(); i++){ %>
+            		   <%for(int i = 0; i < list.size(); i++){ %>
             		  
             		  <tr>
             		   	  <input type="hidden" value="<%=list.get(i).getBoardNo() %>">
@@ -210,7 +210,7 @@ nav{
             		  </tr>
             		  
             		    <%}%>
-            	     <%} %>--%>
+            	     <%} %>
                <%--  <tr>
                     <td><input type="checkBox"> </td>
                     <td>1</td>
@@ -226,12 +226,17 @@ nav{
             </tbody>
             </table>
            <script>
-	           $(function(){
-	   			$(".title").click(function(){//제목을 클릭 시 상세페이지로 이동
+           $(function(){//클릭 시 게시글 상세페이지로 이동
+
+        	   $(".title").click(function(){
+	   				var cno = $(this).prev().prev().prev().prev().val();
+	   		        location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
+	   			});
+	   		
+        	 <%--  $(".title").click(function(){//제목을 클릭 시 상세페이지로 이동
 	   				var cno = $("#list>tbody>tr").children().eq(0).val();
 	   				location.href="<%=contextPath%>/detailCookTalk.do?cno="+cno;
-	   			  });	
-	   			
+	   			  });	--%>
 	   			
 	   			   $('#allcheck').click(function(){//체크박스 전체 선택
 	   				 if($("#allcheck").is(":checked")){ 
@@ -256,7 +261,7 @@ nav{
           <%--   <button id="delete" onclick="deleteValue();">선택 글 삭제</button>--%> 
 			 <button class="btn btn-outline-secondary" type="button" id="delete">선택 글 삭제 </button>
              
-          <%--    <script>
+           <script>
              	$("#delete").click(function(){
              		var count = $("input[name='RowCheck']:checked").length;
              		var bNo = [];
@@ -277,17 +282,10 @@ nav{
              				},
              				success:function(result){
              					if(result =="result"){
-             						
-             						var warning = confirm("건을 정말 삭제 하시겠습니까?")
-             						if (!warning) {
-             				            alert("취소를 누르셨습니다.");
-             				        } else {
-             				        	alert("성공적으로 게시글을 삭제했습니다.")
-                 						history.go(0);
-             				        }
-             		
+             						alert("성공적으로 게시글을 삭제하였습니다.");
+             						history.go(0);     
              					}else{
-             						alert("게시글에 삭제 실패하였습니다.")
+             						alert("게시글에 삭제 실패하였습니다. 관리자에게 문의해주세요.")
              					}
              				},
              				error:function(){
@@ -298,7 +296,7 @@ nav{
 		
              		
              	});
-             </script>--%>
+             </script>
               <!-- 페이징바 만들기 -->
             <nav aria-label="Page navigation example">
 				<ul class="pagination">
