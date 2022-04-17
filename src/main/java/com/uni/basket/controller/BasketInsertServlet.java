@@ -33,14 +33,27 @@ public class BasketInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int writer = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
-		String pro = request.getParameter("pro");
+		//String pro = request.getParameter("pro");
+		//int amount = Integer.parseInt(request.getParameter("amount"));
+		
+		String[] pro = request.getParameterValues("pro[]");
+		String[] a = request.getParameterValues("amount[]"); //String으로 값 받아서 형변환하기
+		int[] amount = new int[a.length];
 		
 		System.out.println("userNo : "+writer);
-		System.out.println("pro : "+pro);
+//		System.out.println("pro : "+pro);
 		
-		Basket basket = new Basket(writer, pro);
+		int result=0;
+		for(int i=0; i<pro.length; i++) {
+			System.out.println("test : "+pro[i]);
+			amount[i] = Integer.parseInt(a[i]); //String->int형변환
+			System.out.println("amount : "+amount[i]);
+			Basket basket = new Basket(writer, pro[i], amount[i]);
+			result = new BasketService().insertBasket(basket);
+		}
 		
-		int result = new BasketService().insertBasket(basket);
+//		Basket basket = new Basket(writer, pro);
+//		int result = new BasketService().insertBasket(basket);
 		
 		PrintWriter out = response.getWriter();
 		if(result > 0) {

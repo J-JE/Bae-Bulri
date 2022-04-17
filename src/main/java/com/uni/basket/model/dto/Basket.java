@@ -31,6 +31,13 @@ public class Basket {
 		this.proPrice = proPrice;
 	}
 
+	public Basket(int userNo, String productName, int basketAmount) {
+		super();
+		this.userNo = userNo;
+		this.productName = productName;
+		this.basketAmount = basketAmount;
+	}
+
 	public Basket(int userNo, String productName) {
 		super();
 		this.userNo = userNo;

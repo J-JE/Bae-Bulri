@@ -228,23 +228,25 @@
 				<% for(int i=0; i<sList.size(); i++){ %>
 				<div class="col">
 					<div class="card">
-						<img src="<%=contextPath %>/resources/images/store/<%=sList.get(i).getStroeImg()%>" class="card-img-top" alt="...">
+						<img src="<%=contextPath %>/resources/images/store/<%=sList.get(i).getStroeImg()%>" class="card-img-top"  id="<%=sList.get(i).getProductNo()%>">
 						<div class="card-body">
 							<input type="checkbox" name="ingredient" value="<%=sList.get(i).getProductName()%>" checked>
-							<h5 class="card-title"><%=sList.get(i).getProductName()%></h5>
-							<p class="card-text"><%=sList.get(i).getPrice()%></p>
+							<p class="card-title">[<%=sList.get(i).getProductName()%>]<br><%=sList.get(i).getPrice()%> 원</p>
+							<p class="card-text"><input type="number" name="amount" min="1" max="50" value="1" style="width: 40px;"></p>
 						</div>
 					</div>
 				</div>
 				<% } %>
             </div>
+            <hr> <!--구분선-->
 			<button type="button" id="basketbtn" style="float: right;" disabled>장바구니에 담기</button>
         </div>
 
 		<!----재료 스크립트---->
         <script>
         $(function(){
-			$("#allchecked").click(function(){ //전체 선택
+        	<!----재료 선택---->
+        	$("#allchecked").click(function(){ //전체 선택
 			    if($("input:checkbox[id='allchecked']").is(":checked")){ //체크되면
 			        //모든 체크박스 체크하기
 			        $("input:checkbox[name='ingredient']").prop("checked", true);
@@ -253,23 +255,38 @@
 			        $("input:checkbox[name='ingredient']").prop("checked", false);
 			    }
 			});
-
+        	
+        	<!----재료 장바구니 추가---->
 			$("#basketbtn").click(function(){
 				
 				var cnt = $("input[name='ingredient']:checked").length;
-				var proName = [];
+				//var proName = [];
+				
+				var amount = [];
+				var pro = [];
+				
 				$("input[name='ingredient']:checked").each(function() {
-					proName.push("'"+$(this).attr('value')+"'");
-	                console.log("'"+$(this).attr('value')+"'");
+					//proName.push("'"+$(this).attr('value')+"'");
+	                //console.log('"'+$(this).attr('value')+'"');
+					
+	                var amounts = $(this).next().next().children().val();
+	                pro.push($(this).attr('value'));
+	                amount.push(amounts);
+	                console.log("pro : "+pro);
+	                console.log("수량 : "+amount);
                 });
-				proName=proName.join(',');
-				console.log(proName);
+				//proName=proName.join(',');
+				//console.log(proName);
+				console.log("테스트 최종 : "+pro);
+				console.log("수량 최종 : "+amount);
 				
 				$.ajax({
 					url:"basketInsert.do",
 					type:"get",
 					data:{
-						pro: proName
+						//pro: proName,
+						amount:amount,
+						pro:pro
 					},
 					success:function(status){
 						if(status=="success"){ // 장바구니 담기 성공하면
@@ -285,8 +302,14 @@
 						console.log("ajax 통신실패 -장바구니 전송");
 					}
 				});
+				
 			});
 			
+			<!-- 이미지 클릭하면 재료 상세 페이지로 이동-->
+			$(".card-img-top").click(function(){
+				var sid = $(this).attr('id');
+				location.href="<%=contextPath%>/detailStore.do?sid=" + sid;
+			});
         });
         </script>
         
