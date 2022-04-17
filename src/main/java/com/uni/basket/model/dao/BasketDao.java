@@ -33,23 +33,28 @@ public class BasketDao {
 
 	public int insertBasket(Connection conn, Basket basket) {
 		int result =0;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		
 //		String sql = prop.getProperty("insertBasketList");
 //		INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT)\
 //		SELECT SEQ_BNO.NEXTVAL, ?, PRODUCT_NO, 1\
 //		FROM STORE WHERE PRODUCT_NAME IN ? AND STOCK > 0
 		
-		String sql = "INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT) SELECT SEQ_BKNO.NEXTVAL, "+basket.getUserNo()+", PRODUCT_NO, 1 FROM STORE WHERE PRODUCT_NAME IN ("+basket.getProductName()+") AND STOCK > 0";
+//		String sql = "INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT) SELECT SEQ_BKNO.NEXTVAL, "+basket.getUserNo()+", PRODUCT_NO, 1 FROM STORE WHERE PRODUCT_NAME IN ("+basket.getProductName()+") AND STOCK > 0";
 		
+		String sql = prop.getProperty("insertBasketList");
+//		INSERT INTO BASKET (BASKET_NO, USER_NO, PRODUCT_NO, BASKET_AMOUNT) SELECT SEQ_BKNO.NEXTVAL, ?, PRODUCT_NO, ? FROM STORE WHERE PRODUCT_NAME = ? AND STOCK > 0
 		try {
-			stmt = conn.createStatement();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, basket.getUserNo());
+			pstmt.setInt(2, basket.getBasketAmount());
+			pstmt.setString(3, basket.getProductName());
 			
-			result = stmt.executeUpdate(sql);
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(stmt);
+			close(pstmt);
 		}
 		return result;
 	}

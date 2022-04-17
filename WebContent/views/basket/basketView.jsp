@@ -91,7 +91,7 @@
 					</td>
 					<td>
 						<label>수량 </label>
-						<input type="number" name="amount" min="0" max="50" value="<%=amount%>" style="width: 40px;">
+						<input type="number" name="amount" min="1" max="50" value="<%=amount%>" style="width: 40px;">
 						<input type="button" name="updateAmount" value="수정" style="width: 50px;">    
 					</td>
 					<td class="price">
