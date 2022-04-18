@@ -36,32 +36,50 @@ public class OrderDaoJw {
 		}
 	}
 
-	public ArrayList<Basket> selectOrder(Connection conn, int userNo) {
-		ArrayList<Basket> list = null;
+
+	public int orderProcess(Connection conn, Order order) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("UPDATE ORDER_PRO SET ORDER_STATUS = '주문완료' WHERE ORDER_NO = ? AND USER_NO = ?");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order.getOrderNo());
+			pstmt.setInt(2, order.getUserNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	public Order_Detail orderProcess(Connection conn, int orderNo) {
+		Order_Detail od = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectBList");
-//SELECT BASKET_NO, USER_NO, PRODUCT_NAME, BASKET_AMOUNT, PRICE \
-//FROM BASKET JOIN (SELECT PRODUCT_NO, PRODUCT_NAME, PRICE \
-//FROM STORE A JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2) B ON(A.PRODUCT_NO=B.REF_BNO) \
-//)USING(PRODUCT_NO) WHERE USER_NO=? ORDER BY BASKET_NO
-						
+		String sql = prop.getProperty("selectOrderDetail");
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
+			pstmt.setInt(1, orderNo);
 			
 			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				Basket b = new Basket();
-				b.setBasketNo(rset.getInt("BASKET_NO"));
-				b.setUserNo(rset.getInt("USER_NO"));
-				b.setProductName(rset.getString("PRODUCT_NAME"));
-				b.setBasketAmount(rset.getInt("BASKET_AMOUNT"));
-				b.setProPrice(rset.getInt("PRICE"));
-				b.setThImg(rset.getString("CHANGE_NAME"));
-				list.add(b);
-				System.out.println(b);
+			
+			if(rset.next()) {
+				od = new Order_Detail();
+				od.setOrderNo(rset.getInt("ORDER_NO"));
+				od.setProductNo(rset.getInt("PRODUCT_NO"));
+				od.setAmount(rset.getInt("AMOUNT"));
+				od.setPrice(rset.getInt("PRICE"));
+				od.setTotalPrice(rset.getInt("TOTAL_PRICE"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -71,24 +89,51 @@ public class OrderDaoJw {
 			close(pstmt);
 		}
 		
-		return list;
+		return od;
 	}
 
-	public int orderProcess(Connection conn, Order o, Order_Detail od) {
+/*
+	public int orderFail(Connection conn, Order_Detail od) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
-		//query 아직 추가 안함
-		String sql = prop.getProperty("orderProcess");
+		String sql = prop.getProperty("orderFail");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, od.getOrderNo());
+			
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
 		
 		return result;
 	}
 
+	public int orderFail(Connection conn, Order order) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("orderDelete");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order.getOrderNo());
+			pstmt.setInt(2, order.getUserNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+*/
 }

@@ -12,22 +12,48 @@ import static com.uni.common.JDBCTemplate.*;
 
 public class OrderServiceJw {
 
-	public ArrayList<Basket> selectOrder(int userNo) {
+	public int OrderProcess(Order order) {
 		Connection conn = getConnection();
-		ArrayList<Basket> list = new OrderDaoJw().selectOrder(conn, userNo);
+		int result = new OrderDaoJw().orderProcess(conn, order);
 		
-		close(conn);
-		return list;
-	}
-
-	public int OrderProcess(Order order, Order_Detail od) {
-		Connection conn = getConnection();
-		int result = new OrderDaoJw().orderProcess(conn, order, od);
-		
-		// 아직 x
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
 		
 		close(conn);
 		return result;
 	}
+
+	public Order_Detail orderProcess(int orderNo) {
+		Connection conn = getConnection();
+		Order_Detail od = new OrderDaoJw().orderProcess(conn, orderNo);
+		
+		close(conn);
+		return od;
+	}
+
+
+/*	
+	public int orderFail(Order order, Order_Detail od) {
+		Connection conn = getConnection();
+		int result1 = new OrderDaoJw().orderFail(conn, od);
+		int result2 = 0;
+		
+		if(result1 > 0) {
+			result2 = new OrderDaoJw().orderFail(conn, order);
+			
+			if(result2 > 0) {
+				commit(conn);
+			}
+		}else{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1 * result2;
+	}
+*/
 
 }
