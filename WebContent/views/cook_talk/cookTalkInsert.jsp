@@ -82,8 +82,8 @@
             
          
             <div id="f12">
-            <button class="f1" id="butt"> 글 등록 </button>
-           <button class="f2" id="butt1">취소하기</button>
+            <button class="f1" type="submit" id="butt"> 글 등록 </button>
+           <button class="f2"type="reset" id="butt1">취소하기</button>
        
         </div>
          </form>

@@ -31,7 +31,7 @@ public class CookTalkInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ckTitle = request.getParameter("ckTitle");
-		String ckContent = request.getParameter("ckContent");
+		String ckContent = request.getParameter("ckContent").replace("\n", "<br>");
 		
 		 int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 	

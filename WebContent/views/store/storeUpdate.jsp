@@ -60,7 +60,7 @@
            <div id="top">
             <h1 class="main" href="index.jsp">재료수정</h1>
             <hr>
-            <form class="updateForm" action="<%= contextPath %>/updateStore.do" method="post" enctype="multipart/form-data">
+            <form class="updateForm was-validated" action="<%= contextPath %>/updateStore.do" method="post" enctype="multipart/form-data">
             <input type="hidden" name="sid" value="<%=s.getProductNo()%>">	  
             	  <div id="store_all">
             	  
@@ -92,14 +92,16 @@
               
          		<br>
             <div id="all_butt">
-                <button id="b_butt">등록</button>
-                <button id="o_butt">취소</button>
+                <button type="submit" id="b_butt">등록</button>
+                <button type="reset" id="o_butt">취소하기</button>
+				
             </div>
             
             </form>
             </div>
         </div>
-             <script type="text/javascript">
+        	   
+       <script type="text/javascript">
      $(function(){
  		$('#o_butt').click(function(){
  			if(confirm("수정을 취소 하시겠습니까?")){
@@ -109,8 +111,9 @@
  		
  	});
         </script>
- 
-    	     <%@ include file = "../common/footer.jsp" %>
+
+    
+         <%@ include file = "../common/footer.jsp" %>
        
                 
     </body>

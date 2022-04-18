@@ -71,8 +71,8 @@
               
          		<br>
             <div id="all_butt">
-                <button id="b_butt">등록</button>
-                <button id="o_butt">취소</button>
+                <button type="submit" id="b_butt">등록</button>
+                <button type="reset" id="o_butt">취소</button>
             </div>
             
             </form>

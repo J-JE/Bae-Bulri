@@ -24,6 +24,7 @@
      .logo>a>img{height:100% !important;  width: 100%;}
      .container{
             width: 880px;
+            height:500px;
             margin: 0 auto; /*가운데 정렬*/
         }
   
@@ -33,11 +34,7 @@
           font-weight: bold;
           font-size: x-large;
       }
-
-      table {
-        width: 1000px;
-    }
-      
+ 
         .f1{
             height: 30px;
             margin-left: 500px;
@@ -49,12 +46,16 @@
             color: white;
             background-color: rgb(131, 46, 131);
         }
+      .form-control{
+      	height: 350px;
+      }
+       
     </style>
   </head>
   
   <body>
     <%@ include file="../common/menubar.jsp" %>
-  
+  <br>
     <div class="container">
       <div class="input-form-backgroud row">
         <div class="input-form col-md-12 mx-auto">
@@ -79,33 +80,32 @@
             
               <div class="form-group">
                 <label for="name">내용</label>
-                <textarea class="form-control" rows="10" name="ckContent"> 
-                <%= c.getBoardContent() %>
-                </textarea>
+               	 <textarea class="form-control" rows="10" name="ckContent" ><%= c.getBoardContent() %></textarea>
             </div>
             <br>
             
          
             <div id="f12">
-            <button class="f1" id="butt"> 수정하기 </button>
-           <button class="f2" id="butt">취소하기</button>
+            <button class="f1" type="submit" id="butt"> 수정하기 </button>
+           <button class="f2" type="reset" id="butt1">취소하기</button>
        
-        </div>
+      	  </div>
          </form>
         </div>
-      </div>
-      <!-- fotter 자리 -->
-   </div>
-  	  	        <script type="text/javascript">
+      <script type="text/javascript">
      $(function(){
- 		$('#butt').click(function(){
- 			if(confirm("수정을 취소 하시겠습니까?")){
- 				location.href="<%=request.getContextPath()%>/cookTalkList.do"
+ 		$('#butt1').click(function(){
+ 			if(confirm("수정을 최소 하시겠습니까?")){
+ 			location.href="<%=request.getContextPath()%>/cookTalkList.do";
  			}
  		});
  		
  	});
         </script>
+      </div>
+      <!-- fotter 자리 -->
+   </div>
+
   	  <%@ include file = "../common/footer.jsp" %>
 
   
