@@ -42,9 +42,10 @@ public class myBoardSearchServlet extends HttpServlet {
 		int pageLimit;   //한페이지 하단에 보여질 페이지 최대갯수
 		int boardLimit;  //한페이지에 보여질 게시글 최대갯수
 		
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
 		
-		
-		listCount = new MemberService_th().getListCount();
+		listCount = new MemberService_th().getBoardListCount(userNo);
 		
 		
 		currentPage = 1;  
@@ -78,7 +79,6 @@ public class myBoardSearchServlet extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
 		//mypageBoardListView에서  넘겨준 bkw를 받는다 
 		String bkw = request.getParameter("bkw");
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		String userId = loginUser.getUserId();
 		ArrayList<Cook_Talk> list = new MemberService_th().searchMyBoard(pi,bkw,userId);
 		request.setAttribute("list", list);
