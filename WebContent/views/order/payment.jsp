@@ -29,6 +29,9 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
+<%@ include file="../common/menubar.jsp" %>
+
 	<!-- 결제 api -->
+	
 </body>
 </html>

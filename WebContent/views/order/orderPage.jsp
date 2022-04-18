@@ -17,7 +17,7 @@
 	
 	//ArrayList<Order> oList = (ArrayList<Order>)request.getAttribute("oList");
 	
-	ArrayList<Basket> bList = (ArrayList<Basket>)request.getAttribute("bList");
+	ArrayList<Order> list = (ArrayList<Order>)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@
     .con-top{
         color: rgb(155, 89, 182);
     }
-
+    
     #zenOrder{
         color: rgb(155, 89, 182);
         font-weight: bold;
@@ -75,7 +75,40 @@
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
-           상품 정보 영역
+           <div id="basket_info">
+        	<!--장바구니 테이블-->
+            <table id="info_table" style="width: 100%;">
+            	<!--장바구니 테이블 머리-->
+                <tr id="talbeTop">
+                    <th style="padding:10px;">상품/옵션 정보</th>
+                    <th style="padding:10px;">수량</th>
+                    <th style="padding:10px;">상품금액</th>
+                </tr>
+                <!-- 장바구니 테이블 몸통 -->
+                <%
+                   for(int i=0; i<list.size();i++){ 
+                        
+                    String proName=list.get(i).getProductName(); //상품 명
+                    String img = list.get(i).getThImg(); //상품 이미지
+                    int amount = list.get(i).getBasketAmount();
+                    int price = list.get(i).getPrice(); //상품 가격(수량*가격)
+                    sumPrice+=price;
+                %>
+                <tr style="border-top: solid 1px lightgray;">
+                    <td class="pro_info">
+                        <img src="<%=contextPath %>/resources/images/store/<%=img%>" style="width: 50px; height: 50px; margin:2px;">
+                        <label for ="<%=proName%>"><%=proName%></label>
+                    </td>
+                    <td>
+                        수량 : <%=amount%>
+                    </td>
+                    <td class="price">
+                        <%=price%> 원
+                    </td>
+                </tr>
+                <%} %>
+           </table>
+        </div>
         </div>
       </div>
     </div>
