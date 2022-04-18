@@ -38,6 +38,9 @@
     a{
     	text-decoration: none;
     }
+    table{
+    	border:none;
+    }
 </style>
 </head>
 <body>
@@ -52,17 +55,10 @@
 		<div class=tablearea>
 			<table id="detailArea" border="1">
 				<tr>
-					<td>제목</td>
+					
 					<td colspan="3"><%= s.getSurveyTitle() %></td>
 				</tr>
-				<tr>
-					<td>작성일</td>
-					<td><%= s.getCreateDate() %></td>
-				</tr>
-				<tr>
-					<td colspan="4">내용</td>
-				</tr>
-				<tr>
+				<tr>	
 					<td colspan="3">
 						<% if(at != null){ %>
 						
@@ -100,7 +96,7 @@
 						<td><textarea rows="3" cols="60" id="replyContent" style="resize:none;"></textarea></td>
 						<td><button id="addReply">댓글등록</button></td>
 						<% }else{ %>
-						<td><textarea readonly rows="3" cols="60" id="replyContent" style="resize:none;">로그인한 사용자만 가능한 서비스입니다. 로그인 후 이용해주세요</textarea></td>
+						<td><textarea readonly rows="3" cols="80" id="replyContent" style="resize:none;">로그인한 사용자만 가능한 서비스입니다. 로그인 후 이용해주세요</textarea></td>
 						<td><button disabled>댓글등록</button></td>
 						<% } %>
 					</tr>
