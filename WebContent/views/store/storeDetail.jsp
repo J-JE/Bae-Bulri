@@ -96,7 +96,6 @@
                 	<div id="store_data"> <!--스토어 정보-->
                     <h4 id="store_name" style="font-weight: bolder;"><%= s.getProductName() %></h4><br>
                     <input type="number" id= "amount" name="amount" min="1" max="50" value="1" style="width: 40px;">
-                    <input type="button" name="updateAmount" value="수정" style="width: 50px;">    
                     <h4 id="store_price" style="font-weight: bolder;"><%=s.getPrice()%>원</h4><br>
                    </div>
                  
@@ -118,45 +117,39 @@
             		
               </div>
               
-                <script>
+			<script>
              
-               $("#b_butt").click(function(){//클릭시 장바구리로 값을 보내줌
-                  var pro = [];
-                  var amount = [];
-              
-                  $("#store_name").each(function(){
-                	  var amount= $(this).next().next().val();
-                	  pro.push($(this).attr('value'));
-                      console.log("pro : "+pro);
-   	               	console.log("수량 : "+amount);
-                  });
-                  
-            
-               $.ajax({
-                  url:"basketInsert.do",
-                  type:"get",
-                  data:{
-                	 amount:amount,
-                     pro: pro
-                  },
-                  success:function(status){
-                     if(status=="success"){ // 장바구니 담기 성공하면
-                        var result = confirm("상품이 성공적으로 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"); //확인 창 띄우기
-                        if(result){ //확인버튼 누르면 장바구니로 이동
-                           location.href ="<%=contextPath %>/basket.do";
-                        }
-                     }else{
-                        alert("장바구니 등록에 실패했습니다.")
-                     }
-                  },
-                  error:function(){
-                     console.log("ajax 통신실패 -장바구니 전송");
-                  }
-               });
-            });
+			$("#b_butt").click(function(){//클릭시 장바구리로 값을 보내줌
+				var pro = [$("#store_name").text()];
+				var amount = [$("#store_name").next().next().val()];
+				console.log("pro : "+pro);
+				console.log("수량 : "+amount);
+				
+				$.ajax({
+					url:"basketInsert.do",
+					type:"get",
+					data:{
+						amount:amount,
+						pro:pro
+					},
+					success:function(status){
+						if(status=="success"){ // 장바구니 담기 성공하면
+							var result = confirm("상품이 성공적으로 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"); //확인 창 띄우기
+							if(result){ //확인버튼 누르면 장바구니로 이동
+								location.href ="<%=contextPath %>/basket.do";
+							}
+						}else{
+							alert("장바구니 등록에 실패했습니다.")
+						}
+					},
+					error:function(){
+						console.log("ajax 통신실패 -상품 장바구니 전송");
+					}
+				});
+			});
              
          
-              </script>
+			</script>
         <form action="" id="postForm" method="post">
 			<input type="hidden" name="sid" value="<%= s.getProductNo() %>">
 		</form>
