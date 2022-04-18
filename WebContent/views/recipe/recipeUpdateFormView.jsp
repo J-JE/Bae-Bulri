@@ -129,8 +129,7 @@
                   <table align="center">
               
               
-					<%--  <% if(!fileList.isEmpty()) {%> --%>
-						<%-- 	<%for(int i = 0; i < fileList.size(); i++) { %> 리스트로 하면 파일 넘버가 하나만 넘어와서 도저히 모르겠음. 그래서 사진 한장으로 함--%>
+
 							<tr>
 								<%if(at != null){ %>
 								<td colspan="3">
@@ -141,7 +140,7 @@
 								</td>
 								</tr>
 							<%} %>	
-				<%-- 	<%} %> --%>
+
 					
 				
 				<% for(int i = 0; i < Content.length; i++){ %>
@@ -156,24 +155,6 @@
                         <td> <textarea name="content" rows="7" cols="60%" style="resize:none;"><%=Content[i] %></textarea></td>
                     </tr>
                     <% }%>
-                   <%-- --%>  <tr>
-                        <%-- <th >과정2이미지</th>
-                        <td >
-                            <img id="subImg2" width="250px" height="150px"> 
-                        </td> 
-                        <th>과정2</th>
-                        <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
-                    </tr>
-                    <tr>
-                       <%-- <th >과정3이미지</th>
-                        <td >
-                            <img id="subImg3" width="250px" height="150px"> 
-                        </td> 
-                        <th>과정3</th>
-                        <td><textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea> </td>
-                    </tr>--%>
-
-
 
                 </table>
 				</div>

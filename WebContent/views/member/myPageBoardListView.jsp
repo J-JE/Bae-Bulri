@@ -187,18 +187,7 @@ nav{
             		<td colspan="4">작성한 글이 없습니다.</td>
             	</tr>
             	<%}else{ %>
-            	  <%for(Cook_Talk ct : list){ %>
-            		 
-            		<%--  <tr>
-            		   <input type="hidden" value="<%=ct.getBoardNo()%>">
-            		      <td><input type="checkBox" name="RowCheck" ></td>
-            		  	  <td><%= ct.getBoardNo()%></td>
-            		  	  <td><%= ct.getCreateDate()%></td>
-            		  	  <td class="title"><%= ct.getBoardTitle()%></td>	 
-            		  </tr>
-            		  
-            		    <%} %>--%>
-            		 <%} %>
+
             		   <%for(int i = 0; i < list.size(); i++){ %>
             		  
             		  <tr>

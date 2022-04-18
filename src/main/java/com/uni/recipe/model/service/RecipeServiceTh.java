@@ -20,17 +20,16 @@ public class RecipeServiceTh {
 		int result2 = 1;
 
 		if(at != null) {
-			//for(int i = 0; i <at.size(); i++) {
+
 				if(at.getFileNo() != 0) {
 					result2 = new RecipeDaoTh().updateAttachment(conn,at);
 	
-					System.out.println("service1" +at );
+					System.out.println("service1" +at);
 				}else {
 				
 					result2 = new RecipeDaoTh().insertUpdateAttachment(conn,at);
-					System.out.println("service2" +at );
+					System.out.println("service2" +at);
 				}
-			//}
 		}
 		System.out.println(result1);
 		System.out.println(result2);
