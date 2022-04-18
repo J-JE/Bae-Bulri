@@ -336,8 +336,36 @@ public class StoreDao {
 		}
 		return list;
 	}
+	public ArrayList<Store> selectSTopList(Connection conn) {
+		ArrayList<Store> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
 
+		String sql = prop.getProperty("selectTopList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Store s = new Store();
+				s.setProductNo(rset.getInt("PRODUCT_NO"));
+				s.setProductName(rset.getString("PRODUCT_NAME"));
+				s.setStroeImg(rset.getString("CHANGE_NAME"));
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
+}
 	
 
 

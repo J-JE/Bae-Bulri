@@ -179,7 +179,64 @@ public class RecipeDaoTh {
 			return at;
 	}
 
-	
+	public ArrayList<Recipe> selectRTop(Connection conn) {
+		ArrayList<Recipe> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectTop");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Recipe r = new Recipe();
+				r.setRecipeNo(rset.getInt("RECIPE_NO"));
+				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				r.setThImg(rset.getString("CHANGE_NAME"));
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	public ArrayList<Recipe> selectRecipeTop(Connection conn) {
+		ArrayList<Recipe> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectrecipeTop");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Recipe r = new Recipe();
+				r.setRecipeNo(rset.getInt("RECIPE_NO"));
+				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
+				r.setThImg(rset.getString("CHANGE_NAME"));
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 
 
 }

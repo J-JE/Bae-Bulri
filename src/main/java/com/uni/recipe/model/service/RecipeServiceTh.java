@@ -66,7 +66,24 @@ public class RecipeServiceTh {
 		return at;
 	}
 
+	public ArrayList<Recipe> selectRTop() {
+		Connection conn = getConnection();
+		
+		ArrayList<Recipe> list = new RecipeDaoTh().selectRTop(conn);
+		
+		close(conn);
+		return list;
 	
+}
+
+	public ArrayList<Recipe> selectRecipeTop() {
+		Connection conn = getConnection();
+		
+		ArrayList<Recipe> list = new RecipeDaoTh().selectRecipeTop(conn);
+		
+		close(conn);
+		return list;
+	}
 
 
 

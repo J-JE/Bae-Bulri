@@ -114,6 +114,13 @@ public class StoreService {
 		return list;
 	}
 
-
+	public ArrayList<Store> selectSTopList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Store> list = new StoreDao().selectSTopList(conn);
+		
+		close(conn);
+		return list;
+	}
 	
 }
