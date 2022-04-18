@@ -43,7 +43,7 @@ public class OrderProcessServlet extends HttpServlet {
 		order.setUserNo(userNo);
 		order.setAddress(address);
 					
-		/*
+		/* 상품 정보
 		String[] products = request.getParameterValues("product");
 		
 		if(products != null) {

@@ -78,6 +78,7 @@ public class OrderDaoJw {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
+		//query 아직 추가 안함
 		String sql = prop.getProperty("orderProcess");
 		
 		try {

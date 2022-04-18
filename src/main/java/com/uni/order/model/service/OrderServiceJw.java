@@ -24,6 +24,8 @@ public class OrderServiceJw {
 		Connection conn = getConnection();
 		int result = new OrderDaoJw().orderProcess(conn, order, od);
 		
+		// 아직 x
+		
 		close(conn);
 		return result;
 	}

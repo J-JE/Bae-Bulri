@@ -274,6 +274,7 @@
 
 </div> <!-- container -->
 
+<!-- 상품 정보 빠져있음 -->
 <form class="orderForm" action="<%= contextPath %>/orderProcess.do" method="post">
 	<input name="userNo" value="<%= m.getUserNo() %>" type="hidden">
 	<input name="userName" value="<%= mName%>" type="hidden">

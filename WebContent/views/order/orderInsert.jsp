@@ -236,7 +236,7 @@ $(".order-point-input").on("propertychange change keyup paste input", function()
 	}
 });
 
-// 포인트 사용 버튼
+// 포인트 사용 버튼 영역
 
 $(".order-point-input-btn").on("click", function(){
 	const maxPoint = <%= point%>;

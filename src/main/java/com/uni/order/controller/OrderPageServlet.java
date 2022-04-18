@@ -35,6 +35,8 @@ public class OrderPageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 		
+		//임시
+		
 		ArrayList<Basket> list = new OrderServiceJw().selectOrder(userNo);
 		//ArrayList<Order> list = new OrderServiceJw().selectOrder(userNo);
 		

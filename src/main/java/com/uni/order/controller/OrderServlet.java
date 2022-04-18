@@ -28,7 +28,7 @@ public class OrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 화면 전환만 진행
+		// 화면 전환만 진행 // 레시피 작성폼에서 이어짐
 		request.getRequestDispatcher("views/order/orderPage.jsp").forward(request, response);
 	}
 
