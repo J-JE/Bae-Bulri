@@ -25,15 +25,15 @@
 <style>
 
       #bae{
-            width: 1000px;
-            height:  900px;
-            margin: 0 auto; /*가운데 정렬*/
+            width: 1200px;
+            height:  1050px;
+            margin: auto; /*가운데 정렬*/
         }
  	#search{
      margin-top: 30px;
     margin-bottom: 50px;
-     margin-left: 720px;
-     
+     margin-left: 900px;
+
  }
 
 .product {
@@ -43,8 +43,9 @@
        
    }
 .topList {
-		 margin-left: 60px;
-      width: 900px;
+		 
+		  margin: auto; /*가운데 정렬*/
+      width: 1500px;
       height: 600px;
        }
 
@@ -54,9 +55,8 @@
         background-color:  rgb(155, 89, 182);
         color: white;
         margin:0 auto; 
-            margin-top: 30px; 
-            width:100px; 
-           margin-left: 800px; 
+          margin-top: 100px; 
+            margin-left: 900px; 
     }
      #header{
          
@@ -80,10 +80,18 @@
    			  <h2 id="header">배불리 몰</h2>
             <hr>
             <div id="search">
-                <input id='txtKeyWord' placeholder="상품명,#레시피"/>
-                <input type='button' value='검색'/>
+                <input type="text" id='txtKeyWord' placeholder="상품명"/>
+                <input type='button' id="searchBtn" value='검색'/>
             </div>
-            
+                   <script>
+		$(function(){
+			$("#searchBtn").click(function(){
+				var sks = $("#txtKeyWord").val();
+				console.log(sks);
+				location.href="<%=contextPath%>/storeSearch.do?sks=" + sks;
+				});
+			});
+		</script>
     <!-- 스토어 목록  -->
         <div class="topList" align="center">
             <br>
@@ -105,7 +113,7 @@
 				</div>
 	           <br> <br>
        </div>
-             
+          
             	<script>
 		<%if(!list.isEmpty()){%>
 		$(function(){
@@ -120,7 +128,9 @@
         <% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
 		<button id="butt" onclick="location.href='<%=contextPath %>/insertStoreForm.do'">상품 추가</button>
 		<% } %>
-     <!-- 페이징바 만들기 -->
+    
+       </div>
+        <!-- 페이징바 만들기 -->
 		<div class="pagingArea" align="center">
 			<!-- 맨 처음으로 (<<) -->
 			<button id="butt1" onclick="location.href='<%=request.getContextPath()%>/storeList.do?currentPage=1'"> &lt;&lt; </button>
@@ -153,9 +163,6 @@
 			<!-- 맨 끝으로 (>>) -->
 			<button id="butt1"onclick="location.href='<%=request.getContextPath()%>/storeList.do?currentPage=<%=maxPage%>'"> &gt;&gt; </button>
 		</div> 
-       
-    
-</div>
       <%@ include file = "../common/footer.jsp" %>
        
  

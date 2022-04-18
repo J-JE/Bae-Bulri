@@ -10,21 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.uni.common.PageInfo;
-import com.uni.cook_talk.model.service.CookTalkService;
 import com.uni.store.model.dto.Store;
 import com.uni.store.model.service.StoreService;
 
 /**
- * Servlet implementation class StoreListServlet
+ * Servlet implementation class StoreSearchServlet
  */
-@WebServlet("/storeList.do")
-public class StoreListServlet extends HttpServlet {
+@WebServlet("/storeSearch.do")
+public class StoreSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StoreListServlet() {
+    public StoreSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,9 +32,6 @@ public class StoreListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	//페이징처리
-		
 		int listCount;//총 게시물 갯수
 		int currentPage;//현재 페이지 (요청한 페이지)
 		int startPage;//현재 페이지 하단에 보여지는 페이징 바의 시작수
@@ -62,7 +58,8 @@ public class StoreListServlet extends HttpServlet {
 		
 		
 		//게시물 최대 갯수
-		boardLimit = 9;
+		boardLimit = 6;	
+		
 		// * maxPage : 총 페이지 수
 				/*
 				 * ex) boardLimit : 10 이라는 가정 하에
@@ -109,8 +106,9 @@ public class StoreListServlet extends HttpServlet {
 		}
 		PageInfo pi = new PageInfo(listCount, currentPage, startPage, endPage, maxPage, pageLimit, boardLimit);
 		
-		ArrayList<Store>list = new StoreService().selectStList(pi);
-		request.setAttribute("list", list);//서비스에서 받은list를 storeList에 키값 "list"로 던져준다고 생각하면 돼
+		String sks = request.getParameter("sks");
+		ArrayList<Store> list = new StoreService().searchStore(sks, pi);
+		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
 		request.getRequestDispatcher("views/store/stroeList.jsp").forward(request, response);
 	}
