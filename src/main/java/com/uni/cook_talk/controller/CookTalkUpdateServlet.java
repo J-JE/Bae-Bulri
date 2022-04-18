@@ -31,7 +31,7 @@ public class CookTalkUpdateServlet extends HttpServlet {
 		
 		int cno = Integer.parseInt(request.getParameter("cno"));
 		String ckTitle = request.getParameter("ckTitle");
-		String ckContent = request.getParameter("ckContent");
+		String ckContent = request.getParameter("ckContent").replace("\n", "<br>");
 		
 		int result = new CookTalkService().updateCookTalk(cno,ckTitle,ckContent);//서비스로 세개 보내줌
 

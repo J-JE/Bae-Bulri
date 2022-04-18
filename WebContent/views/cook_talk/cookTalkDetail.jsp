@@ -129,7 +129,7 @@
 
               <br>
             
-              <div class="form-group">
+              <div class="form-group" >
                 <p><%= c.getBoardContent() %></p> 
             </div>
             <br>
