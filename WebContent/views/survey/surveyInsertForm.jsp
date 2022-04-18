@@ -6,6 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	table{
+		border:1px solid black;
+		 width: 60%;
+	    border: 1px solid #444444;
+	    border-collapse: collapse;
+  }
+ 	 th, td {
+    	border: 1px solid #444444;
+  }
+  th{
+  	font-weight:400;
+  	text-align: center;
+  }
+ 
+</style>
 </head>
 <body>
 <%@ include file = "/views/common/menubar.jsp" %>
@@ -19,7 +35,7 @@
 			<table align="center">
 				<tr>
 					<th width="100">제목</th>
-					<td colspan="3"><input type="text" name="title"></td>
+					<td colspan="3"><input type="text" name="title" width="130px;"></td>
 				</tr>
 				<tr>
 					<th>내용</th>
