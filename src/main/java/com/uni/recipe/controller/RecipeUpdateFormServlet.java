@@ -40,9 +40,8 @@ public class RecipeUpdateFormServlet extends HttpServlet {
 		System.out.println(r);
 		if(r != null) {
 			request.setAttribute("r", r);
-			//request.setAttribute("fileList", fileList);
 			request.setAttribute("at", at);
-			//System.out.println("-----------"+fileList);
+			//System.out.println("-----------"+at);
 			request.getRequestDispatcher("views/recipe/recipeUpdateFormView.jsp").forward(request, response);
 		
 		}else {

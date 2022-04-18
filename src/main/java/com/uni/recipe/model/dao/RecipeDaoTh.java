@@ -66,7 +66,7 @@ public class RecipeDaoTh {
 		
 		String sql = prop.getProperty("updateAttachment");
 		try {
-			//for(int i = 0; i < at.size(); i++) {
+
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, at.getOriginName());
 				pstmt.setString(2, at.getChangeName());
@@ -74,7 +74,6 @@ public class RecipeDaoTh {
 				pstmt.setInt(4, at.getFileNo());
 				result = pstmt.executeUpdate();// 값을 담아준다.
 			
-		//	}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -93,8 +92,6 @@ public class RecipeDaoTh {
 		String sql = prop.getProperty("insertUpdateAttachment");
 		try {
 			
-			//for(int i = 0; i < at.size(); i++) {
-				//Attachment at = at.get(i);
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, at.getRefBoardNo());
 				pstmt.setString(2, at.getOriginName());
@@ -126,21 +123,10 @@ public class RecipeDaoTh {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) { //하나의 게시글만 조회
-				/*r = new Recipe(rset.getInt("RECIPE_NO"),
-								rset.getInt("CATEGORY"),
-								rset.getInt("R_CATEGORY_NO"),
-								rset.getString("RECIPE_TITLE"),
-								rset.getString("RECIPE_TAG"),
-								rset.getString("RECIPE_DES"),
-								rset.getString("RECIPE_PRO"),
-								rset.getInt("RECIPE_TIME"),
-								rset.getString("RECIPE_CONTENT")
-								);*/
 				r = new Recipe();
 				r.setRecipeNo(rset.getInt("RECIPE_NO"));
 				r.setCategory(rset.getInt("CATEGORY"));
 				r.setrCategoryNo(rset.getInt("R_CATEGORY_NO"));
-				//r.setrCategoryName(rset.getString("R_CATEGORY_NAME")); 우선 보류
 				r.setRecipeTitle(rset.getString("RECIPE_TITLE"));
 				r.setRecipeTag(rset.getString("RECIPE_TAG"));
 				r.setRecipeDes(rset.getString("RECIPE_DES"));
@@ -161,7 +147,6 @@ public class RecipeDaoTh {
 		return r;
 	}
 	public Attachment selectUpdateAttachment(Connection conn, int rId) {
-			//ArrayList<Attachment> fileList = new ArrayList<Attachment>();
 			Attachment at = null;
 			PreparedStatement pstmt = null;
 			ResultSet rset = null;
@@ -181,7 +166,6 @@ public class RecipeDaoTh {
 					at.setOriginName(rset.getString("ORIGIN_NAME"));
 					at.setChangeName(rset.getString("CHANGE_NAME"));
 					
-					//fileList.add(at);
 					System.out.println("dao-------" +at );
 			
 				}

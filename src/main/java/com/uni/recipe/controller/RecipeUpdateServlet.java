@@ -70,19 +70,13 @@ public class RecipeUpdateServlet extends HttpServlet {
 			r.setRecipeTitle(multiRequest.getParameter("title"));
 			r.setRecipeTag(multiRequest.getParameter("tag"));
 			r.setRecipeDes(multiRequest.getParameter("desc"));
-			//r.setRecipePro(multiRequest.getParameter("product"));
 			r.setRecipePro(pro);
 			r.setRecipeTime(Integer.parseInt(multiRequest.getParameter("time")));
 			//r.setRecipeContent(multiRequest.getParameter("content").replace("\n", "<br>"));
 			r.setRecipeContent(content);
 			
-			
-			//ArrayList<Attachment> fileList = new ArrayList<>();
 			Attachment at = null;
 
-			/*for(int i = 1; i <= 4; i++) {
-				String file = "upFile"+i;*/
-				
 				if(multiRequest.getOriginalFileName("upFile") != null) {
 					String originName = multiRequest.getOriginalFileName("upFile");//오리지날 이름
 					String changeName = multiRequest.getFilesystemName("upFile");//새로 첨부하는 이름
@@ -96,12 +90,10 @@ public class RecipeUpdateServlet extends HttpServlet {
 					at.setOriginName(originName);
 					at.setChangeName(changeName);
 					
-					//fileList.add(at); //파일이 있으면 리스트에 담아준다.
 				
 
 					//기존에 첨부된 파일이 있는 경우에 
 					if(multiRequest.getParameter("originFile") != null) {
-						//System.out.println("file111111111 : " + file);
 						//업로드 된것을 지우겠다.
 						File deleteFile = new File(savePath + multiRequest.getParameter("originFile"));//체인지 된 파일이 넘어온다.
 						
@@ -120,7 +112,7 @@ public class RecipeUpdateServlet extends HttpServlet {
 	
 			
 			int result = new RecipeServiceTh().updateRecipe(r,at);
-			//System.out.println("servlet =====" + fileList);
+			//System.out.println("servlet =====" + at);
 			
 			if(result > 0) {
 				request.getSession().setAttribute("msg", "성공적으로 수정이 되었습니다.");
