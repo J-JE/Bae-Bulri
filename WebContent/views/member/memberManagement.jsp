@@ -93,7 +93,6 @@
 		$('input[name=select-all]').on('change', function(){
 		  $('input[name=selected]').prop('checked', this.checked);
 		});
-		
 	</script>
     	<%@ include file = "/views/common/footer.jsp" %>
 </body>
