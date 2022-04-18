@@ -120,10 +120,6 @@ th,td{
             <td><%=userId %></td>
         </tr>
 
-       <%--  <tr>
-            <th>비밀번호</th>
-			<td><%=userPwd%></td>
-        </tr>--%>
         <tr>
             <th>이름</th>
 			<td><%=userName %></td>
