@@ -64,9 +64,13 @@
     <span>결제하기</span>
 </div>
 
-<!--  <form name="orderForm" method="post" action="/orderInsert.do"> -->
+
 
 <div id="accordion">
+
+<form name="orderForm" method="post" action="<%=contextPath %>/orderProcess.do">
+
+
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" href="#collapseOne">
@@ -93,7 +97,12 @@
                     int amount = list.get(i).getBasketAmount();
                     int price = list.get(i).getPrice(); //상품 가격(수량*가격)
                     sumPrice+=price;
+                    
+                    int orderNo = list.get(i).getOrderNo();
+                    int userNo = list.get(i).getUserNo();
                 %>
+                <input type="hidden" name="orderNo" value="<%= orderNo %>">
+                <input type="hidden" name="userNo" value="<%= userNo %>">
                 <tr style="border-top: solid 1px lightgray;">
                     <td class="pro_info">
                         <img src="<%=contextPath %>/resources/images/store/<%=img%>" style="width: 50px; height: 50px; margin:2px;">
@@ -132,14 +141,17 @@
 	 	 <tr>
 	 	 	<th>이름</th>
 	 	 	<td><%=mName %></td>
+	 	 	<td><input type="hidden" name="mName" value="<%=mName%>"></td>
 	 	 </tr>
 	 	 <tr>
 	 	  <th>휴대전화</th>
 	 	  <td><%=phone %></td>
+	 	  <td><input type="hidden" name="phone" value="<%=phone%>"></td>
 	 	 </tr>
 	 	 <tr>
 	 	  <th>이메일</th>
 	 	  <td><%=email %></td>
+	 	  <td><input type="hidden" name="email" value="<%=email%>"></td>
 	 	 </tr>
 	 	  </table> <br>
 	 	  <span>* 정확한 정보로 입력되어 있는지 확인해주세요.</span> <br>
@@ -161,11 +173,11 @@
         
         <% String address = m.getAddress(); %>
         
-        <div class="addressInfo_div">
-			<div class="addressInfo_button_div">
-				<button class="address_btn address_btn_1" onclick="showAdress('1')">기존 주소</button>
+       <div class="addressInfo_div">
+		<!-- <div class="addressInfo_button_div">
+			<button class="address_btn address_btn_1" onclick="showAdress('1')">기존 주소</button>
 				<button class="address_btn address_btn_2" onclick="showAdress('2')">직접 입력</button>
-			</div>
+			</div> -->
 			<div class="addressInfo_input_div_wrap">
 				<div class="addressInfo_input_div addressInfo_input_div_1" style="display: block">
 					<table>
@@ -185,14 +197,14 @@
 								<td>
 									<%=address %>
 									<input class="selectAddress" value="T" type="hidden">
-									<input class="address1_input" type="hidden" value="<%=address%>">
+									<input class="address1_input" name="address" type="hidden" value="<%=address%>">
 								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="addressInfo_input_div addressInfo_input_div_2">
-					<table>
+				<!--	<table>
 						<colgroup>
 							<col width="25%">
 							<col width="*">
@@ -201,7 +213,6 @@
 							<tr>
 								<th>이름</th>
 								<td>
-									<%=mName %>
 								</td>
 							</tr>
 							<tr>
@@ -212,7 +223,7 @@
 								</td>
 							</tr>
 						</tbody>
-					</table>
+					</table> -->
 				</div>
 			</div>
 		</div>				
@@ -262,31 +273,43 @@
           
           <div class="total_info_price_div">
           
+          <%
+                   for(int i=0; i<list.size();i++){ 
+                        
+                    String proName=list.get(i).getProductName(); //상품 명
+                    String img = list.get(i).getThImg(); //상품 이미지
+                    int amount = list.get(i).getBasketAmount();
+                    int price = list.get(i).getPrice(); //상품 가격(수량*가격)
+                    int delivery = list.get(i).getDelivery(); // 배송비
+                    sumPrice+=price;
+                    
+          %>
+          
           <ul>
           	<li>
           		<span class="price_span_label">상품 금액</span>
-          		<span class="totalPrice_span">10000</span>원
+          		<span class="totalPrice_span"> <%=price %> </span>원
           	</li>
           	
           	<li>
           		<span class="price_span_label">배송비</span>
-          		<span class="delivery_price_span">3000</span>원
+          		<span class="delivery_price_span"> <%= delivery %> </span>원
           	</li>
           	
           	<li>
           		<span class="price_span_label">포인트</span>
-          		<span class="usePoint_span">10000</span>원
+          		<span class="usePoint_span"> <%= point %> </span>원
           	</li>
           	
           	<li class="price_total_li">
           		<strong class="price_span_label total_price_label">결제 금액</strong>
           		<strong class="strong_red">
           			<span class="total_price_red finalTotalPrice_span">
-          				3000
+          				<%= sumPrice %>
           			</span>원
           		</strong>
           	</li>
-          
+          <%} %>
           </ul>
           
           </div>         
@@ -295,27 +318,17 @@
           <div class="total_info_btn_div">
           	<button class="order_btn">주문하기</button>
           </div>
-          
+ 
         </div>
       </div>
     </div>
-    
+</form>    
     
   </div> <!-- accordion -->
 
-<!--  </form> -->
 
 </div> <!-- container -->
 
-<!-- 상품 정보 빠져있음 -->
-<form class="orderForm" action="<%= contextPath %>/orderProcess.do" method="post">
-	<input name="userNo" value="<%= m.getUserNo() %>" type="hidden">
-	<input name="userName" value="<%= mName%>" type="hidden">
-	<input name="phone" value="<%= phone%>" type="hidden">
-	<input name="email" value="<%= email%>" type="hidden">
-	<input name="memberAddr1" type="hidden">
-	<input name="usePoint" type="hidden">
-</form>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -323,68 +336,46 @@ $(document).ready(function(){
 });
 
 
-// 주소
-function showAdress(className){
-	// 모두 숨기기
-	$(".addressInfo_input_div").css('display', 'none');
-	// 컨텐츠 보이기
-	$(".addressInfo_input_div_" + className).css('display', 'block');		
-	
-	// 버튼 클릭시
-	$(".address_btn").css('backgroundColor', '#555');
-	// 색상 변경
-	$(".address_btn_"+className).css('backgroundColor', '#3c3838');	
-	// selectAddress F(선택 x)
-	$(".addressInfo_input_div").each(function(i, obj){
-		$(obj).find(".selectAddress").val("F");
-	});
-	// selectAdress T(선택)
-	$(".addressInfo_input_div_" + className).find(".selectAddress").val("T");		
-		
-}
-
 // 포인트 영역
-//0 이상 & 최대 포인트 수 이하
-$(".order_point_input").on("propertychange change keyup paste input", function(){
-	const maxPoint = <%= point%>;	
+// 0 이상 최대 포인트 이하
+$(".order_point_input").on("properychange change keyup paste input", function(){
+	const maxPoint = <%= point%>;
 	
-	let inputValue = parseInt($(this).val());	
+	let inputValue = parseInt($(this).val());
 	
 	if(inputValue < 0){
 		$(this).val(0);
 	} else if(inputValue > maxPoint){
 		$(this).val(maxPoint);
-	}	
+	}
 	
-	setTotalInfo();	
-	
+	setTotalInfo();
 });
 
-// 포인트 모두사용 & 취소 버튼 
 $(".order_point_input_btn").on("click", function(){
-	const maxPoint = <%= point%>;	
+	let maxPoint = <%= point%>;
 	
-	let state = $(this).data("state");	
+	let state = $(this).data("state");
 	
 	if(state == 'N'){
-		// 모두사용
-		//값 변경
+		// 모두 사용
+		// 값 변경
 		$(".order_point_input").val(maxPoint);
-		//글 변경
+		// 글 변경
 		$(".order_point_input_btn_Y").css("display", "inline-block");
 		$(".order_point_input_btn_N").css("display", "none");
-	} else if(state == 'Y'){
+	} else if(state == 'Y') {
 		// 취소
-		//값 변경
+		// 값 변경
 		$(".order_point_input").val(0);
-		//글 변경
+		// 글 변경
 		$(".order_point_input_btn_Y").css("display", "none");
-		$(".order_point_input_btn_N").css("display", "inline-block");		
-	}	
+		$(".order_point_input_btn_N").css("display", "inline-block");
+	}
 	
-	setTotalInfo();	
-	
+	setTotalInfo();
 });
+
 
 // 주문 정보
 function setTotalInfo(){
@@ -394,7 +385,7 @@ function setTotalInfo(){
 	let usePoint = 0;
 	let finalTotalPrice = 0;
 	
-	$(".goods_table_price_td").each(function(index, element){
+	$(".basket_info").each(function(index, element){
 		// 총 가격
 		totalPrice += parseInt($(element).find(".individual_totalPrice_input").val());
 		// 총 갯수

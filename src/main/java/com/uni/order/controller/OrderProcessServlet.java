@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.uni.member.model.dto.Member;
 import com.uni.order.model.dto.Order;
 import com.uni.order.model.dto.Order_Detail;
-import com.uni.order.model.service.OrderService;
 import com.uni.order.model.service.OrderServiceJw;
-import com.uni.store.model.dto.Store;
 
 /**
  * Servlet implementation class OrderProcessServlet
@@ -33,37 +31,40 @@ public class OrderProcessServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1	2	22/04/18	경기도	0	3000	주문중
+5	2	22/04/18	경기도	0	3000	주문중
+		 * */
+		
+		int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 		int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
-		String address = request.getParameter("address");
-		
-		// 총 결제 금액
-		int sumPrice = 0;
-		
+				
 		Order order = new Order();
+		order.setOrderNo(orderNo);
 		order.setUserNo(userNo);
-		order.setAddress(address);
-					
-		/* 상품 정보
-		String[] products = request.getParameterValues("product");
 		
-		if(products != null) {
-			for(int i = 0; i < products.length; i++) {
-				Store store = new OrderServiceJw().selectProduct(products[i]);
-				sumPrice += store.getPrice();
-			}
-		} */
+		// 우선 order의 order_status 를 '주문완료' 상태로 바꿔줌
+		int result = new OrderServiceJw().OrderProcess(order);
 		
-		Order_Detail od = new Order_Detail();
-		//od.setOrderNo();
-		
-		int result = new OrderServiceJw().OrderProcess(order, od);
+		Order_Detail od = null;
 		
 		if(result > 0) {
-			request.getRequestDispatcher("views/order/payment.jsp").forward(request, response);
-		}else {
-			request.setAttribute("msg", "주문에 실패하였습니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+			// 주문완료 상태로 바뀌면 orderdetail의 내용들 payment로 보내줌
+			od = new OrderServiceJw().orderProcess(orderNo);
+			
+			if(od != null) {
+				request.setAttribute("order", order);
+				request.setAttribute("od", od);
+				request.getRequestDispatcher("views/order/payment.jsp").forward(request, response);
+			}else {
+				request.setAttribute("msg", "주문 실패");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		} //else {
+			// 주문완료 상태로 바뀌지 않으면 주문실패로 order,orderdetail 데이터 지워줌
+			//int fail = new OrderServiceJw().orderFail(order, od);
+		//}
+		
 	}
 
 	/**

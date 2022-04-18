@@ -33,7 +33,7 @@ public class RecipeDeleteServlet extends HttpServlet {
 		int result = new RecipeServiceJw().deleteRecipe(rId);
 		
 		if(result > 0) {
-			response.sendRedirect("listRecipe.do");
+			response.sendRedirect("recipeList.do");
 		}else {
 			request.setAttribute("msg", "레시피 삭제에 실패하였습니다.");
 			// 관리자만 실행할 수 있는 권한이 있기 때문에 에러페이지 연결 안해도 될 것 같음
