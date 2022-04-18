@@ -41,7 +41,7 @@ public class OrderDaoJw {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
-		String sql = prop.getProperty("UPDATE ORDER_PRO SET ORDER_STATUS = '주문완료' WHERE ORDER_NO = ? AND USER_NO = ?");
+		String sql = "UPDATE ORDER_PRO SET ORDER_STATUS = '주문완료' WHERE ORDER_NO = ? AND USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
