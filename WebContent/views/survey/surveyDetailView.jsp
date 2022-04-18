@@ -79,7 +79,7 @@
 			
 				<a href="surveyList.do">목록으로</a> &nbsp;&nbsp;
 				<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
-				<a href="updateFormSurvey.do?nno=<%=s.getSurveyNo()%>">수정하기</a> &nbsp;&nbsp;
+				<!-- <a href="updateFormSurvey.do?nno=<%=s.getSurveyNo()%>">수정하기</a> &nbsp;&nbsp; -->
 				<a href="deleteSurvey.do?nno=<%=s.getSurveyNo()%>">삭제하기</a>
 			
 				<% } %>
