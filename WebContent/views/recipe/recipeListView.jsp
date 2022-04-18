@@ -100,8 +100,8 @@
         
         <!-- 레시피 추가 버튼 -->
         <br>
-		<button id="insertRecipeBtn" onclick="location.href='<%=contextPath %>/insertRecipeForm.do'">레시피 추가</button>
         <% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
+		<button id="insertRecipeBtn" onclick="location.href='<%=contextPath %>/insertRecipeForm.do'">레시피 추가</button>
 		<% } %>
 		
 		<!-- 페이징바 -->

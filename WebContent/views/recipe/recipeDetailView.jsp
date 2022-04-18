@@ -115,11 +115,11 @@
         
         	<!--수정, 삭제 버튼-->
         	<% if(loginUser != null && loginUser.getUserId().equals("admin")){ %> <!-- 관리자 아이디-->
-			<% } %>
         	<div class="topBtn">
                 <button id="delBtn" onclick="location.href='<%=contextPath%>/deleteRecipe.do?rId=<%=recipe.getRecipeNo()%>'">레시피 삭제</button>
 				<button id="updBtn" onclick="location.href='<%=contextPath%>/updateFormRecipe.do?rId=<%=recipe.getRecipeNo()%>'">레시피 수정</button>
         	</div>
+			<% } %>
         	
         	<!--레시피 이름-->
             <h1 style="width:500px; display:block; margin-right: 0px;"><b><%= recipe.getRecipeTitle()%></b></h1><br> 
