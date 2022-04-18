@@ -1,13 +1,14 @@
 package com.uni.store.model.service;
 
 import static com.uni.common.JDBCTemplate.*;
-import static com.uni.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.uni.common.Attachment;
 import com.uni.common.PageInfo;
+import com.uni.cook_talk.model.dao.CookTalkDao;
+import com.uni.cook_talk.model.dto.Cook_Talk;
 import com.uni.store.model.dao.StoreDao;
 import com.uni.store.model.dto.Store;
 
@@ -104,6 +105,22 @@ public class StoreService {
 		return result1 * result2 ;
 	}
 
+	public ArrayList<Store> searchStore(String sks, PageInfo pi) {
+		Connection conn = getConnection();		
+		ArrayList<Store> list = new StoreDao().searchStore(conn,sks,pi);
+		System.out.println("검색===================================="+list);
+		
+		close(conn);
+		return list;
+	}
 
+	public ArrayList<Store> selectSTopList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Store> list = new StoreDao().selectSTopList(conn);
+		
+		close(conn);
+		return list;
+	}
 	
 }

@@ -258,8 +258,10 @@
 					tPrice: tPrice
 				},
 				success:function(status){
-					if(status=="success"){ // 장바구니 담기 성공하면
+					if(status!=null){ // 장바구니 담기 성공하면
+						console.log(status);
 						alert("주문페이지로 이동합니다.")
+						location.href = "<%=contextPath %>/order.do?oNo="+status;
 					}else{
 						alert("주문에 실패했습니다.")
 					}

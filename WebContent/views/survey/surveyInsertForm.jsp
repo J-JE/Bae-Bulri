@@ -16,11 +16,16 @@
  	 th, td {
     	border: 1px solid #444444;
   }
-  th{
+  		th{
   	font-weight:400;
   	text-align: center;
   }
- 
+  textarea {
+    width: 100%;
+    height: 6.25em;
+    border: none;
+    resize: none;
+  }
 </style>
 </head>
 <body>
@@ -35,7 +40,7 @@
 			<table align="center">
 				<tr>
 					<th width="100">제목</th>
-					<td colspan="3"><input type="text" name="title" width="130px;"></td>
+					<td colspan="3"><input type="text" name="title" style="width:500px; border:none;"></td>
 				</tr>
 				<tr>
 					<th>내용</th>

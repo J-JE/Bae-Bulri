@@ -14,7 +14,6 @@ import java.util.Properties;
 
 import com.uni.common.Attachment;
 import com.uni.common.PageInfo;
-
 import com.uni.store.model.dto.Store;
 
 public class StoreDao {
@@ -38,7 +37,7 @@ public class StoreDao {
 		ArrayList<Store>list = new ArrayList<Store>();
 		 PreparedStatement pstmt = null;
 	     ResultSet rset = null;
-	    // selectStList=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM(SELECT PRODUCT_NO,PRODUCT_NAME,PRICE,STOCK,CHANGE_NAME FROM STORE S JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON(S.PRODUCT_NO=B.REF_BNO))A)WHERE RNUM BETWEEN ? AND ?
+	    //selectStList=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM(SELECT PRODUCT_NO,PRODUCT_NAME,PRICE,STOCK,CHANGE_NAME FROM STORE S JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON(S.PRODUCT_NO=B.REF_BNO)WHERE S.STATUS= 'Y')A)WHERE RNUM BETWEEN ? AND ?
 	     
 	     String sql = prop.getProperty("selectStList");
 	     int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() + 1;
@@ -297,8 +296,76 @@ public class StoreDao {
 		}
 		return result;
 	}
+	public ArrayList<Store> searchStore(Connection conn, String sks, PageInfo pi) {
+		ArrayList<Store>list = new ArrayList<Store>();
+		 PreparedStatement pstmt = null;
+	     ResultSet rset = null;
+	     /*searchStore=SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM(SELECT PRODUCT_NO,PRODUCT_NAME,PRICE,STOCK,CHANGE_NAME \
+	   FROM STORE S LEFT JOIN (SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON (S.PRODUCT_NO=B.REF_BNO)AND 
+	     S.STATUS= 'Y' WHERE S.PRODUCT_NAME LIKE ? )A)WHERE RNUM BETWEEN ? AND ?*/
 
+
+	     String sql = prop.getProperty("searchStore");
+	     int startRow = (pi.getCurrentPage()-1) * pi.getBoardLimit() + 1;
+	     int endRow = startRow + pi.getBoardLimit() - 1;
+	     try {
+			pstmt = conn.prepareStatement(sql);
+			sks='%'+sks+'%';
+			pstmt.setString(1, sks);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Store s = new Store();
+				s.setProductNo(rset.getInt("PRODUCT_NO"));
+				s.setProductName(rset.getString("PRODUCT_NAME"));
+				s.setPrice(rset.getInt("PRICE"));
+				s.setStock(rset.getInt("STOCK"));
+				s.setStroeImg(rset.getString("CHANGE_NAME"));
+				
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
+	public ArrayList<Store> selectSTopList(Connection conn) {
+		ArrayList<Store> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectTopList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+		
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Store s = new Store();
+				s.setProductNo(rset.getInt("PRODUCT_NO"));
+				s.setProductName(rset.getString("PRODUCT_NAME"));
+				s.setStroeImg(rset.getString("CHANGE_NAME"));
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+}
 	
 
 

@@ -3,8 +3,11 @@ package com.uni.order.model.service;
 import static com.uni.common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
+import com.uni.basket.model.dto.Basket;
 import com.uni.order.model.dao.OrderDao;
+import com.uni.order.model.dao.OrderDaoJw;
 import com.uni.order.model.dto.Order;
 
 public class OrderService {
@@ -70,6 +73,14 @@ public class OrderService {
 		}
 		return result;
 		
+	}
+
+	public ArrayList<Order> selectOrder(int oNo) {
+		Connection conn = getConnection();
+		ArrayList<Order> list = new OrderDao().selectOrder(conn, oNo);
+		
+		close(conn);
+		return list;
 	}
 
 }

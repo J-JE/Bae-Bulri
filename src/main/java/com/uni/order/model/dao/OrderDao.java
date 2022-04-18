@@ -10,9 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.uni.basket.model.dao.BasketDao;
+import com.uni.basket.model.dto.Basket;
 import com.uni.order.model.dto.Order;
 
 public class OrderDao {
@@ -139,6 +141,40 @@ public class OrderDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	public ArrayList<Order> selectOrder(Connection conn, int oNo) {
+		ArrayList<Order> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selecOrder");
+//		SELECT ORDER_NO, PRODUCT_NAME, AMOUNT, (AMOUNT*PRICE) T_PRICE, CHANGE_NAME\
+//		FROM ORDER_DETAIL JOIN ( SELECT PRODUCT_NO, PRODUCT_NAME, CHANGE_NAME FROM STORE A JOIN (\
+//		SELECT * FROM ATTACHMENT WHERE CATEGORY=2 ) B ON(A.PRODUCT_NO=B.REF_BNO) )USING(PRODUCT_NO) WHERE ORDER_NO=?
+						
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oNo);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Order o = new Order();
+				o.setOrderNo(oNo);
+				o.setProductName(rset.getString("PRODUCT_NAME"));
+				o.setBasketAmount(rset.getInt("AMOUNT"));
+				o.setPrice(rset.getInt("T_PRICE"));
+				o.setThImg(rset.getString("CHANGE_NAME"));
+				list.add(o);
+				System.out.println(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 
 }
