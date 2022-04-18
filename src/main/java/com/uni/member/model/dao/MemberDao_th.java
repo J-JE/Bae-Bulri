@@ -314,7 +314,8 @@ public class MemberDao_th {
 	public int deleteMyBoardList(Connection conn, String bNo) {
 		int result = 0;
 		Statement stmt = null;;
-		String sql = "DELETE FROM COOK_TALK WHERE BOARD_NO IN ("+bNo+")";
+		//String sql = "DELETE FROM COOK_TALK WHERE BOARD_NO IN ("+bNo+")";
+		String sql = "UPDATE COOK_TALK SET STATUS='N' WHERE BOARD_NO IN ("+bNo+")";
 
 		try {
 			stmt = conn.createStatement();;
