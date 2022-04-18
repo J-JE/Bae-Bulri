@@ -57,7 +57,7 @@
 <script>
 //이니시스 결제로 하고 싶었는데 이니시스는 등록 절차를 거쳐야해서 카카오페이로 변경
 //카카오페이 최소 결제금액 = 100원
-function payment(data){
+function payment(){
 	var IMP = window.IMP;
 	IMP.init('imp18688349'); // 가맹점 식별코드
 	

@@ -280,8 +280,8 @@
                     String img = list.get(i).getThImg(); //상품 이미지
                     int amount = list.get(i).getBasketAmount();
                     int price = list.get(i).getPrice(); //상품 가격(수량*가격)
-                    int delivery = list.get(i).getDelivery(); // 배송비
-                    sumPrice+=price;
+                    int delivery = 3000; // 배송비
+                    sumPrice+=price + delivery;
                     
           %>
           
