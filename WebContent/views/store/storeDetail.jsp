@@ -23,15 +23,14 @@
                 width:800px;
                 height: 500px;
                 margin: 0 auto;
-                margin-left: 500px;
+                margin-left: 600px;
                 position: relative;
             
             }
             #content{
                 width: 400px; height: 400px;
                 float: left;
-                
-                position: relative;
+                 position: relative;
                 
             }
             #image{
@@ -68,7 +67,7 @@
           margin-left: 150px;
          }
          #adminb1{
-         margin-left:200px;
+         margin-left:150px;
          
          background-color: rgb(155, 89, 182);
          color: white;
