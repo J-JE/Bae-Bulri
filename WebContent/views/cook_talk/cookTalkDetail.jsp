@@ -100,6 +100,9 @@
       width:900px;
   	
       }
+      #sysdate{
+      	  margin-left: 900px;
+      }
     </style>
   </head>
   
@@ -126,8 +129,8 @@
                 
              </div>
               </div>
-
-              <br>
+				<hr>
+             
             
               <div class="form-group" >
                 <p><%= c.getBoardContent() %></p> 

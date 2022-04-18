@@ -122,7 +122,7 @@
         	</div>
         	
         	<!--레시피 이름-->
-            <h1 style="width:200px; display:block; margin-right: 0px;"><b><%= recipe.getRecipeTitle()%></b></h1><br> 
+            <h1 style="width:500px; display:block; margin-right: 0px;"><b><%= recipe.getRecipeTitle()%></b></h1><br> 
     		
     		<!--썸네일, 좋아요-->
     		<div id="recipe_content">
@@ -228,7 +228,7 @@
 				<% for(int i=0; i<sList.size(); i++){ %>
 				<div class="col">
 					<div class="card">
-						<img src="<%=contextPath %>/resources/images/store/<%=sList.get(i).getStroeImg()%>" class="card-img-top"  id="<%=sList.get(i).getProductNo()%>">
+						<img src="<%=contextPath %>/resources/images/store/<%=sList.get(i).getStroeImg()%>" class="card-img-top"  id="<%=sList.get(i).getProductNo()%>"style="height: 125px;">
 						<div class="card-body">
 							<input type="checkbox" name="ingredient" value="<%=sList.get(i).getProductName()%>" checked>
 							<p class="card-title">[<%=sList.get(i).getProductName()%>]<br><%=sList.get(i).getPrice()%> 원</p>
