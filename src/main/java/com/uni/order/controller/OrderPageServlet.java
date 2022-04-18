@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.uni.basket.model.dto.Basket;
 import com.uni.member.model.dto.Member;
 import com.uni.order.model.dto.Order;
+import com.uni.order.model.service.OrderService;
 import com.uni.order.model.service.OrderServiceJw;
 
 /**
@@ -34,14 +35,15 @@ public class OrderPageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
+		int oNo = Integer.parseInt(request.getParameter("oNo"));
 		
 		//임시
 		
-		ArrayList<Basket> list = new OrderServiceJw().selectOrder(userNo);
-		//ArrayList<Order> list = new OrderServiceJw().selectOrder(userNo);
+//		ArrayList<Basket> list = new OrderServiceJw().selectOrder(userNo);
+		ArrayList<Order> list = new OrderService().selectOrder(oNo);
 		
 		if(list != null) {
-			request.setAttribute("bList", list);
+			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/order/orderPage.jsp").forward(request, response);
 		}else {
 			request.setAttribute("msg", "주문 실패");

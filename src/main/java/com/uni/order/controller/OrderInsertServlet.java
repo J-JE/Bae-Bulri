@@ -57,7 +57,7 @@ public class OrderInsertServlet extends HttpServlet {
 				//4.주문 성공하면 장바구니 삭제 DELETE BASKET
 				int delBasket = new BasketService().deleteBasket(bNos);
 				if(delBasket > 0) {
-					out.print("success");
+					out.print(oNo); //주문번호 보내기
 				}
 			}else { 
 				out.print("failed");

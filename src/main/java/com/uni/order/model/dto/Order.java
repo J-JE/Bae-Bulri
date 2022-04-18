@@ -26,7 +26,9 @@ public class Order {
 	private String email;
 	private int point;
 	
+	private String thImg;	//썸네일이미지
 	
+
 	public Order() {
 		// TODO Auto-generated constructor stub
 	}
@@ -239,6 +241,15 @@ public class Order {
 		this.point = point;
 	}
 
+	public String getThImg() {
+		return thImg;
+	}
+	
+	
+	public void setThImg(String thImg) {
+		this.thImg = thImg;
+	}
+	
 
 	@Override
 	public String toString() {
