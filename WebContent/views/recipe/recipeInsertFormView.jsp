@@ -118,13 +118,19 @@
 
               <div class="recipe-table">
                   <table align="center">
-                    <tr>
+                <!--    <tr>
                         <th></th>
                         <th style="font-size: 25px;">만드는 방법</th>
                     </tr>
                     <tr>
                         <td colspan="2"><textarea name="content" rows="7"  style="resize:none;"></textarea> </td>
+                    </tr> -->
+                    <% for(int i = 0; i < 3; i++){ %>
+                     <tr>
+                        <th>과정<%=i+1 %></th>
+                        <td> <textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea></td>
                     </tr>
+                    <% }%>
                   </table>
               </div>
             </div>
