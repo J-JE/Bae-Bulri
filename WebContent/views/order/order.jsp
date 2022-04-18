@@ -1,9 +1,21 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.uni.member.model.dto.Member" %> 
+<%@ page import="com.uni.order.model.dto.Order" %>
+<%@ page import="com.uni.order.model.dto.Order_Detail" %>
+<%@ page import="com.uni.store.model.dto.Store" %>
+<%@ page import="com.uni.basket.model.dto.Basket" %>
+<%@ page import="java.util.ArrayList" %>
 <%
 	Member m = (Member)request.getSession().getAttribute("loginUser");
-%>        
+	
+	int sumPrice = 0;
+	
+	Store product = (Store)request.getAttribute("product");
+	Order order = (Order)request.getAttribute("order");
+	
+	ArrayList<Basket> bList = (ArrayList<Basket>)request.getAttribute("bList");
+%>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,8 +50,10 @@
     <span id="zenOrder">주문하기</span> >
     <span>결제하기</span>
    </div> <!-- con-top -->
-        
-  <div id="accordion">
+   
+   <div class="orderForm">
+    <form name="orderForm" method="post" action="./orderProcess.jsp">
+    <div id="accordion">
   
     <div class="card">
       <div class="card-header">
@@ -47,36 +61,41 @@
           주문 상품
         </a>
       </div>
-      
+    
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
-        	<table class="product-table">
-        		<tr>
-                        <td class="order-pro">
-                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
-                            <label for ="ingredient1">상품</label>
-                        </td>
-                        <td>
-                            <label>수량 </label>
-                            <input type="number" name="amount" min="0" max="50" value="1" style="width: 50px;"></td>
-                        <td>
-                            가격
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="order-pro">
-                            <img src="<%=contextPath %>/resources/images/이미지.png" style="width: 50px; height: 50px;">
-                            <label for ="ingredient1">상품</label>
-                        </td>
-                        <td>
-                            <label>수량 </label>
-                            <input type="number" name="amount" min="0" max="50" value="1" style="width: 50px;"></td>
-                        <td>
-                            가격
-                        </td>
-                    </tr>
-        	</table>
+        	
+        	<table class="pro-info" id="pro-table">
+	  		<%
+	  		for(int i=0; i<bList.size();i++){ 
+        		
+            	String proName=bList.get(i).getProductName(); //상품 명
+            	int basketNo=bList.get(i).getBasketNo(); //장바구니 번호
+            	String img = bList.get(i).getThImg(); //상품 이미지
+            	int bPrice = (bList.get(i).getBasketAmount())*(bList.get(i).getProPrice()); //상품 가격(수량*가격)
+            	int bAmount = bList.get(i).getBasketAmount();
+            	sumPrice += bPrice;
+	  		%>
+	  		 <tr>
+	  		 <td>
+	  		   <img src="<%=contextPath %>/resources/images/store/<%= img%>" style="width: 50px; height: 50px; margin:2px;">
+			  <label for ="<%=proName%>"><%=proName%></label>
+			  <input type="hidden" value="<%=basketNo%>" name="proNo">
+	  		 </td>
+	  		 <td>
+				<label>수량 </label>
+				<input type="number" name="amount" min="0" max="50" value="<%=bAmount%>" style="width: 40px;">
+				<input type="hidden" value="<%=bAmount%>" name="amount"> 
+			</td>
+			<td class="price">
+				<%=bPrice%> 원
+				<input type="hidden" value="<%=bPrice%>" name="price">
+				<input type="hidden" value="<%=sumPrice%>" name="sumPrice">
+			</td>
+	  		 </tr>
+	  		 <%} %>
+	  		</table>
+        	
         </div> <!-- card-body -->
       </div> <!-- collapseOne -->
     </div> <!-- card -->
@@ -85,32 +104,37 @@
       <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
         주문자 정보
-        <!-- 수정 버튼을 누를 경우 주문자의 정보를 수정할 수 있는 마이페이지-회원 수정 페이지로 이동 -->
-        <!-- 수정 후 다시 주문페이지로 돌아오도록 하는 것 & 화면 적용이 애매해서 일단 주석 처리, 수정 기능없이 갈 수도 있음 -->
-     <!--   <button type="button" onclick="location.href='../member/memberUpdateForm.jsp'">수정</button> -->
       </a>
       </div>
       <div id="collapseTwo" class="collapse show" data-parent="#accordion">
         <div class="card-body">
           <div class="customer-area">
-          	<span> <b>주문자</b> <% if(m != null) {
-   		   m.getUserName();
-   	   }else{%> 주문자 이름 들어올 자리
-   	   <%} %> </span> <br>
-          	<span> <b>전화번호</b> <% if(m != null){
-   		   m.getPhone();
-   	   }else{ %> 전화번호 들어올 자리
-   	   <%} %> </span> <br>
-          	<span> <b>이메일</b> <% if(m != null){
-   		   m.getEmail();
-   	   }else{ %> 이메일 들어올 자리
-   	   <%} %> </span> <br><br>
-     <!--     	<span> <b>이메일</b> m.getEmail(); </span> <br><br> -->
-			* 정확한 정보로 등록되어있는지 확인해주세요.
-			</div>
+         	<table class="customer">
+	  	  <%
+	  	  	String mName = m.getUserName();
+	  	  	String phone = m.getPhone();
+	  	  	String email = m.getEmail();
+	  	  %>
+	  	   <tr>
+	  	  	<th>이름</th>
+	  	  	<td><%=mName %></td>
+	  	   </tr>
+	  	   <tr>
+	  	    <th>휴대전화</th>
+	  	    <td><%=phone %></td>
+	  	   </tr>
+	  	   <tr>
+	  	    <th>이메일</th>
+	  	    <td><%=email %></td>
+	  	   </tr>
+	  	  </table>
+	  	  <span>* 정확한 정보로 입력되어 있는지 확인해주세요.</span> <br>
+	  	  <span>* 마이페이지에서 회원정보 수정이 가능합니다.</span> 	
+		</div>
         </div> <!-- card-body -->
       </div> <!-- collapseTwo -->
     </div> <!-- card -->
+    
     
     <div class="card">
       <div class="card-header">
@@ -127,6 +151,10 @@
 			<button class="address_btn address_btn_2" onclick="showAdress('2')">직접 입력</button>
 			</div>
 			
+			<%
+	  	 	String address = m.getAddress();
+	  		%>
+			
 			<div class="addressInfo_input_div_wrap">
 			<div class="addressInfo_input_div addressInfo_input_div_1" style="display: block">
 					<table>
@@ -138,10 +166,7 @@
 							<tr>
 								<th>이름</th>
 								<td>
-								<% if(m != null){
-   	  		 		m.getUserName();
-   	  		 	}else{ %> 이름 들어가는 부분
-   	  		 	<%} %>
+								<%= mName %>
 								</td>
 							</tr>
 							<tr>
@@ -149,11 +174,8 @@
    	  		 				<td>
    	  		 	<input class="selectAddress" value="T" type="hidden">
 				<input class="addressee_input" value="" type="hidden">
-				<input class="address1_input" type="hidden" value="">
-				<% if(m != null){
-					m.getAddress();
-				}else{ %> 주소 들어갈 자리
-				<%} %>														
+				<input class="address1_input" type="hidden" value="<%=address%>">
+				<%=address%>									
 								</td>
 							</tr>
 						</tbody>
@@ -203,21 +225,17 @@
 				<col width="25%">
 				<col width="*">
 			</colgroup>
-		<tbody>
+		<%
+		 int point = m.getPoint();
+		%>
 		<tr>
 			<th>포인트 사용</th>
 			<td>
-				포인트
-				<% if(m != null){
-   	  	 			m.getPoint();
-   	  	 		}else{ %> 포인트 들어갈 자리
-   	  	 		<% } %>
-				<input class="order_point_input" value="0">원 
+				<input class="order_point_input" value="<%=point%>">원 
 				<a class="order_point_input_btn order_point_input_btn_N" data-state="N">모두사용</a>
 				<a class="order_point_input_btn order_point_input_btn_Y" data-state="Y" style="display: none;">사용취소</a>
 			</td>
 		</tr>
-		</tbody>
 		</table>
 	</div> <!-- point-area -->
 	
@@ -225,23 +243,26 @@
 			<div class="total_info_price_div">
 				<ul>
 					<li>
-						<span class="price_span_label">상품 금액</span>
-						<span class="totalPrice_span">10</span>원
+						<span id="price_span_label">상품 금액</span>
+						<span class="totalPrice_span"><%=sumPrice %></span>원
+						<input type="hidden" name="proSumPrice" value="<%=sumPrice%>">
 					</li>
 					<li>
 						<span class="price_span_label">배송비</span>
 						<span class="delivery_price_span">3000</span>원
+						<input type="hidden" name="proDel" value="<%=order.getDelivery()%>">
 					</li>
 					<li>
 						<span class="price_span_label">포인트</span>
-						<span class="usePoint_span">10</span>원
+						<span class="usePoint_span">0</span>원
 					</li>
 					<li class="price_total_li">
 						<strong class="price_span_label total_price_label">결제 금액</strong>
 						<strong class="strong_red">
 							<span class="total_price_red finalTotalPrice_span">
-								10
+							<%=sumPrice + order.getAddress() %>
 							</span>원
+							<input type="hidden" name="orderSum" value="<%=sumPrice + order.getAddress()%>">
 						</strong>
 					</li>
 				</ul>
@@ -250,28 +271,19 @@
 			<div class="total_info_btn_div">
 			<!-- 결제하기 버튼 -->
 				<button class="payment-btn" onclick="payment()">결제하기</button>
-				<a class="order_btn">주문하기</a>
 			</div>
 		</div>				
 				
         </div> <!-- card-body -->
       </div>
     </div>
+    </div>
     </div> <!-- accordion -->
     
-    <!-- 주문 요청 form -->
-	<form class="order_form" action="<%= contextPath %>/order.do" method="post">
-		<!-- 주문자 회원번호 -->
-		<input name="userNo" type="hidden" value="null">
-		<!-- 주소 -->
-		<input name="address" type="hidden" value="null">
-		<!-- 사용 포인트 -->
-		<input name="usePoint" type="hidden" value="null">
-		<!-- 상품 정보 -->
-	</form>
+    </form>
+   </div> <!-- orderForm -->
     
-  </div>
-</div>
+</div> <!-- container -->
 
 <script>
 $(document).ready(function(){
@@ -433,9 +445,9 @@ function payment(){
 		pay_method: 'card',
 		merchant_uid: 'merchant_' + new Date().getTime(),
 		name: '배불리 결제',
-		amount: '100',
-		buyer_email: '구매자 이메일',
-		buyer_name: '구매자 이름',
+		amount: '<%= sumPrice%>',
+		buyer_email: '<%= email%>',
+		buyer_name: "<%= mName%>",
 		m_redirect_url: 'redirect url'
 	}), function(rsp){
 		if(rsp.success){
