@@ -47,7 +47,7 @@
 			<table class="listArea" align="center">
 				<thead>
 					<tr>
-	                    <th width="30"><input type="checkbox" name="select-all"></th>
+	                    <th width="30"><input type="checkbox" name="select-all" onclick="selectAll(this)"></th>
 						<th width="100">아이디</th>
 						<th width="80">회원명</th>
 						<th width="100">연락처</th>
@@ -65,7 +65,7 @@
 					 <% }else{  %>
 					 	<% for(Member m : list){ %>
 					 		<tr>
-					 			<td><input type="checkbox" name="selected" value=<%= m.getUserId() %>></td>
+					 			<td><input type="checkbox" name="selected" value=<%= m.getUserId() %> onclick="checkselectAll()"></td>
 					 			<td><%= m.getUserId() %></td>
 								<td><%= m.getUserName() %></td>
 								<td><%= m.getEmail() %></td>
@@ -83,16 +83,30 @@
 			<div align="center">
 				<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
 				
-				<%-- <button onclick="location.href='<%=contextPath%>/deleteMember.do'">삭제하기</button>--%>
 				<button type="submit" id="deletemember">선택삭제</button> 
 			<% } %>
 			</div>
 		</form>    
 	</div>
 	<script>
-		$('input[name=select-all]').on('change', function(){
-		  $('input[name=selected]').prop('checked', this.checked);
-		});
+		function checkselectAll(){
+			const checkboxes = document.querySelectorAll('input[name="selected"]');
+			const checked = document.querySelectorAll('input[name="selected"]:checked');
+			const selectAll = document.querySelector('input[name="select-all"]');
+			
+			if(checkboxes.length === checked.length){
+				selectAll.checked = true;
+			}else{
+				selectAll.checked = false;
+			} 
+		}
+		function selectAll(selectAll){
+			const checkboxes = document.getElementsByName('selected');
+			
+			checkboxes.forEach((checkbox) => {
+				checkbox.checked = selectAll.checked
+			})
+		}
 	</script>
     	<%@ include file = "/views/common/footer.jsp" %>
 </body>
