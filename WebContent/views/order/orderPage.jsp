@@ -85,6 +85,8 @@
                 </tr>
                 <!-- 장바구니 테이블 몸통 -->
                 <%
+                	int point = m.getPoint();
+                
                    for(int i=0; i<list.size();i++){ 
                         
                     String proName=list.get(i).getProductName(); //상품 명
@@ -242,7 +244,6 @@
         <div class="card-body">
         
         <div class="point_div">
-		<% int point = m.getPoint(); %>
 		<table class="point_table">
 		<colgroup>
 			<col width="25%">
@@ -255,7 +256,7 @@
 				<%=point %> | <input class="order_point_input" value="0">원 
 				<a class="order_point_input_btn order_point_input_btn_N" data-state="N">모두사용</a>
 				<a class="order_point_input_btn order_point_input_btn_Y" data-state="Y" style="display: none;">사용취소</a>
-				
+				<input type="hidden" name="usePoint">
 			</td>
 		</tr>
 		</tbody>
@@ -266,6 +267,7 @@
           <div class="tatal_info_div">
           
           <div class="total_info_price_div">
+          
           
           <!--%
           
@@ -292,19 +294,22 @@
           	
           	<li>
           		<span class="price_span_label">포인트</span>
-          		<span class="usePoint_span"> <%= point %> </span>원
+          		<span class="usePoint_span">
+          		0
+          		</span>원
           	</li>
           	
           	<li class="price_total_li">
           		<strong class="price_span_label total_price_label">결제 금액</strong>
           		<strong class="strong_red">
           			<span class="total_price_red finalTotalPrice_span">
-          				<%= sumPrice+3000 %>
+          				<%= sumPrice + 3000 %>
           			</span>원
           		</strong>
           	</li>
           <!--%} %-->
           </ul>
+         
           
           </div>         
           </div> <!-- 최종 결제 정보 영역 -->
@@ -329,7 +334,6 @@ $(document).ready(function(){
 	setTotalInfo();
 });
 
-
 // 포인트 영역
 // 0 이상 최대 포인트 이하
 $(".order_point_input").on("properychange change keyup paste input", function(){
@@ -348,6 +352,7 @@ $(".order_point_input").on("properychange change keyup paste input", function(){
 
 $(".order_point_input_btn").on("click", function(){
 	let maxPoint = <%= point%>;
+	let totalPrice = <%= sumPrice + 3000%>;
 	
 	let state = $(this).data("state");
 	
@@ -355,14 +360,18 @@ $(".order_point_input_btn").on("click", function(){
 		// 모두 사용
 		// 값 변경
 		$(".order_point_input").val(maxPoint);
-		// 글 변경
+		$(".usePoint_span").val(maxPoint);
+		$(".total_price_red finalTotalPrice_span").val(totalPrice - maxPoint);
+		
 		$(".order_point_input_btn_Y").css("display", "inline-block");
 		$(".order_point_input_btn_N").css("display", "none");
-	} else if(state == 'Y') {
+	}else if(state == 'Y'){
 		// 취소
 		// 값 변경
 		$(".order_point_input").val(0);
-		// 글 변경
+		$(".usePoint_span").val(maxPoint);
+		$(".total_price_red finalTotalPrice_span").val(totalPrice);
+		
 		$(".order_point_input_btn_Y").css("display", "none");
 		$(".order_point_input_btn_N").css("display", "inline-block");
 	}
@@ -371,18 +380,10 @@ $(".order_point_input_btn").on("click", function(){
 });
 
 
-// 결제하기 버튼
+// 주문하기 버튼
 $(".order_btn").on("click", function(){
-	// 주소
-	$(".addressInfo_input_div").each(function(i, obj){
-		if($(obj).find(".selectAddress").val() === 'T'){
-			$("input[name='memberAddr1']").val($(obj).find(".address1_input").val());
-		}
-	});
-	
 	// 포인트
 	$("input[name='usePoint']").val($(".order_point_input").val());
-	
 	
 	// 전송
 	$(".orderForm").submit();

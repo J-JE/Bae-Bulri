@@ -49,16 +49,26 @@ public class RecipeInsertServlet extends HttpServlet {
 			String title = multi.getParameter("title");
 			String tag = multi.getParameter("tag");
 			String desc = multi.getParameter("desc");
-			String product = multi.getParameter("product");
+			//String product = multi.getParameter("product");
 			int time = Integer.parseInt(multi.getParameter("time"));
-			String content = multi.getParameter("content");
+			//String content = multi.getParameter("content");
+			String[] product = multi.getParameterValues("product");
+			String[] contents = multi.getParameterValues("content");
+			String pro = "";
+			String content = "";
+			if(product != null) {
+				pro = String.join(",", product);
+			}
+			if(contents != null) {
+				content = String.join("!", contents);
+			}
 			
 			Recipe recipe = new Recipe();
 			recipe.setrCategoryNo(category);
 			recipe.setRecipeTitle(title);
 			recipe.setRecipeTag(tag);
 			recipe.setRecipeDes(desc);
-			recipe.setRecipePro(product);
+			recipe.setRecipePro(pro);
 			recipe.setRecipeTime(time);
 			recipe.setRecipeContent(content);
 			
