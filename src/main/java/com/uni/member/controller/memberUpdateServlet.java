@@ -44,6 +44,7 @@ public class memberUpdateServlet extends HttpServlet {
 			request.getSession().setAttribute("msg", "성공적으로 회원정보를 수정하였습니다.");
 			request.getSession().setAttribute("loginUser", m);
 			
+			request.getSession().invalidate();
 			response.sendRedirect(request.getContextPath());
 			
 		}else {
