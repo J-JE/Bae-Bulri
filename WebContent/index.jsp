@@ -67,7 +67,7 @@
 	<%@ include file = "views/common/menubar.jsp" %>
 	<div id="mainPage">
 		<div class="baebulri-logo-img">
-			<img class="baebulri-img" src="./resources/images/recipeFiles/이미지.png"><br>
+			<img class="baebulri-img" src="./resources/images/일러스트4.png"><br>
 			
 		</div>
 		<div class=top-recipe>
