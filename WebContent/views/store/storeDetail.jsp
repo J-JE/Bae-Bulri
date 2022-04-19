@@ -11,7 +11,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>배불리몰 상세</title>
     
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,8 +22,9 @@
             .outer{
                 width:800px;
                 height: 500px;
-                margin: 0 auto;
-                margin-left: 600px;
+                margin: auto;
+                margin-left: auto;
+                margin-right: auto;
                 position: relative;
             
             }
@@ -51,13 +52,14 @@
             }
             #all_butt{
                 margin-top: 100px;
+                  margin-left: 550px;
             }
-            #o_butt{
-                background-color: rgb(155, 89, 182);;
+            #b_butt{
+            	
+                background-color: rgb(155, 89, 182);
                 color: white;
             }
-            #b_butt{ background-color: rgb(155, 89, 182);;
-                color: white;}
+
             #thumbnail{
              margin-left: 10px;
              width: 400px; 
@@ -86,8 +88,9 @@
 
          <%@ include file="../common/menubar.jsp" %> 
 
-         <hr>
+        
         <div class="outer">
+        	 <hr>
                 <div id="content"> 
 					<img src="<%=contextPath %>/resources/images/store/<%=s.getStroeImg()%>" id="thumbnail">
                 </div>
@@ -107,9 +110,7 @@
 						<%if(loginUser != null){%><!-- 회원만 보이는 버튼 -->
 						<div id="all_butt">
 		                <button id="b_butt">장바구니에 넣기</button>
-		                <br><br>
-		                <button id="o_butt">바로 구매하기</button>
-		           		 </div>
+						</div>
 						<%}%>
 						
 						<%}%>
@@ -149,6 +150,7 @@
              
          
 			</script>
+	
         <form action="" id="postForm" method="post">
 			<input type="hidden" name="sid" value="<%= s.getProductNo() %>">
 		</form>

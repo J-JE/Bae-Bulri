@@ -100,9 +100,7 @@
       width:900px;
   	
       }
-      #sysdate{
-      	  margin-left: 900px;
-      }
+    
     </style>
   </head>
   
@@ -129,7 +127,7 @@
                 
              </div>
               </div>
-				<hr>
+				
              
             
               <div class="form-group" >
@@ -187,7 +185,8 @@
 			</table>
 		</div>
 	</div>
-      
+      </div>
+      </div>
   	<script>
 	$(function(){
 		selectReplyList();

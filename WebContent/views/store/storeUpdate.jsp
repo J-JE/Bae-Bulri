@@ -58,7 +58,7 @@
          <hr>
         <div class="outer">
            <div id="top">
-            <h1 class="main" href="index.jsp">재료수정</h1>
+            <h1 class="main" href="#">재료수정</h1>
             <hr>
             <form class="updateForm was-validated" action="<%= contextPath %>/updateStore.do" method="post" enctype="multipart/form-data">
             <input type="hidden" name="sid" value="<%=s.getProductNo()%>">	  

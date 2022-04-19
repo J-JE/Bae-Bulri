@@ -34,7 +34,7 @@ public class CookTalkDeleteServlet extends HttpServlet {
 		int result = new CookTalkService().deleteCookTalk(cno);	
 		
 		if(result > 0) {
-			request.getSession().setAttribute("msg", "삭제가 성공하였습니다");
+			request.getSession().setAttribute("msg", "게시물 삭제를 성굥하였습니다.");
 			response.sendRedirect("cookTalkList.do");
 		}else {
 			request.setAttribute("msg","삭제가 실패하였습니다");

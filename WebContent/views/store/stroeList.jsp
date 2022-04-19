@@ -25,28 +25,33 @@
 <style>
 
       #bae{
-            width: 1200px;
-            height:  1050px;
+            width:980px;
+            height: 1050px;
             margin: auto; /*가운데 정렬*/
+             margin-left: auto;
+              margin-right: auto;
         }
  	#search{
      margin-top: 30px;
     margin-bottom: 50px;
-     margin-left: 900px;
+     margin-left: 700px;
+    
 
  }
 
 .product {
-        margin-left: 30px;
+
+        margin-left: auto;
+         margin-right: auto;
         float: left;
         position: relative;
-       
+       border-radius: 5px;
    }
 .topList {
 		 
 		  margin: auto; /*가운데 정렬*/
-      width: 1500px;
-      height: 600px;
+	      width: 90%;
+	      height: 600px;
        }
 
 /*페이징*/ 
@@ -55,8 +60,8 @@
         background-color:  rgb(155, 89, 182);
         color: white;
         margin:0 auto; 
-          margin-top: 100px; 
-            margin-left: 900px; 
+          margin-top: 120px; 
+            margin-left: 800px; 
     }
      #header{
          
@@ -71,12 +76,18 @@
    .pagingArea{
    	 margin-top: 30px; 
    }
+   .storeimg{
+   		width: 280px;
+      height: 200px;
+         padding-top: 10px;
+   }
    </style>
 </head>
 <body>
          <%@ include file="../common/menubar.jsp" %>
-    	<br>
+    		<br>
     	<div id="bae">
+    	
    			  <h2 id="header">배불리 몰</h2>
             <hr>
             <div id="search">
@@ -101,9 +112,9 @@
             <div id="List">
                  <%for(Store s : list){ %>
                                   
-                <div class="product" > 
+                <div class="product " > 
                     <input type="hidden" value="<%=s.getProductNo()%>"> 
-                    <img src="<%=request.getContextPath()%>/resources/images/store/<%=s.getStroeImg()%>" width="400px" height="200px"> <br>
+                    <img src="<%=request.getContextPath()%>/resources/images/store/<%=s.getStroeImg()%>" class="storeimg"> <br>
                    
                     <a><%=s.getProductName()%></a><br>
                     <a><%=s.getPrice()%>원</a>
