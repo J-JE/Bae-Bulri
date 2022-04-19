@@ -96,7 +96,7 @@
 		</tr>
 		<tr>
 			<th>결제 금액</th>
-			<td><%=tPrice%></td>
+			<td><%=tPrice - point %></td>
 		</tr>
 		
 		</table>

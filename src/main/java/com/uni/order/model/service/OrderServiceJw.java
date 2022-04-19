@@ -3,7 +3,6 @@ package com.uni.order.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import com.uni.basket.model.dto.Basket;
 import com.uni.order.model.dao.OrderDaoJw;
 import com.uni.order.model.dto.Order;
 import com.uni.order.model.dto.Order_Detail;
