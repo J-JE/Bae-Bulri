@@ -134,7 +134,8 @@ public class SurveyDao {
 			if(rset.next()) {
 				s = new Survey(rset.getInt("SURVEY_NO"),
 								rset.getString("SURVEY_TITLE"),
-								rset.getDate("CREATE_DATE"));
+								rset.getDate("CREATE_DATE"),
+								rset.getString("STATUS"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

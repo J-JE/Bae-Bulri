@@ -5,8 +5,6 @@
 <%
 	Survey s = (Survey)request.getAttribute("s");
 	Attachment at = (Attachment)request.getAttribute("at");
-	
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -48,7 +46,7 @@
 	
 	<div class="outer">
 		<br>
-		
+		<%if(s.getStatus().equals("Y")){ %>
 		<h2 align="center">진행중인 설문조사</h2>
 		
 		<hr>
@@ -106,6 +104,45 @@
 					<table id="replyList" border="1" align="center"></table>
 				</div>
 			</div>
+			<%}else{ %>
+			<h2 align="center">종료된 설문조사</h2>
+		
+			<hr>
+			<div class=tablearea>
+				<table id="detailArea" border="1">
+					<tr>
+						
+						<td colspan="3"><%= s.getSurveyTitle() %></td>
+					</tr>
+					<tr>	
+						<td colspan="3">
+							<% if(at != null){ %>
+							
+							<div id="titleImgArea" align="center">
+								<img width="100%" height="300px" id="titleImg" src="<%= contextPath %>/resources/images/survey/<%= at.getChangeName() %>">
+							</div>
+							</td>
+							
+							<% } %>
+					
+					</tr>	
+				</table>
+				
+				<br>
+			</div>	
+				<br>
+				<div class="btns" align="center">
+				
+					<a href="surveyList.do">목록으로</a> &nbsp;&nbsp;
+					<% if(loginUser != null && loginUser.getUserId().equals("admin")) { %>
+					<!-- <a href="updateFormSurvey.do?nno=<%=s.getSurveyNo()%>">수정하기</a> &nbsp;&nbsp; -->
+					<a href="deleteSurvey.do?nno=<%=s.getSurveyNo()%>">삭제하기</a>
+				
+					<% } %>
+					
+				
+				</div>
+				<%} %>
 	</div>
 	<script>
 	$(function(){
