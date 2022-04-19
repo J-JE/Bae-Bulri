@@ -43,7 +43,8 @@ public class OrderProcessServlet extends HttpServlet {
 		// 우선 order의 order_status 를 '주문완료' 상태로 바꿔줌
 		int result = new OrderServiceJw().OrderProcess(order);
 		
-		Order_Detail od = null;
+//		Order_Detail od = null;
+		ArrayList<Order_Detail> od= new ArrayList<>();
 				
 		if(result > 0) {
 			// 주문완료 상태로 바뀌면 orderdetail의 내용들 payment로 보내줌

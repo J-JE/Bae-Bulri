@@ -59,8 +59,9 @@ public class OrderDaoJw {
 	}
 
 
-	public Order_Detail orderProcess(Connection conn, int orderNo) {
-		Order_Detail od = null;
+	public ArrayList<Order_Detail> orderProcess(Connection conn, int orderNo) {
+//		Order_Detail od = null;
+		ArrayList<Order_Detail> od = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -72,13 +73,14 @@ public class OrderDaoJw {
 			
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
-				od = new Order_Detail();
-				od.setOrderNo(rset.getInt("ORDER_NO"));
-				od.setProductNo(rset.getInt("PRODUCT_NO"));
-				od.setAmount(rset.getInt("AMOUNT"));
-				od.setPrice(rset.getInt("PRICE"));
-				od.setTotalPrice(rset.getInt("TOTAL_PRICE"));
+			while(rset.next()) {
+				Order_Detail odd = new Order_Detail();
+				odd.setOrderNo(rset.getInt("ORDER_NO"));
+				odd.setProductNo(rset.getInt("PRODUCT_NO"));
+				odd.setAmount(rset.getInt("AMOUNT"));
+				odd.setPrice(rset.getInt("PRICE"));
+				odd.setTotalPrice(rset.getInt("TOTAL_PRICE"));
+				od.add(odd);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

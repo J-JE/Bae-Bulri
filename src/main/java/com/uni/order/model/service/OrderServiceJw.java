@@ -26,9 +26,10 @@ public class OrderServiceJw {
 		return result;
 	}
 
-	public Order_Detail orderProcess(int orderNo) {
+	public ArrayList<Order_Detail> orderProcess(int orderNo) {
 		Connection conn = getConnection();
-		Order_Detail od = new OrderDaoJw().orderProcess(conn, orderNo);
+//		Order_Detail od = new OrderDaoJw().orderProcess(conn, orderNo);
+		ArrayList<Order_Detail> od = new OrderDaoJw().orderProcess(conn, orderNo);
 		
 		close(conn);
 		return od;
