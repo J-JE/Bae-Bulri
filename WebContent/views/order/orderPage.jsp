@@ -256,7 +256,6 @@
 				<%=point %> | <input class="order_point_input" value="0">원 
 				<a class="order_point_input_btn order_point_input_btn_N" data-state="N">모두사용</a>
 				<a class="order_point_input_btn order_point_input_btn_Y" data-state="Y" style="display: none;">사용취소</a>
-				<input type="hidden" name="usePoint">
 			</td>
 		</tr>
 		</tbody>
@@ -352,7 +351,6 @@ $(".order_point_input").on("properychange change keyup paste input", function(){
 
 $(".order_point_input_btn").on("click", function(){
 	let maxPoint = <%= point%>;
-	let totalPrice = <%= sumPrice + 3000%>;
 	
 	let state = $(this).data("state");
 	
@@ -361,7 +359,6 @@ $(".order_point_input_btn").on("click", function(){
 		// 값 변경
 		$(".order_point_input").val(maxPoint);
 		$(".usePoint_span").val(maxPoint);
-		$(".total_price_red finalTotalPrice_span").val(totalPrice - maxPoint);
 		
 		$(".order_point_input_btn_Y").css("display", "inline-block");
 		$(".order_point_input_btn_N").css("display", "none");
@@ -370,7 +367,6 @@ $(".order_point_input_btn").on("click", function(){
 		// 값 변경
 		$(".order_point_input").val(0);
 		$(".usePoint_span").val(maxPoint);
-		$(".total_price_red finalTotalPrice_span").val(totalPrice);
 		
 		$(".order_point_input_btn_Y").css("display", "none");
 		$(".order_point_input_btn_N").css("display", "inline-block");
@@ -381,10 +377,7 @@ $(".order_point_input_btn").on("click", function(){
 
 
 // 주문하기 버튼
-$(".order_btn").on("click", function(){
-	// 포인트
-	$("input[name='usePoint']").val($(".order_point_input").val());
-	
+$(".order_btn").on("click", function(){	
 	// 전송
 	$(".orderForm").submit();
 });

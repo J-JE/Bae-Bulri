@@ -35,12 +35,10 @@ public class OrderProcessServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 		int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
-		int usePoint = Integer.parseInt(request.getParameter("usePoint"));
 				
 		Order order = new Order();
 		order.setOrderNo(orderNo);
 		order.setUserNo(userNo);
-		order.setUsePoint(usePoint);
 		
 		// 우선 order의 order_status 를 '주문완료' 상태로 바꿔줌
 		int result = new OrderServiceJw().OrderProcess(order);
