@@ -78,8 +78,7 @@
      <table>
 		
 		<%
-			int point = m.getPoint();
-		
+			int point = order.getUsePoint();
             %>
 	
 		<tr>
@@ -96,7 +95,7 @@
 		</tr>
 		<tr>
 			<th>결제 금액</th>
-			<td><%=tPrice - point %></td>
+			<td><%=tPrice %></td>
 		</tr>
 		
 		</table>
