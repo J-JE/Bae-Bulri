@@ -45,6 +45,9 @@
         width: 1000px;
     }
   </style>
+ <%
+ 	String[] Content = new String[3];
+ %>
 </head>
 
 <body>
@@ -121,7 +124,7 @@
                     <tr>
                         <td colspan="2"><textarea name="content" rows="7"  style="resize:none;"></textarea> </td>
                     </tr> -->
-                    <% for(int i = 0; i < 3; i++){ %>
+                    <% for(int i = 0; i < Content.length; i++){ %>
                      <tr>
                         <th>과정<%=i+1 %></th>
                         <td> <textarea name="content" rows="7" cols="60%" style="resize:none;"></textarea></td>

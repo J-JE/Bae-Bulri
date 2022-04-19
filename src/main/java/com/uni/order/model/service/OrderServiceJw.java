@@ -35,6 +35,15 @@ public class OrderServiceJw {
 	}
 
 
+	public ArrayList<Order> selectOrder(Order order, int orderNo, int userNo) {
+		Connection conn = getConnection();
+		ArrayList<Order> list = new OrderDaoJw().selectOrder(conn, order, orderNo, userNo);
+		
+		close(conn);
+		return list;
+	}
+
+
 /*	
 	public int orderFail(Order order, Order_Detail od) {
 		Connection conn = getConnection();

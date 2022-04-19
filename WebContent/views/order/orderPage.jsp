@@ -42,12 +42,7 @@
         font-weight: bold;
     }
     
-    .address_btn address_btn_1{
-    	color: white;
-    	background-color: #BCE7EB;
-    }
-    
-    .address_btn address_btn_2{
+    .order_btn{
     	color: white;
     	background-color: #BCE7EB;
     }
@@ -247,7 +242,6 @@
         <div class="card-body">
         
         <div class="point_div">
-		<div class="point_div_subject">포인트 사용</div>
 		<% int point = m.getPoint(); %>
 		<table class="point_table">
 		<colgroup>
@@ -274,15 +268,15 @@
           <div class="total_info_price_div">
           
           <%
-                   for(int i=0; i<list.size();i++){ 
-                        
-                    String proName=list.get(i).getProductName(); //상품 명
-                    String img = list.get(i).getThImg(); //상품 이미지
-                    int amount = list.get(i).getBasketAmount();
-                    int price = list.get(i).getPrice(); //상품 가격(수량*가격)
-                    int delivery = 3000; // 배송비
-                    sumPrice+=price + delivery;
-                    
+          
+            for(int i=0; i<list.size();i++){ 
+                 
+             String proName=list.get(i).getProductName(); //상품 명
+             String img = list.get(i).getThImg(); //상품 이미지
+             int amount = list.get(i).getBasketAmount();
+             int price = list.get(i).getPrice(); //상품 가격(수량*가격)
+             int delivery = 3000; // 배송비
+             sumPrice = price + delivery;
           %>
           
           <ul>
@@ -377,51 +371,7 @@ $(".order_point_input_btn").on("click", function(){
 });
 
 
-// 주문 정보
-function setTotalInfo(){
-	let totalPrice = 0;
-	let totalAmount = 0;
-	let deliveryPrice = 0;
-	let usePoint = 0;
-	let finalTotalPrice = 0;
-	
-	$(".basket_info").each(function(index, element){
-		// 총 가격
-		totalPrice += parseInt($(element).find(".individual_totalPrice_input").val());
-		// 총 갯수
-		totalAmount += parseInt($(element).find(".individual_bookCount_input").val());
-	});	
-	
-	// 배송비 결정
-	if(totalPrice >= 70000){
-		deliveryPrice = 0;
-	} else if(totalPrice == 0){
-		deliveryPrice = 0;
-	} else {
-		deliveryPrice = 3000;	
-	}
-	
-	finalTotalPrice = totalPrice + deliveryPrice;	
-	
-	// 사용 포인트
-	usePoint = $(".order_point_input").val();
-	
-	finalTotalPrice = totalPrice - usePoint;	
-	
-	// 값 삽입
-	// 총 가격
-	$(".totalPrice_span").text(totalPrice.toLocaleString());
-	// 총 갯수
-	$(".goods_kind_div_count").text(totalAmount);
-	// 배송비
-	$(".delivery_price_span").text(deliveryPrice.toLocaleString());	
-	// 최종 가격(총 가격 + 배송비)
-	$(".finalTotalPrice_span").text(finalTotalPrice.toLocaleString());		
-	// 할인가(사용 포인트)
-	$(".usePoint_span").text(usePoint.toLocaleString());	
-}
-
-// 주문하기 버튼
+// 결제하기 버튼
 $(".order_btn").on("click", function(){
 	// 주소
 	$(".addressInfo_input_div").each(function(i, obj){
@@ -433,7 +383,6 @@ $(".order_btn").on("click", function(){
 	// 포인트
 	$("input[name='usePoint']").val($(".order_point_input").val());
 	
-	// 상품 정보 폼에 담기
 	
 	// 전송
 	$(".orderForm").submit();
