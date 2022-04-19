@@ -25,14 +25,13 @@
 	<%@ include file="../common/menubar.jsp" %>
 	
 	<br>
-	<img src="../../resources/images/order/ordericon.jpg" alt="주문완료 아이콘" class="mx-auto d-block" style="width:200px">
+	<img src="<%=contextPath %>/resources/images/order/ordericon.jpg" alt="주문완료 아이콘" class="mx-auto d-block" style="width:200px">
     <div class="order-complete">
         <span class="order-msg"><h2><b>주문이 완료되었습니다!</b></h2></span>
         <br>
-        <span class="order-no">주문번호 : </span><!-- 주문과 함께 생성된 주문번호 여기에 띄우기 -->
-        <br><br>
+        <br>
         <span>주문내역은 마이페이지/주문조회에서 확인 가능합니다.</span><br>
-        <span>배송이 시작되면 주문내역에서 알려드릴게요!</span>
+        <span>한 끼 편하게, 하지만 배불리!</span>
     </div>
 	
 	<%@ include file="../common/footer.jsp" %>

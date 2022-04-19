@@ -1,6 +1,8 @@
 package com.uni.order.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,11 +33,6 @@ public class OrderProcessServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		 * 1	2	22/04/18	경기도	0	3000	주문중
-5	2	22/04/18	경기도	0	3000	주문중
-		 * */
-		
 		int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 		int userNo = ((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 				
@@ -47,14 +44,16 @@ public class OrderProcessServlet extends HttpServlet {
 		int result = new OrderServiceJw().OrderProcess(order);
 		
 		Order_Detail od = null;
-		
+				
 		if(result > 0) {
 			// 주문완료 상태로 바뀌면 orderdetail의 내용들 payment로 보내줌
 			od = new OrderServiceJw().orderProcess(orderNo);
-			
+			ArrayList<Order> list = new OrderServiceJw().selectOrder(order, orderNo, userNo);
+						
 			if(od != null) {
 				request.setAttribute("order", order);
 				request.setAttribute("od", od);
+				request.setAttribute("list", list);
 				request.getRequestDispatcher("views/order/payment.jsp").forward(request, response);
 			}else {
 				request.setAttribute("msg", "주문 실패");

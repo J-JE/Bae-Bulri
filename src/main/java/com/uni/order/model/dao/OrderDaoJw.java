@@ -10,13 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.uni.basket.model.dto.Basket;
-
 import static com.uni.common.JDBCTemplate.*;
 import com.uni.member.model.dto.Member;
 import com.uni.order.model.dto.Order;
 import com.uni.order.model.dto.Order_Detail;
-import com.uni.store.model.dto.Store;
 
 public class OrderDaoJw {
 	private Properties prop = new Properties();
@@ -35,6 +32,8 @@ public class OrderDaoJw {
 			e.printStackTrace();
 		}
 	}
+
+	
 
 
 	public int orderProcess(Connection conn, Order order) {
@@ -90,6 +89,38 @@ public class OrderDaoJw {
 		}
 		
 		return od;
+	}
+
+
+	public ArrayList<Order> selectOrder(Connection conn, Order order, int orderNo, int userNo) {
+		ArrayList<Order> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectOrder");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, orderNo);
+			pstmt.setInt(2, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				order.setOrderNo(rset.getInt("ORDER_NO"));
+				order.setAddress(rset.getString("ADDRESS"));
+				order.setDelivery(rset.getInt("DELIVERY"));
+				list.add(order);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 /*

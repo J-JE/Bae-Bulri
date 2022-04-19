@@ -18,6 +18,15 @@ public class Order_Detail {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Order_Detail(int orderNo, int productNo, int amount, int price, int totalPrice) {
+		super();
+		this.orderNo = orderNo;
+		this.productNo = productNo;
+		this.amount = amount;
+		this.price = price;
+		this.totalPrice = totalPrice;
+	}
+	
 	
 	public Order_Detail(int orderNo, Date orderDate, String productName, int amount, int price, String status) {
 		super();
