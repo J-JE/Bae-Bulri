@@ -8,11 +8,25 @@
 	Member m = (Member)request.getSession().getAttribute("loginUser");
 	
 	Order order = (Order)request.getAttribute("order");
-	Order_Detail od = (Order_Detail)request.getAttribute("od");
+	//Order_Detail od = (Order_Detail)request.getAttribute("od");
+	ArrayList<Order_Detail> od = (ArrayList<Order_Detail>)request.getAttribute("od");
 	
-	int sumPrice = 0;
 	
 	ArrayList<Order> list = (ArrayList<Order>)request.getAttribute("list");
+	
+	int sumPrice = 0;
+	int delivery = 3000;
+	int tPrice = od.get(0).getTotalPrice();
+	
+	for(int i=0; i<od.size();i++){ 
+        int amount = od.get(i).getAmount();
+        int price = od.get(i).getPrice(); //상품 가격(수량*가격)
+       
+        sumPrice += amount*price;
+        
+        //int orderNo = od.get(i).getOrderNo();
+        //int userNo = od.get(i).getUserNo();
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -66,21 +80,11 @@
 		<%
 			int point = m.getPoint();
 		
-            for(int i=0; i<list.size();i++){ 
-                 
-             int amount = list.get(i).getBasketAmount();
-             int price = list.get(i).getPrice(); //상품 가격(수량*가격)
-             int delivery = 3000;
-             
-             sumPrice += price + delivery;
-             
-             int orderNo = list.get(i).getOrderNo();
-             int userNo = list.get(i).getUserNo();
-         %>
+            %>
 	
 		<tr>
 			<th>상품 가격</th>
-			<td>4500</td>
+			<td><%=sumPrice %></td>
 		</tr>
 		<tr>
 			<th>배송비</th>
@@ -92,9 +96,9 @@
 		</tr>
 		<tr>
 			<th>결제 금액</th>
-			<td>7500</td>
+			<td><%=tPrice%></td>
 		</tr>
-		<%} %>
+		
 		</table>
 		
 		<br>

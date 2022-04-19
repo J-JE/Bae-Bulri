@@ -267,7 +267,7 @@
           
           <div class="total_info_price_div">
           
-          <%
+          <!--%
           
             for(int i=0; i<list.size();i++){ 
                  
@@ -277,17 +277,17 @@
              int price = list.get(i).getPrice(); //상품 가격(수량*가격)
              int delivery = 3000; // 배송비
              sumPrice = price + delivery;
-          %>
+          %-->
           
           <ul>
           	<li>
           		<span class="price_span_label">상품 금액</span>
-          		<span class="totalPrice_span"> <%=price %> </span>원
+          		<span class="totalPrice_span"> <%=sumPrice %> </span>원
           	</li>
           	
           	<li>
           		<span class="price_span_label">배송비</span>
-          		<span class="delivery_price_span"> <%= delivery %> </span>원
+          		<span class="delivery_price_span"> 3000 </span>원
           	</li>
           	
           	<li>
@@ -299,11 +299,11 @@
           		<strong class="price_span_label total_price_label">결제 금액</strong>
           		<strong class="strong_red">
           			<span class="total_price_red finalTotalPrice_span">
-          				<%= sumPrice %>
+          				<%= sumPrice+3000 %>
           			</span>원
           		</strong>
           	</li>
-          <%} %>
+          <!--%} %-->
           </ul>
           
           </div>         
